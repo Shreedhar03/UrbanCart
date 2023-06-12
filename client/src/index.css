@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Arvo&family=DM+Sans&family=Fira+Code&family=Marvel:wght@400;700&family=Montserrat&family=Noto+Serif&family=Open+Sans&family=Plus+Jakarta+Sans&family=Poppins&family=Sacramento&family=Sora&family=Ubuntu&display=swap');
+
+:root {
+    --primary: rgb(3 185 193);
+}
+
+* {
+    font-family: 'Poppins' , sans-serif;
+}
+
+.sora {
+    font-family: 'sora' , sans-serif;
+}
+
+input[type="range"] {
+    appearance: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 10px;
+    background: rgb(216, 216, 216);
+    border-radius: 2px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: rgb(0, 0, 0);
+    width: 0px;
+    height: 10px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 0 4px rgb(49, 47, 47)
+}
+input[type="radio"]:checked + .radio-div{
+    padding: 2px;
+    border: 2px solid rgb(59 130 246);
+}

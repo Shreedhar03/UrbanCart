@@ -1,0 +1,5 @@
+export const banner1 = require('../assets/banner_1.jpg')
+export const banner2 = require('../assets/banner_2.jpg')
+export const banner3 = require('../assets/banner_3.jpg')
+export const banner4 = require('../assets/banner_4.jpg')
+export const banner5 = require('../assets/banner_5.jpg')
