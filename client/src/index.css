@@ -6,7 +6,9 @@
 :root {
     --primary: rgb(3 185 193);
 }
-
+section::-webkit-scrollbar{
+    display: none;
+}
 * {
     font-family: 'Poppins' , sans-serif;
 }
@@ -37,4 +39,7 @@ input[type="range"]::-webkit-slider-thumb {
 input[type="radio"]:checked + .radio-div{
     padding: 2px;
     border: 2px solid rgb(59 130 246);
+}
+.catgory-image:hover  h2{
+    opacity: 1;
 }

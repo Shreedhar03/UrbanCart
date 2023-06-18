@@ -13,16 +13,16 @@ export default function Category() {
 
     return (
         <>
-            <div className="flex flex-col items-evenly justify-center mx-20 gap-8 py-12">
+            <div className="flex flex-col max-w-[90%]  mx-auto gap-8 py-12">
                 <h3 className='text-2xl font-semibold'>Shop Our Top Categories</h3>
-                <section className='flex flex-wrap gap-8'>
-                    <ProductCategory src={images[5]} />
-                    <ProductCategory src={images[0]} />
-                    <ProductCategory src={images[1]} />
-                    <ProductCategory src={images[4]} />
-                    <ProductCategory src={images[2]} />
-                    <ProductCategory src={images[3]} />
-                    <ProductCategory src={images[6]} />
+                <section className='flex overflow-scroll lg:flex-wrap gap-8'>
+                    <ProductCategory src={images[5]} category="Watches"/>
+                    <ProductCategory src={images[0]} category="Furniture"/>
+                    <ProductCategory src={images[1]} category="Appliances"/>
+                    <ProductCategory src={images[4]} category="Laptops"/>
+                    <ProductCategory src={images[2]} category="Clothing"/>
+                    <ProductCategory src={images[3]} category="Footware"/>
+                    <ProductCategory src={images[6]} category="Smartphones"/>
                 </section>
             </div>
         </>

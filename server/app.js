@@ -15,7 +15,8 @@ const router = require('./Routes/routes')
 app.use(router)
 
 app.get('/',(req,res)=>{
-    res.send("Hello")
+    const data = req.body;
+    
 })
 app.listen(port,()=>{
     console.log("Server is live on port" , port)

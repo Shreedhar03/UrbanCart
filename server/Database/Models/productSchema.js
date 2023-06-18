@@ -8,9 +8,9 @@ const productSchema = new mongoose.Schema({
     price:Number,
     category:String,
     brand:String,
-    images:Object,
-},{timestamps: false})
+    images:Array,
+},{timestamps: true})
 
-const Model = new mongoose.model("UrbanCart" , productSchema)
+const Model = mongoose.model("initialData" , productSchema)
 
 module.exports = Model;

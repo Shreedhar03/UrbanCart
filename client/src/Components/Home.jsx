@@ -13,7 +13,7 @@ export default function Home() {
         <>
             <Navbar />
 
-            <div className='mt-2'>
+            <div className=''>
                 <Carousel height={420} autoPlay={true} showDots={false} stopAutoPlayOnHover={false} animation='slide' swipe={true} navButtonsAlwaysVisible={true}>
                     <BannerImg src={banner5} />
                     <BannerImg src={banner4} />
