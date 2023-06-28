@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom'
 export default function Navbar() {
     const navigate = useNavigate();
     return (
-        <nav className='flex items-center justify-between py-4 px-12 sticky top-0 z-10 bg-[#12283a] text-white flex-col md:flex-row w-full gap-4'>
+        <nav className='flex items-center justify-between py-4 px-12 sticky top-0 z-10 bg-[var(--primary)] text-white flex-col md:flex-row w-full gap-4'>
             <p className="logo text-2xl sora font-extrabold">UrbanCart<span className='text-[var(--primary)]'> .</span></p>
 
             <div className='flex gap-2 sm:gap-6'>
                 <form action="..." name='searchForm' className='flex items-stretch'>
                     <input type="text" name='search' placeholder='try sport shoes' id='search' className=' w-52 sm:w-48 lg:w-72 text-lg py-1 px-4 focus:outline-none bg-[#405669] rounded-l-xl' autoComplete='off' />
-                    <button type="submit" name='submit' id='submit' className='text-xl bg-[var(--primary)] px-4 flex items-center rounded-r-xl bg-[#405669]'><i className='bx bx-search'></i></button>
+                    <button type="submit" name='submit' id='submit' className='text-xl px-4 flex items-center rounded-r-xl bg-[var(--secondary)]'><i className='bx bx-search'></i></button>
                 </form>
 
                 <div className="user text-md flex items-center gap-4 justify-center">

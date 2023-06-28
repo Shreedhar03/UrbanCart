@@ -23,9 +23,9 @@ export default function Register() {
 
             <img src={register} alt="image_login" className='w-[400px] hidden lg:block'/>
 
-                <div className="flex flex-col items-center gap-8 py-10 bg-[#12283a] text-white rounded-lg w-[420px]">
-                    <p className="logo text-2xl sora font-semibold cursor-pointer" onClick={() => navigate('/')}>UrbanCart<span className='text-[var(--primary)] ml-1 font-extrabold'>.</span></p>
-                    <h1 className="text-2xl text-center font-semibold text-[var(--primary)]">Create Account</h1>
+                <div className="flex flex-col items-center gap-8 py-10 bg-[var(--primary)] text-white rounded-lg w-[420px]">
+                    <p className="logo text-2xl sora font-semibold cursor-pointer" onClick={() => navigate('/')}>UrbanCart<span className='text-[var(--secondary)] ml-1 font-extrabold'>.</span></p>
+                    <h1 className="text-2xl text-center text-[var(--secondary)]">Create Account</h1>
                     <form action="" className='flex flex-col items-center gap-6'>
                         <div className="flex flex-col w-[120%] gap-1">
                             <input type="text" value={credentials.name} placeholder='Full Name' onChange={(e) => { handleChange(e.target.name, e.target.value) }} name='name' id='name' className='focus:outline-none bg-[#143d5f] rounded-lg px-3 py-2' autoComplete='off' />
@@ -42,9 +42,9 @@ export default function Register() {
                         <div className="flex flex-col w-[120%] gap-1">
                             <input type="password" value={credentials.confirmPassword} placeholder='Confirm Password' autoComplete='off' onChange={(e) => { handleChange(e.target.name, e.target.value) }} name='confirmPassword' id='cPassword' className='focus:outline-none bg-[#143d5f] rounded-lg px-3 py-2' />
                         </div>
-                        <input type="submit" value="Register" className='bg-[var(--primary)] rounded-lg py-2 text-slate-100 w-[120%]' />
+                        <input type="submit" value="Register" className='bg-[var(--secondary)] rounded-lg py-2 text-slate-100 w-[120%]' />
 
-                        <p>Already have an account? <Link to={'/login'} className='text-[var(--primary)]'>Login</Link></p>
+                        <p>Already have an account? <Link to={'/login'} className='text-[var(--secondary)]'>Login</Link></p>
                     </form>
                 </div>
 

@@ -4,7 +4,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Arvo&family=DM+Sans&family=Fira+Code&family=Marvel:wght@400;700&family=Montserrat&family=Noto+Serif&family=Open+Sans&family=Plus+Jakarta+Sans&family=Poppins&family=Sacramento&family=Sora&family=Ubuntu&display=swap');
 
 :root {
-    --primary: rgb(3 185 193);
+    --primary: #12283a;
+    --secondary: rgb(3 185 193);
 }
 section::-webkit-scrollbar{
     display: none;
@@ -16,7 +17,9 @@ section::-webkit-scrollbar{
 .sora {
     font-family: 'sora' , sans-serif;
 }
-
+::-webkit-scrollbar{
+    display: none;
+}
 input[type="range"] {
     appearance: none;
 }
