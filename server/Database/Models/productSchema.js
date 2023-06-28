@@ -11,6 +11,7 @@ const productSchema = new mongoose.Schema({
     images:Array,
 },{timestamps: true})
 
+
 const Model = mongoose.model("initialData" , productSchema)
 
 module.exports = Model;

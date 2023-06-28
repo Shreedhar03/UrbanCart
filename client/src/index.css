@@ -42,4 +42,5 @@ input[type="radio"]:checked + .radio-div{
 }
 .catgory-image:hover  h2{
     opacity: 1;
+    color: black;
 }

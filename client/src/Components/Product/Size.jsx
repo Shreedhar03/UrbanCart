@@ -12,7 +12,7 @@ export default function Size() {
 
     return (
         <>
-            <div className="size flex flex-col gap-2">
+            <div className="size flex md:flex-col gap-2">
                 <h2 className='text-xl'>Select Size</h2>
                 <div className='flex gap-2'>
                     <input type="range" name="size" id="size" min={0} max={4} step={1} value={size} onChange={handleChange} />

@@ -1,5 +1,5 @@
 import React from 'react'
-import Quantity from '../Products/Quantity'
+import Quantity from '../Product/Quantity'
 
 export default function CartItem() {
     return (

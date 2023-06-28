@@ -11,17 +11,17 @@ export default function ProductInfo() {
         <>
             <Navbar />
 
-            <section className="h-[calc(100vh-70px)] flex items-start justify-center p-12 gap-4">
-                <div className="left w-1/3 self-start">
-                    <img src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/70511b6a-3e8f-48bc-9753-1d70f5ed7ed5/pegasus-turbo-next-nature-se-road-running-shoes-tHT957.png" alt="" className='w-[90%] object-cover' />
+            <section className="flex flex-col md:flex-row items-center lg:items-start justify-center py-12 md:py-12 md:px-12 gap-12 md:gap-24 lg:gap-48">
+                <div className="left w-9/12 sm:w-7/12 md:w-1/2 h-full lg:self-start">
+                    <img src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/70511b6a-3e8f-48bc-9753-1d70f5ed7ed5/pegasus-turbo-next-nature-se-road-running-shoes-tHT957.png" alt="" className='w-full h-full object-cover' />
                 </div>
-                <div className="right w-1/3 h-full px-12">
+                <div className="right w-10/12 md:w-1/2 h-full lg:px-12">
                     <section className='flex flex-col gap-4 items-start'>
                         <div className='flex flex-col gap-3'>
-                            <h1 className="title text-4xl font-extrabold">Nike Turbo NXT</h1>
+                            <h1 className="title text-2xl md:text-4xl font-extrabold">Nike Turbo NXT</h1>
                             <p className="flex gap-2"><span className='rating'>⭐⭐⭐⭐</span><span className='reviews'>1.2k reviews</span></p>
                             <p className="price text-2xl font-bold">$32.45</p>
-                            <div className="colors py-6 flex gap-3 flex-col">
+                            <div className="colors py-6 flex gap-3 md:flex-col items-center md:items-start">
                                 <p className="text-lg">Choose a colour</p>
                                 <div className="flex gap-3">
                                     <Checkbox value="black" id="black" colour="black" />
