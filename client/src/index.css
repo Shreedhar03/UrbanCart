@@ -13,7 +13,9 @@ section::-webkit-scrollbar{
 * {
     font-family: 'Poppins' , sans-serif;
 }
-
+*{
+    scroll-behavior:smooth;
+}
 .sora {
     font-family: 'sora' , sans-serif;
 }
@@ -43,7 +45,31 @@ input[type="radio"]:checked + .radio-div{
     padding: 2px;
     border: 2px solid rgb(59 130 246);
 }
-.catgory-image:hover  h2{
+/* .catgory-image:hover  h2{
     opacity: 1;
     color: black;
+} */
+
+.image-div{
+    position: relative;
+}
+.image-div::before{
+    width: 0%;
+    height: 100%;
+    content: '';
+    background-color: #072740a5;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.4s ease;
+}
+.image-div:hover::before{
+    width: 100%;
+}
+.image-div h2{
+    transition: all 0.6s ease;
+    opacity: 0;
+}
+.image-div:hover h2{
+    opacity: 1;
 }

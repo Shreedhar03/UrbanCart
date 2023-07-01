@@ -5,7 +5,7 @@ export default function Navbar() {
     const navigate = useNavigate();
     return (
         <nav className='flex items-center justify-between py-4 px-12 sticky top-0 z-10 bg-[var(--primary)] text-white flex-col md:flex-row w-full gap-4'>
-            <p className="logo text-2xl sora font-extrabold">UrbanCart<span className='text-[var(--primary)]'> .</span></p>
+            <p className="logo text-2xl sora font-extrabold">UrbanCart<span className='text-[var(--secondary)]'> .</span></p>
 
             <div className='flex gap-2 sm:gap-6'>
                 <form action="..." name='searchForm' className='flex items-stretch'>
