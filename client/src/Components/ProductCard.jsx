@@ -22,11 +22,13 @@ const ProductCard = (props) => {
                 </div>
 
                 <p>
-                    {props.handleStar(Math.floor(props.ele.rating)).map((ele, key) => {
+                    {/* {props.handleStar(Math.floor(props.ele.rating)).map((ele, key) => {
                         return (
                             <span key={key}>{ele}</span>
                         )
-                    })}
+                    })} */}
+
+                  ⭐ {props.ele.rating}
                 </p>
                 {/* <h2>{ele.brand}</h2> */}
             </div>

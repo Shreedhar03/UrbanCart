@@ -6,15 +6,24 @@
 :root {
     --primary: #12283a;
     --secondary: rgb(3 185 193);
+    /* scrollbar-color: rgba(0,0,0,0); */
 }
 section::-webkit-scrollbar{
     display: none;
 }
 * {
-    font-family: 'Poppins' , sans-serif;
+    font-family: 'poppins' , sans-serif;
 }
 *{
     scroll-behavior:smooth;
+}
+body{
+    height: 100vh!important;
+    display: flex;
+    flex-direction: column;
+}
+footer{
+    margin-top: auto;
 }
 .sora {
     font-family: 'sora' , sans-serif;
@@ -22,6 +31,7 @@ section::-webkit-scrollbar{
 ::-webkit-scrollbar{
     display: none;
 }
+::-moz-scroll
 input[type="range"] {
     appearance: none;
 }
@@ -71,5 +81,26 @@ input[type="radio"]:checked + .radio-div{
     opacity: 0;
 }
 .image-div:hover h2{
+    overflow: hidden;
     opacity: 1;
+}
+.settings{
+    max-height: 0px;
+    padding: 0px 16px;
+    /* display: none; */
+    overflow: hidden;
+    transition: all 0.5s ease;
+}
+.user-icon:hover + .settings{
+    max-height: 500px;
+    display: flex;
+    padding: 16px;
+}
+.settings:hover{
+    max-height: 500px;
+    display: flex;
+    padding: 16px;
+}
+textarea{
+    resize: none;
 }

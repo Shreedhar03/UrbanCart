@@ -7,6 +7,9 @@ export default function CheckoutPage() {
     return (
         <>
 
+        {
+            localStorage.getItem("authToken") ? 
+            
             <div className="flex flex-col px-24 py-6 gap-14">
                 <div className="flex flex-col max-w-4xl gap-14">
                     <p className="logo text-2xl sora font-extrabold">UrbanCart<span className=' text-[var(--primary)]'> .</span></p>
@@ -31,7 +34,9 @@ export default function CheckoutPage() {
                     </div>
                 </div>
             </div>
-
+        :
+        ""
+            }
         </>
     )
 }

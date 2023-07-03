@@ -1,10 +1,10 @@
 import React from 'react'
-import '../index.css'
-import { banner1, banner2, banner3, banner4, banner5 } from '../assets/index'
+import '../../index.css'
+import { banner1, banner2, banner3, banner4, banner5 } from '../../assets/index'
 import BannerImg from './BannerImg'
 import Category from './Category'
-import Navbar from './Navbar'
-import Footer from './Footer'
+import Navbar from '../Navbar'
+import Footer from '../Footer'
 
 export default function Home() {
 
