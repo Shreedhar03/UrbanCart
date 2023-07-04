@@ -36,7 +36,7 @@ export default function Navbar() {
                                     <li className='cursor-pointer' onClick={()=>{
                                         localStorage.removeItem("authToken");
                                         setToken(null);
-                                        navigate('/');
+                                        navigate('/login');
                                         }}>Logout</li>
                                 </ul>
                             </div>

@@ -25,7 +25,7 @@ const Profile = () => {
                                     <p>{data?.userData?.address}</p>
                                 </div>
                             </div>
-                            <div className='flex gap-12 sm:gap-4 md:gap-24'>
+                            <div className='flex gap-12 sm:gap-4 md:gap-24 flex-wrap'>
                                 <UserInfo />
                                 <UpdateInfo />
                             </div>

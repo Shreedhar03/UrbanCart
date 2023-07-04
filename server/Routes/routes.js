@@ -52,51 +52,81 @@ router.get('/product/:id', async (req, res) => {
 
 // Registration
 
-router.post('/register', (req, res) => {
-    let { name, email, contact, password, confirmPassword, address } = req.body;
-    let newPassword, newConfirmPassword;
-    bcrypt.genSalt((err, salt) => {
-        if (err) {
-            console.log(err);
+// router.post('/register', (req, res) => {
+//     let { name, username, contact, password, address } = req.body;
+//     let newPassword;
+//     bcrypt.genSalt((err, salt) => {
+//         if (err) {
+//             console.log(err);
+//         }
+//         else {
+//             bcrypt.hash(password, salt, (err, hashedPassword) => {
+//                 newPassword = hashedPassword;
+//             })
+//         }
+//     })
+
+//     userModel.findOne({ username })
+//         .then(user => {
+//             if (user) {
+//                 res.json({ success: false, userIsPresent: true });
+//             }
+//             else {
+//                 const newUser = new userModel({
+//                     name, username, contact, "password": newPassword, address
+//                 })
+
+//                 newUser.save()
+//                     .then((err,savedUser) => {
+//                         console.log(savedUser)
+//                         res.json({ success: true, userIsPresent: false, data: savedUser });
+//                     })
+//                     .catch((err) => {
+//                         res.status(404).json({ success: false, err: err });
+//                     });
+//             }
+//         }).catch(err => {
+//             res.status(400).json({ success: false, err: err });
+//         })
+
+
+
+// })
+router.post('/register', async (req, res) => {
+    try {
+        let { name, username, contact, password, address } = req.body;
+
+        const salt = await bcrypt.genSalt();
+        let newPassword = await bcrypt.hash(password, salt);
+
+        const user = await userModel.findOne({ username });
+
+        if (user) {
+            res.json({ success: false, userIsPresent: true });
+        } else {
+            const newUser = new userModel({
+                name,
+                username,
+                contact,
+                password: newPassword,
+                address,
+            });
+
+            const savedUser = await newUser.save();
+            console.log(savedUser);
+            res.json({ success: true, userIsPresent: false, data: savedUser });
         }
-        else {
-            bcrypt.hash(password, salt, (err, hashedPassword) => {
-                newPassword = hashedPassword;
-            })
-            bcrypt.hash(confirmPassword, salt, (err, hashedPassword) => {
-                newConfirmPassword = hashedPassword;
-            })
-        }
-    })
-
-    userModel.findOne({ email })
-        .then(user => {
-            if (user) {
-                res.json({ success: false, userIsPresent: true });
-            }
-            else {
-                const newUser = new userModel({
-                    name, email, contact, "password": newPassword, "confirmPassword": newConfirmPassword, address
-                })
-
-                newUser.save()
-                    .then((savedUser) => {
-                        res.json({ success: true, userIsPresent: false, data: savedUser });
-                    })
-                    .catch((err) => {
-                        res.status(400).json({ success: false, err: err });
-                    });
-            }
-        })
-
-})
+    } catch (err) {
+        res.status(404).json({ success: false, error: err });
+    }
+});
 
 // Login
 
 router.post('/login', (req, res) => {
-    let { email, password } = req.body;
+    let { username, password } = req.body;
 
-    userModel.findOne({ email })
+    userModel.findOne({ username })
         .then(user => {
             if (user) {
                 bcrypt.compare(password, user.password, (err, result) => {
@@ -136,13 +166,13 @@ const verifyToken = (req, res, next) => {
             .then(userData => {
                 if (userData) {
                     req.user = userData
-                    console.log("userData = ", userData)
+                    // console.log("userData = ", userData)
                     next();
                 }
             }).catch(err => {
                 console.log(err)
             })
-        console.log("decoded = ", decoded)
+        // console.log("decoded = ", decoded)
 
     })
 }
@@ -177,7 +207,7 @@ router.put('/update-password/:id', async (req, res) => {
     let isMatch = await bcrypt.compare(oldPassword, user.password)
 
     if (!isMatch) {
-        res.json({ error: 'Invalid current password', success: false });
+        res.json({ message: 'Invalid current password', success: false });
     }
     else {
 
@@ -186,6 +216,39 @@ router.put('/update-password/:id', async (req, res) => {
         user.confirmPassword = newHashedPass;
         await user.save();
         res.json({ message: 'Password updated successfully', success: true });
+    }
+
+})
+
+// update details 
+
+router.put("/update-:field/:id", async (req, res) => {
+    let { field, id } = req.params;
+    let updateInfo = req.body.field
+    console.log(updateInfo)
+    let user = await userModel.findById(id)
+    if (user) {
+
+        if (field === "username") {
+            let existingUser = await userModel.findOne({ username: updateInfo })
+            if (existingUser) {
+                res.json({ success: false, message: "Username already taken" })
+            }
+            else{
+                user[field] = updateInfo
+                await user.save();
+                res.status(200).json({ success: true, message: "Updated" })
+
+            }
+        } else {
+
+            user[field] = updateInfo
+            await user.save();
+            res.status(200).json({ success: true, message: "Updated" })
+        }
+    }
+    else {
+        res.status(400).json({ success: false, message: "Something went wrong" })
     }
 
 })
