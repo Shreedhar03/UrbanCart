@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import UserInfo from './UserInfo'
 import Navbar from '../Navbar'
 import { AppContext } from '../../App'
-import UpdateInfo from './UpdateInfo'
+import UpdateInfo from './ChangePassword'
 
 const Profile = () => {
     const { token, data } = useContext(AppContext);

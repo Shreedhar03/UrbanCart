@@ -2,11 +2,13 @@ const express = require('express')
 const router = new express.Router();
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+// const initialData = require('../Database/initialData')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const product = require('../Database/Models/productSchema')
 const userModel = require('../Database/Models/users')
 
+// initialData()
 // delete all users
 
 router.get('/deleteusers', (req, res) => {
@@ -50,48 +52,7 @@ router.get('/product/:id', async (req, res) => {
     }
 })
 
-// Registration
 
-// router.post('/register', (req, res) => {
-//     let { name, username, contact, password, address } = req.body;
-//     let newPassword;
-//     bcrypt.genSalt((err, salt) => {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             bcrypt.hash(password, salt, (err, hashedPassword) => {
-//                 newPassword = hashedPassword;
-//             })
-//         }
-//     })
-
-//     userModel.findOne({ username })
-//         .then(user => {
-//             if (user) {
-//                 res.json({ success: false, userIsPresent: true });
-//             }
-//             else {
-//                 const newUser = new userModel({
-//                     name, username, contact, "password": newPassword, address
-//                 })
-
-//                 newUser.save()
-//                     .then((err,savedUser) => {
-//                         console.log(savedUser)
-//                         res.json({ success: true, userIsPresent: false, data: savedUser });
-//                     })
-//                     .catch((err) => {
-//                         res.status(404).json({ success: false, err: err });
-//                     });
-//             }
-//         }).catch(err => {
-//             res.status(400).json({ success: false, err: err });
-//         })
-
-
-
-// })
 router.post('/register', async (req, res) => {
     try {
         let { name, username, contact, password, address } = req.body;
@@ -234,7 +195,7 @@ router.put("/update-:field/:id", async (req, res) => {
             if (existingUser) {
                 res.json({ success: false, message: "Username already taken" })
             }
-            else{
+            else {
                 user[field] = updateInfo
                 await user.save();
                 res.status(200).json({ success: true, message: "Updated" })
@@ -252,4 +213,46 @@ router.put("/update-:field/:id", async (req, res) => {
     }
 
 })
+
+
+router.put('/add/:user_id/:product_id', async (req, res) => {
+    const { user_id, product_id } = req.params;
+    const qnty = req.body.quantity;
+
+    try {
+        let user = await userModel.findById(user_id);
+        let product = user.cart.find((p) => p.product_id === product_id);
+
+        if (product) {
+            product.quantity += 1;
+            // console.log("Product quantity: ", product.quantity);
+        } else {
+            user.cart.push({ product_id: product_id, quantity: 1 });
+        }
+
+        await user.save();
+        return res.status(201).json({ success: true, message: "Added" });
+    } catch (err) {
+        return res.json({ err: err.message });
+    }
+});
+
+router.put('/remove/:user_id/:product_id', async (req, res) => {
+
+    const { user_id, product_id } = req.params
+    
+    let user = await userModel.findById(user_id)
+    let productIndex = user.cart.findIndex(product => product.product_id === product_id)
+    console.log(productIndex)
+    if(user.cart[productIndex].quantity===1){
+        user.cart.splice(productIndex, 1);
+    }
+    else{
+        user.cart[productIndex].quantity-=1
+    }
+    await user.save();
+    return res.status(201).json({ success: true, message: "Removed" });
+})
+
+
 module.exports = router

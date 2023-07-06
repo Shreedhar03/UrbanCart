@@ -12,6 +12,7 @@ export const AppContext = createContext();
 
 function App() {
   const [data,setData] = useState({});
+  const [cart,setCart] = useState(true)
   const [token,setToken] = useState(localStorage.getItem("authToken"))
   
   const fetchData = async()=>{
@@ -32,11 +33,12 @@ function App() {
     console.log(token)
     fetchData();
     setToken(token)
-  },[token])
+    console.log("data" , data)
+  },[token,cart])
   return (
     <>
 
-    <AppContext.Provider value={{data,token,setToken}}>
+    <AppContext.Provider value={{data,token,setToken,cart,setCart}}>
         <BrowserRouter>
 
           <Routes>

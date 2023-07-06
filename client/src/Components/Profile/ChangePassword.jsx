@@ -38,7 +38,7 @@ const UpdateInfo = () => {
         }
     }
     return (
-        <div className='flex flex-col gap-6 w-80'>
+        <div className='flex flex-col gap-6 w-80 md:w-96 md:px-12 md:border-l-2 border-slate-300'>
             <h2 className='text-xl'>Change Password</h2>
             <form className='flex flex-col gap-4' onSubmit={(e) => { updateData(e,data.userData._id) }}>
                 <input type="password" className='bg-slate-200 rounded-lg px-2 py-2 text-sm focus:outline-none' required placeholder='Old Password' name='oldPassword' value={credentials.oldPassword} onChange={(e) => { handleChange(e) }} />

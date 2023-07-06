@@ -27,7 +27,7 @@ export default function Category() {
                     <ProductCategory src={images[4]} search="laptops" category="Laptops" />
                     <ProductCategory src={images[2]} search="clothing" category="Clothing" />
                     <ProductCategory src={images[8]} search="skincare" category="SkinCare" />
-                    <ProductCategory src={images[3]} search="" category="Footware" />
+                    <ProductCategory src={images[3]} search="footware" category="Footware" />
                     <ProductCategory src={images[6]} search="smartphones" category="Smartphones" />
                     <ProductCategory src={images[9]} search="home-decoration" category="Home" />
                     <ProductCategory src={images[7]} search="fragrances" category="Fragrances" />

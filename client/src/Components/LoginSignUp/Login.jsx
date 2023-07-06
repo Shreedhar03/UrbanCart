@@ -48,7 +48,6 @@ export default function Login() {
 
     const handlePassword=()=>{
         setShowPassword(!showPassword)
-
     }
 
     useEffect(() => {
@@ -66,16 +65,16 @@ export default function Login() {
                         <div className="container-main flex flex-col items-center gap-10 py-16 bg-[var(--primary)] text-white w-[420px] rounded-lg">
                             <p className="logo text-2xl sora font-semibold cursor-pointer" onClick={() => navigate('/')}>UrbanCart<span className='text-[var(--secondary)] ml-1 font-extrabold'>.</span></p>
                             <h1 className="text-2xl text-center text-[var(--secondary)]">Log in To Your Account</h1>
-                            <form action="" className='flex flex-col gap-8' onSubmit={handleSubmit}>
+                            <form action="" className='flex flex-col gap-8 w-4/5' onSubmit={handleSubmit}>
                                 <div className="flex flex-col gap-2 w-full">
                                     <label htmlFor='username'>Username</label>
                                     <input type="text" value={credentials.username} required onChange={(e) => { handleChange(e) }} name='username' id='username' className='bg-[#143d5f] focus:outline-none rounded-lg px-3 py-2' autoComplete='off' />
                                 </div>
                                 <div className="flex flex-col gap-2 w-full">
                                     <label htmlFor='password'>Password</label>
-                                    <div className='flex w-full relative'>
-                                        <input type={showPassword ? 'text' : 'password'} value={credentials.password} required onChange={(e) => { handleChange(e) }} name='password' id='password' className='bg-[#143d5f] focus:outline-none rounded-lg px-3 py-2' />
-                                        <button type='button' className='absolute w-8 top-1 right-3' onClick={handlePassword}>
+                                    <div className='flex relative'>
+                                        <input type={showPassword ? 'text' : 'password'} value={credentials.password} required onChange={(e) => { handleChange(e) }} name='password' id='password' className='bg-[#143d5f] focus:outline-none rounded-lg px-3 py-2 w-full' />
+                                        <button type='button' className='absolute w-7 top-[6px] right-3' onClick={handlePassword}>
                                             <img src={showPassword ? show : hide} className='w-full' alt="icon" />
                                         </button>
                                     </div>
