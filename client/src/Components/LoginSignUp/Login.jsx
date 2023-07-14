@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import { toast } from 'react-toastify'
 import login from '../../assets/login.svg'
 import show from '../../assets/show.svg'
 import hide from '../../assets/hide.svg'
@@ -30,10 +29,8 @@ export default function Login() {
             if (res.data.user) {
                 localStorage.setItem("authToken", res.data.authToken)
                 notify("Logged In !")
-                setTimeout(() => {
-                    setToken(res.data.authToken)
-                    navigate('/')
-                }, 2000)
+                setToken(res.data.authToken)
+                navigate('/')
 
             }
         }
@@ -46,7 +43,7 @@ export default function Login() {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
     }
 
-    const handlePassword=()=>{
+    const handlePassword = () => {
         setShowPassword(!showPassword)
     }
 
@@ -87,7 +84,6 @@ export default function Login() {
                             </form>
                         </div>
                     </section>
-                    <ToastContainer theme='dark' position='top-center' autoClose={2000} hideProgressBar={true} />
                 </>
             }
 

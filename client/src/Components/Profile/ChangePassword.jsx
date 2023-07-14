@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { AppContext } from '../../App'
 import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
 const UpdateInfo = () => {
@@ -25,10 +25,8 @@ const UpdateInfo = () => {
             if(res.data.success){
                 setMessage(null)
                 notify(res.data.message)
-                setTimeout(()=>{
                     localStorage.removeItem("authToken")
                     setToken(null)
-                },2000)
             }else{
                 setMessage(res.data.message)
             }
@@ -47,7 +45,6 @@ const UpdateInfo = () => {
                 <input type="password" className='bg-slate-200 rounded-lg px-2 py-2 text-sm focus:outline-none' required placeholder='Confirm New Password' name='confirmNewPassword' value={credentials.confirmNewPassword} onChange={(e) => { handleChange(e) }} />
                 <input type="submit" value="Update" className='bg-[var(--secondary)] py-2 rounded-lg' />
             </form>
-            <ToastContainer theme='dark' position='top-center' autoClose={1000} hideProgressBar={true} />
         </div>
     )
 }

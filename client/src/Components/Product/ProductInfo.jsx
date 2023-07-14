@@ -13,8 +13,6 @@ import { AppContext } from '../../App'
 export default function ProductInfo() {
     const { token, data, cart, setCart } = useContext(AppContext)
     const [productData, setProductData] = useState({})
-    // const [button, setButton] = useState("Add to Cart")
-    // const [quantity, setQuantity] = useState(1)
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -66,24 +64,19 @@ export default function ProductInfo() {
     }
 
     const getQuantity = () => {
-        const index = data?.userData?.cart.findIndex((p) => p.product_id === productData._id)
-        // console.log("qtychanged")
+        const index = data?.userData?.cart.findIndex((p) => p.product._id == productData._id)
+        console.log("index=",index)
         return index === -1 ? null : data?.userData?.cart[index]?.quantity
     }
     useEffect(() => {
         fetchData();
         console.log(data)
-        // console.log(data?.userData?.cart.product_id.quantity)
         getQuantity();
     }, [location, cart])
 
     return (
         <>
             <Navbar />
-
-
-
-
             <section className="flex flex-col md:flex-row items-center lg:items-start justify-center py-12 md:py-12 md:px-12 gap-12 md:gap-24 lg:gap-32">
                 <div className="left w-9/12 sm:w-7/12 md:w-1/2 h-[320px] md:h-[500px] lg:self-start flex overflow-scroll snap-mandatory snap-x">
                     {/* <img src={productData.images?.slice(-1)} alt="" className='w-full h-full object-cover' /> */}
@@ -98,51 +91,59 @@ export default function ProductInfo() {
                             <p className="flex gap-2"><span className='rating'>⭐ {productData.rating}</span>
                                 <span className='reviews border-l border-l-slate-400 pl-2'>1.2k reviews</span>
                             </p>
-                            <p className="price text-2xl font-bold">${productData.price}</p>
+                            <div className="price text-3xl">
+                                <p>
+                                    <span className='font-semibold'>${(productData.price - productData.price * productData.discountPercentage / 100).toFixed(2)}</span>
+                                    <span className='text-lg opacity-50 ml-2 line-through'>${productData.price}</span>
+                                </p>
+                                <span className='text-xl text-pink-500'>-{productData.discountPercentage}%</span>
+                            </div>
 
                         </div>
-                        {/* <Size /> */}
                         <div className='flex flex-col gap-3'>
                             <p className='text-xl font-semibold'>Product Description</p>
                             <p className='text-lg'>{productData.description}</p>
                             <p className='text-lg'><span className='font-semibold'>Brand</span> : {productData.brand}</p>
                         </div>
-                        {/* <Quantity quantity={quantity} setQuantity={setQuantity}/> */}
                         <div className="flex gap-4 sm:flex-row flex-col-reverse w-full">
 
-                            <>
-                                {
+                            {
+                                token ?
+                                    <>
+                                        {
 
-                                    getQuantity() !== null ?
-                                        <Quantity quantity={getQuantity()} increaseQty={() => {
-                                            addToCart()
-                                            getQuantity()
-                                        }} decreaseQty={()=>{
-                                            removeFromCart()
-                                            getQuantity();
-                                        }}/>
-                                        :
-                                        <button className='text-md px-5 py-2 rounded-lg bg-[var(--secondary)]' onClick={() => {
-                                            addToCart();
-                                            getQuantity();
-                                        }}>
-                                            Add to cart
-                                        </button>
-                                }
-                            </>
+                                            getQuantity() !== null ?
+                                                <Quantity quantity={getQuantity()} increaseQty={() => {
+                                                    addToCart()
+                                                    getQuantity()
+                                                }} decreaseQty={() => {
+                                                    removeFromCart()
+                                                    getQuantity();
+                                                }} />
+                                                :
+                                                <button className='text-md px-5 py-2 rounded-lg bg-[var(--secondary)]' onClick={() => {
+                                                    addToCart();
+                                                    getQuantity();
+                                                }}>
+                                                    Add to cart
+                                                </button>
+                                        }
+                                    </> 
+                                    :
+                                    <button className='text-md px-5 py-2 rounded-lg bg-[var(--secondary)]' onClick={() => {
+                                        navigate('/login')
+                                    }}>
+                                        Add to cart
+                                    </button>
+                            }
                         </div>
                     </section>
                 </div>
-
             </section>
 
             <section className='similar-products flex flex-col max-w-fit mx-auto gap-8 mt-24 mb-12'>
                 <SimilarProducts category={productData.category} thisID={productData.id} />
             </section>
-
-
-
-
             <Footer />
 
         </>

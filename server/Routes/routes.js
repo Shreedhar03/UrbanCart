@@ -5,8 +5,9 @@ const bcrypt = require('bcrypt')
 // const initialData = require('../Database/initialData')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
-const product = require('../Database/Models/productSchema')
+const productModel = require('../Database/Models/productSchema')
 const userModel = require('../Database/Models/users')
+const orders = require('../Database/Models/orderSchema')
 
 // initialData()
 // delete all users
@@ -24,7 +25,7 @@ router.get('/category/:id', async (req, res) => {
     let id = req.params.id;
     // res.json({"hello":true})
     try {
-        const data = await product.find({
+        const data = await productModel.find({
             category: { $regex: new RegExp(id, 'i') },
         }).exec();
 
@@ -43,7 +44,7 @@ router.get('/product/:id', async (req, res) => {
     let id = req.params.id;
 
     try {
-        const response = await product.findById(id)
+        const response = await productModel.findById(id)
         res.json(response);
     }
     catch (err) {
@@ -52,6 +53,7 @@ router.get('/product/:id', async (req, res) => {
     }
 })
 
+// register
 
 router.post('/register', async (req, res) => {
     try {
@@ -64,7 +66,8 @@ router.post('/register', async (req, res) => {
 
         if (user) {
             res.json({ success: false, userIsPresent: true });
-        } else {
+        }
+        else {
             const newUser = new userModel({
                 name,
                 username,
@@ -140,7 +143,7 @@ const verifyToken = (req, res, next) => {
 
 // Get user data
 router.get('/user', verifyToken, (req, res) => {
-    res.json({ userData: req.user, status: true })
+    res.json({ userData: req.user, success: true })
 })
 
 // Delete User
@@ -214,20 +217,21 @@ router.put("/update-:field/:id", async (req, res) => {
 
 })
 
+// add / increase Qty
 
 router.put('/add/:user_id/:product_id', async (req, res) => {
     const { user_id, product_id } = req.params;
-    const qnty = req.body.quantity;
 
     try {
         let user = await userModel.findById(user_id);
-        let product = user.cart.find((p) => p.product_id === product_id);
-
+        let initialProduct = await productModel.findById(product_id)
+        let product = user.cart.find((p) => p.product._id == product_id);
+        console.log("product=", product)
         if (product) {
             product.quantity += 1;
             // console.log("Product quantity: ", product.quantity);
         } else {
-            user.cart.push({ product_id: product_id, quantity: 1 });
+            user.cart.push({ product: initialProduct, quantity: 1 });
         }
 
         await user.save();
@@ -237,22 +241,93 @@ router.put('/add/:user_id/:product_id', async (req, res) => {
     }
 });
 
+// remove / decrease Qty
 router.put('/remove/:user_id/:product_id', async (req, res) => {
 
     const { user_id, product_id } = req.params
-    
+
     let user = await userModel.findById(user_id)
-    let productIndex = user.cart.findIndex(product => product.product_id === product_id)
+    let productIndex = user.cart.findIndex(product => product.product._id == product_id)
     console.log(productIndex)
-    if(user.cart[productIndex].quantity===1){
+    if (user.cart[productIndex].quantity === 1) {
         user.cart.splice(productIndex, 1);
     }
-    else{
-        user.cart[productIndex].quantity-=1
+    else {
+        user.cart[productIndex].quantity -= 1
     }
     await user.save();
     return res.status(201).json({ success: true, message: "Removed" });
 })
 
+// delete from cart
 
+router.put('/edit-cart/:user_id/:product_id', async (req, res) => {
+    let { user_id, product_id } = req.params
+
+    try {
+        let user = await userModel.findById(user_id)
+        const index = user.cart.findIndex(p => p.product._id == product_id)
+        user.cart.splice(index, 1)
+        await user.save()
+        res.json({ success: true })
+    }
+    catch (err) {
+        res.json({ success: false, message: err.message })
+    }
+})
+
+// place order
+
+router.post('/order/:userID', async (req, res) => {
+    let { userID } = req.params
+    let { cart,amountPaid } = req.body
+
+    try {
+        const newOrder = new orders({
+            userID,
+            cart,
+            amountPaid,
+            status: "Pending"
+        })
+        await newOrder.save()
+        res.status(200).json({ success: true })
+
+    }
+    catch (err) {
+        console.log(err.message)
+        res.json({ success: false })
+    }
+})
+
+router.put('/delete-cart/:userID', async (req, res) => {
+    let { userID } = req.params
+    try {
+        let user = await userModel.findById(userID)
+        user.cart.splice(0) // or use user.cart.length=0
+
+        await user.save()
+        res.json({ success: true })
+    }
+    catch (err) {
+        console.log(err.message)
+        res.json({ success: false })
+    }
+})
+
+// retrieve orders
+
+router.get('/get-orders/:userID', async (req, res) => {
+    const userID = req.params.userID
+    // console.log(userID)
+    try {
+        let order = await orders.find({userID:userID})
+        // console.log(order)
+        res.status(200).json({ success: true , order })
+
+    }
+    catch (err) {
+        console.log(err.message)
+        res.json({ success: false })
+    }
+})
 module.exports = router

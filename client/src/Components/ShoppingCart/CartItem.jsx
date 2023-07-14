@@ -1,21 +1,31 @@
 import React from 'react'
-import Quantity from '../Product/Quantity'
+import cross from '../../assets/cross.svg'
+import edit from '../../assets/edit.svg'
 
-export default function CartItem() {
+export default function CartItem(props) {
+
     return (
         <>
-            <section className="flex items-center gap-12 bg-slate-100 justify-between px-12 rounded-xl">
-                <div className="left flex items-center gap-4">
-                    <img src="https://image.oppo.com/content/dam/oppo/in/mkt/homepage-new-version/campaign/events1.jpg.thumb.webp" className='w-24 h-24 rounded-full object-contain' alt="" />
-                    <h2 className='text-xl font-semibold'>Nike Turbo NXT</h2>
+            <section className="flex bg-slate-100 flex-col sm:flex-row items-center justify-between sm:pr-6 w-full">
+
+                <div className="flex flex-col sm:flex-row items-center gap-6 w-full">
+                    <img src={props.image} className='w-full h-32 sm:w-2/4 sm:h-24 object-cover' alt="" />
+                    <h2 className='sm:mx-0 text-xl font-semibold self-start sm:self-center mx-6 sm:w-3/4'>{props.title}</h2>
+                    <div className='sm:mx-0 flex sm:items-center self-start sm:self-center mx-6 gap-8 sm:gap-0 sm:w-4/5'>
+                        <p className='text-xl sm:w-1/2 font-semibold text-gray-800'>Qty : {props.quantity}</p>
+                        <p className='text-xl sm:w-1/2 font-semibold text-gray-800'>$ {props.price}</p>
+                    </div>
                 </div>
-                <div className="right flex gap-12 items-center">
-                    <Quantity />
-                    <p className='text-xl'>Navy Blue</p>
-                    <p className='text-xl'>Rs 1259</p>
-                    <button className='text-red-600 text-3xl'>&times;</button>
+
+                <div className='gap-6 flex sm:gap-4 self-start sm:self-center sm:m-0 m-6 sm:border-0'>
+                    <button onClick={props.handleEdit} className=''>
+                        <img src={edit} className='w-6' alt="" />
+                    </button>
+                    <button onClick={props.handleDelete} className=''>
+                        <img src={cross} className='w-6' alt="" />
+                    </button>
                 </div>
-            </section>
+            </section >
         </>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import UserInfo from './UserInfo'
 import Navbar from '../Navbar'
@@ -8,6 +8,9 @@ import UpdateInfo from './ChangePassword'
 const Profile = () => {
     const { token, data } = useContext(AppContext);
     const navigate = useNavigate();
+    useEffect(()=>{
+        console.log(data)
+    },[])
     return (
 
         <>

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppContext } from '../App'
+import { toast } from 'react-toastify'
 
 /*
 const getToken = ()=>{
@@ -8,8 +9,9 @@ const getToken = ()=>{
 }*/
 
 export default function Navbar() {
-    
-    const {data,token,setToken} = useContext(AppContext)
+
+    const { data, token, setToken } = useContext(AppContext)
+    const notify = (message) => toast(message)
 
     const navigate = useNavigate();
     return (
@@ -23,23 +25,35 @@ export default function Navbar() {
                 </form>
 
                 <div className="user text-md flex items-center gap-3 sm:gap-4 justify-center">
-                    <button className='flex items-center gap-1' onClick={() => { navigate("/checkout") }}><i className='bx bx-cart-alt text-2xl' ></i><p className='hidden md:block'>Cart</p></button>
                     {
                         token ?
-                            <div className='flex items-center relative'>
-                                {/* <i className='bx bx-user text-2xl'></i> */}
-                                {/* <button className='hidden md:block'>Logout</button> */}
-                                <button className='user-icon w-10 h-10 bg-[var(--secondary)] rounded-full text-black text-xl'>{data?.userData?.name.slice(0,1).toUpperCase()}</button>
-                                <ul className='settings absolute top-10 -left-10 sm:top-10 sm:-left-6 bg-[var(--secondary)] text-black flex flex-col gap-4'>
-                                    <li className='cursor-pointer'><Link to={'/profile'}>Profile</Link></li>
-                                    <li className='cursor-pointer'>Orders</li>
-                                    <li className='cursor-pointer' onClick={()=>{
-                                        localStorage.removeItem("authToken");
-                                        setToken(null);
-                                        navigate('/login');
-                                        }}>Logout</li>
-                                </ul>
-                            </div>
+                            <>
+                                <div className='relative'>
+                                    <button className='flex items-center gap-1' onClick={() => { navigate("/cart") }}><i className='bx bx-cart-alt text-2xl' ></i><p className='hidden md:block'>Cart</p></button>
+                                    <p className='absolute -top-1 left-4 bg-red-500 text-sm h-4 w-4 flex items-center justify-center rounded-full -z-10'>
+                                        {
+                                            token && data?.userData?.cart.length
+                                        }
+                                    </p>
+                                </div>
+                                <div className='flex items-center relative'>
+                                    {/* <i className='bx bx-user text-2xl'></i> */}
+                                    {/* <button className='hidden md:block'>Logout</button> */}
+                                    <button className='user-icon w-10 h-10 bg-[var(--secondary)] rounded-full text-black text-xl'>{data?.userData?.name.slice(0, 1).toUpperCase()}</button>
+                                    <ul className='settings absolute right-0 top-14 bg-[var(--secondary)] text-black flex flex-col gap-4'>
+                                        <li className='cursor-pointer'><Link to={'/profile'} className='flex items-center gap-1'>
+                                        <i className='bx bx-user text-xl'></i>Profile</Link>
+                                        </li>
+                                        <li className='cursor-pointer flex items-center gap-1' onClick={()=>navigate('/orders')}><i className='bx bx-shopping-bag text-xl'></i>Orders</li>
+                                        <li className='cursor-pointer flex items-center gap-1' onClick={() => {
+                                            localStorage.removeItem("authToken");
+                                            setToken(null);
+                                            notify("Logged Out !")
+                                            navigate('/login');
+                                        }}><i className='bx bx-power-off text-xl'></i>Logout</li>
+                                    </ul>
+                                </div>
+                            </>
                             :
                             <button className='flex items-center gap-1' onClick={() => { navigate("/login") }}>
                                 <i className='bx bx-user text-2xl'></i>

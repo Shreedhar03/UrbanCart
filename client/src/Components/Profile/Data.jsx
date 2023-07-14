@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import edit from '../../assets/edit.svg'
 import cross from '../../assets/cross.svg'
@@ -9,10 +9,9 @@ import { AppContext } from '../../App'
 
 const Data = (props) => {
 
-    const { setToken } = useContext(AppContext)
+    const { setToken, cart, setCart } = useContext(AppContext)
     const [update, setUpdate] = useState()
     const [showEdit, setShowEdit] = useState(false)
-    // const [message, setMessage] = useState("")
 
     const notify = (msg) => toast(msg)
     const updateData = async (e, field, id) => {
@@ -23,14 +22,12 @@ const Data = (props) => {
             notify(res.data.message)
             if (res.data.success) {
                 setShowEdit(false)
-                setTimeout(() => {
-                    if (field === "username") {
-
-                        localStorage.removeItem("authToken")
-                        setToken(null)
-                    }
-                    window.location.reload();
-                }, 1000);
+                if (field === "username") {
+                    localStorage.removeItem("authToken")
+                    setToken(null)
+                }
+                setCart(!cart)
+                // window.location.reload();
 
             }
         }
@@ -63,7 +60,6 @@ const Data = (props) => {
                         <button type="submit" className='text-sm bg-slate-200 rounded-r-lg px-3 flex items-center'><img src={correct} className='w-6' alt="" /></button>
                     </form>}
             </div>
-            <ToastContainer theme='dark' position='top-center' autoClose={1000} hideProgressBar={true} />
         </>
 
     )
