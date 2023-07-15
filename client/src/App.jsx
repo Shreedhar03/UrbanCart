@@ -11,6 +11,8 @@ import { createContext, useEffect, useState } from "react";
 import Profile from "./Components/Profile/Profile";
 import Orders from './Components/ShoppingCart/Orders'
 import axios from "axios";
+import AdminPage from "./Components/Admin/AdminPage";
+import Details from "./Components/Admin/Details";
 
 export const AppContext = createContext();
 
@@ -70,6 +72,8 @@ function App() {
             <Route element={<CheckoutPage />} path="/cart"></Route>
             <Route element={<Orders userID={data?.userData?._id} handleRefresh={fetchData}/>} path="/orders"></Route>
             <Route element={<Profile />} path="/profile"></Route>
+            <Route element={<AdminPage />} path="/admin"></Route>
+            <Route element={<Details />} path="/admin/order/details"></Route>
           </Routes>
 
           <ToastContainer theme='dark' position='top-center' autoClose={1500} hideProgressBar={true} style={{marginTop:'20px'}}/>

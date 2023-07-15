@@ -280,11 +280,12 @@ router.put('/edit-cart/:user_id/:product_id', async (req, res) => {
 
 router.post('/order/:userID', async (req, res) => {
     let { userID } = req.params
-    let { cart,amountPaid } = req.body
+    let { cart, amountPaid, name } = req.body
 
     try {
         const newOrder = new orders({
             userID,
+            name,
             cart,
             amountPaid,
             status: "Pending"
@@ -314,20 +315,48 @@ router.put('/delete-cart/:userID', async (req, res) => {
     }
 })
 
-// retrieve orders
+// retrieve user order history
 
 router.get('/get-orders/:userID', async (req, res) => {
     const userID = req.params.userID
     // console.log(userID)
     try {
-        let order = await orders.find({userID:userID})
+        let order = await orders.find({ userID: userID })
         // console.log(order)
-        res.status(200).json({ success: true , order })
+        res.status(200).json({ success: true, order })
 
     }
     catch (err) {
         console.log(err.message)
         res.json({ success: false })
+    }
+})
+// retrieve admin orders
+
+router.get('/admin/get-orders', async (req, res) => {
+    try {
+        let order = await orders.find({}).sort({createdAt:-1})
+        // console.log(order)
+        res.status(200).json({ success: true, order, total: order.length })
+    }
+    catch (err) {
+        console.log(err.message)
+        res.json({ success: false })
+    }
+})
+
+router.put('/admin/edit-order/:id', async (req, res) => {
+    try{
+        const { id } = req.params
+        let order = await orders.findById(id)
+        if(order){
+            order.status="Delivered"
+        }
+        await order.save()
+        res.json({success:true})
+    }
+    catch(err){
+        res.json({success:false})
     }
 })
 module.exports = router

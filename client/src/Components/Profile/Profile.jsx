@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import UserInfo from './UserInfo'
 import Navbar from '../Navbar'
 import { AppContext } from '../../App'
-import UpdateInfo from './ChangePassword'
+import ChangePassword from './ChangePassword'
 
 const Profile = () => {
     const { token, data } = useContext(AppContext);
@@ -18,20 +18,21 @@ const Profile = () => {
 
             {
                 token ?
-                    <section className='p-6 flex justify-center'>
-                        <div className='flex flex-col gap-8'>
+                    <section>
+                        <div className='flex flex-col gap-8 max-w-4xl mx-auto bg-gray-30 p-6 mt-4'>
                             <h2 className='text-2xl'>Your Account</h2>
                             <div className='flex items-center gap-6'>
-                                <button className='user-icon w-20 h-20 bg-[var(--secondary)] rounded-full text-black text-4xl'>{data?.userData?.name.slice(0, 1).toUpperCase()}</button>
+                                <button className='user-icon w-20 h-20 bg-[var(--secondary)] rounded-full text-black text-4xl sora'>{data?.userData?.name.slice(0, 1).toUpperCase()}</button>
                                 <div>
                                     <p className='text-xl'>{data?.userData?.name}</p>
                                     <p>{data?.userData?.address}</p>
                                 </div>
                             </div>
-                            <div className='flex gap-12 sm:gap-4 md:gap-24 flex-wrap'>
+                            <div className='flex gap-12 sm:gap-4 flex-col md:flex-row items-center w-full justify-between'>
                                 <UserInfo />
-                                <UpdateInfo />
+                                <ChangePassword />
                             </div>
+                            {/* <p className='bg-slate-500'>Hello</p> */}
                         </div>
                     </section>
                     :

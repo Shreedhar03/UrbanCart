@@ -42,14 +42,14 @@ const Data = (props) => {
 
     return (
         <>
-            <div className='flex justify-between items-center bg-red-20 w-full bg-slate-0'>
+            <div className='flex justify-between bg-red-20'>
 
                 {!showEdit ?
                     <>
-                        <p className='py-2 text-lg w-[30%] sm:w-[40%] bg-purple-40'>{props.field}</p>
-                        <div className='py-2 px-4 w-[70%] sm:w-[60%] flex items-center justify-between gap-3 bg-purple-00'>
-                            <p className='w-[90%]'>{props.info}</p>
-                            <span onClick={() => { setShowEdit(true) }} className='w-[10%]'><img src={edit} alt="edit-icon" className='w-6 h-6 cursor-pointer' /></span>
+                        <p className='py-2 text-lg bg-purpl-400 w-1/3 sm:w-1/4 sora'>{props.field}</p>
+                        <div className='py-2 px-4 flex items-center justify-between w-3/4 bg-purpl-600'>
+                            <p className='sora'>  : <span className='ml-4'>{props.info}</span></p>
+                            <button onClick={() => { setShowEdit(true) }}><img src={edit} alt="edit-icon" className='w-6 h-6 cursor-pointer' /></button>
                         </div>
                     </>
                     :

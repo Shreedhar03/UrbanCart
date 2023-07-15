@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
   address: { type: String, required: false },
   role: { type: String, required: true, default: "customer" },
   cart: { type:[cartSchema], required: false },
-  order: { type:[], completed:Boolean },
+  // order: { type:[], completed:Boolean },
 });
 
 const userModel = mongoose.model("users", userSchema);

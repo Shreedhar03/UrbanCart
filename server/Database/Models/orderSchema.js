@@ -20,6 +20,7 @@ const cartSchema = new mongoose.Schema({
 
 let order = new mongoose.Schema({
     userID: String,
+    name:String,
     cart: [cartSchema],
     amountPaid:Number,
     status: { type: String, default: "Pending" },

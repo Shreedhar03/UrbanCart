@@ -51,7 +51,7 @@ export default function CheckoutPage() {
     }
     const handleSubmit = async () => {
         try {
-            let res = await axios.post(`http://localhost:5000/order/${data?.userData?._id}`, { cart: data.userData.cart, amountPaid:totalPrice() })
+            let res = await axios.post(`http://localhost:5000/order/${data?.userData?._id}`, { cart: data.userData.cart,name:data.userData.name, amountPaid:totalPrice() })
             if (res.data.success) {
                 console.log("-------Order Placed-------")
                 // console.log(res.data)
@@ -70,7 +70,7 @@ export default function CheckoutPage() {
     return (
         <>
             <Navbar />
-            <h2 className='text-2xl sm:text-3xl font-semibold text-slate-700 text-center mt-8 sora'>Your Shopping cart</h2>
+            <h2 className='text-2xl font-semibold text-slate-700 text-center mt-8 sora'>Your Shopping cart</h2>
             <div className='relative'>
                 {confirmMessage && <ConfirmOrder
                     close={() => setConfirmMessage(false)}
@@ -83,11 +83,11 @@ export default function CheckoutPage() {
 
 
                             <>
-                                <section className='max-w-3x bg-vioet-600 flex flex-col gap-3 sm:gap-1'>
+                                <section className='flex flex-col gap-3 sm:gap-1'>
                                     {
                                         data?.userData?.cart.map((ele, key) => {
                                             return (
-                                                <CartItem image={ele.product.images[0]} title={ele.product.title}
+                                                <CartItem key={key} image={ele.product.images[0]} title={ele.product.title}
                                                     quantity={ele.quantity}
                                                     price={(ele.product.price - ele.product.discountPercentage * ele.product.price / 100).toFixed(2)}
                                                     handleDelete={() => { handleDelete(ele.product._id) }}
@@ -110,7 +110,7 @@ export default function CheckoutPage() {
                             </>
 
                             :
-                            <h1 className='text-xl sm:text-2xl mt-6'>Your cart is empty !</h1>
+                            <h1 className='text-xl sm:text-2xl mt-6'></h1>
                     }
                 </div>
             </div>
