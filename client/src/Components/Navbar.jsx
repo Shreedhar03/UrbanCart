@@ -14,7 +14,7 @@ export default function Navbar() {
             <p className="logo text-2xl sora font-extrabold cursor-pointer" onClick={() => { navigate('/') }}>UrbanCart<span className='text-[var(--secondary)]'> .</span></p>
 
             <div className='flex gap-2 sm:gap-6'>
-                <form name='searchForm' className='flex items-stretch'>
+                <form name='searchForm' className='flex self-center'>
                     <input type="text" name='search' placeholder='try sport shoes' id='search' className='w-48 sm:w-48 lg:w-72 text-lg py-1 px-4 focus:outline-none bg-[#405669] rounded-l-xl' autoComplete='off' />
                     <button type="submit" name='submit' id='submit' className='text-xl px-4 flex items-center rounded-r-xl bg-[var(--secondary)]'><i className='bx bx-search'></i></button>
                 </form>
@@ -30,26 +30,33 @@ export default function Navbar() {
                                                 {/* <p onClick={()=>navigate('/admin')}>Dashboard</p> */}
                                             </div>
                                             :
-                                            <>
-                                                <button className='flex items-center gap-1' onClick={() => { navigate("/cart") }}><i className='bx bx-cart-alt text-2xl' ></i><p className='hidden md:block'>Cart</p></button>
-                                                <p className='absolute -top-1 left-4 bg-red-500 text-sm h-4 w-4 flex items-center justify-center rounded-full -z-10'>
+                                            <div className='flex gap-3'>
+                                                <button className='flex items-center gap-1' onClick={() => { navigate("/cart") }}><i className='bx bx-cart-alt text-2xl' ></i><p className='hidden'>Cart</p></button>
+                                                <button className='flex items-center gap-1 relative' onClick={() => { navigate("/user/inbox") }}><i className='bx bx-bell text-2xl'></i><p className='hidden'>Cart</p>
+                                                    <p className={`absolute -top-1 left-3 ${data?.userData?.message.filter(ele=>ele.isRead!==true).length !== 0 && 'bg-red-500'} text-sm h-4 w-4 flex items-center justify-center rounded-full`}>
+                                                        {
+                                                            token && data?.userData?.message.filter(ele=>ele.isRead!==true).length !== 0 && data?.userData?.message.filter(ele=>ele.isRead!==true).length
+                                                        }
+                                                    </p>
+                                                </button>
+                                                <p className={`absolute -top-1 left-4 ${data?.userData?.cart.length !== 0 && 'bg-red-500'} text-sm h-4 w-4 flex items-center justify-center rounded-full`}>
                                                     {
-                                                        token && data?.userData?.cart.length
+                                                        token && data?.userData?.cart.length !== 0 && data?.userData?.cart.length
                                                     }
                                                 </p>
-                                            </>
+                                            </div>
                                     }
                                 </div>
                                 <div className='flex items-center relative'>
                                     {/* <i className='bx bx-user text-2xl'></i> */}
                                     {/* <button className='hidden md:block'>Logout</button> */}
-                                    <button className='user-icon w-10 h-10 bg-[var(--secondary)] rounded-full text-black text-xl sora'>{data?.userData?.name.slice(0, 1).toUpperCase()}</button>
+                                    <button className='user-icon hidden sm:block w-10 h-10 bg-[var(--secondary)] rounded-full text-black text-xl sora'>{data?.userData?.name.slice(0, 1).toUpperCase()}</button>
                                     <ul className='settings absolute right-0 top-14 bg-[var(--secondary)] text-black flex flex-col gap-4'>
                                         <li className='cursor-pointer'><Link to={'/profile'} className='flex items-center gap-1'>
                                             <i className='bx bx-user text-xl'></i>Profile</Link>
                                         </li>
-                                        <li className={`cursor-pointer flex items-center gap-1 ${data?.userData?.role==="admin" && 'hidden'}`} onClick={() => navigate('/orders')}><i className='bx bx-shopping-bag text-xl'></i>Orders</li>
-                                        <li className={`cursor-pointer flex items-center gap-1 ${data?.userData?.role==="user" && 'hidden'}`} onClick={() => navigate('/admin')}><i className='bx bx-shopping-bag text-xl'></i>Dashboard</li>
+                                        <li className={`cursor-pointer flex items-center gap-1 ${data?.userData?.role === "admin" && 'hidden'}`} onClick={() => navigate('/orders')}><i className='bx bx-shopping-bag text-xl'></i>Orders</li>
+                                        <li className={`cursor-pointer flex items-center gap-1 ${data?.userData?.role !== "admin" && 'hidden'}`} onClick={() => navigate('/admin')}><i className='bx bx-shopping-bag text-xl'></i>Dashboard</li>
                                         <li className='cursor-pointer flex items-center gap-1' onClick={() => {
                                             localStorage.removeItem("authToken");
                                             setToken(null);

@@ -13,6 +13,7 @@ import Orders from './Components/ShoppingCart/Orders'
 import axios from "axios";
 import AdminPage from "./Components/Admin/AdminPage";
 import Details from "./Components/Admin/Details";
+import UserInbox from "./Components/UserInbox";
 
 export const AppContext = createContext();
 
@@ -72,6 +73,7 @@ function App() {
             <Route element={<CheckoutPage />} path="/cart"></Route>
             <Route element={<Orders userID={data?.userData?._id} handleRefresh={fetchData}/>} path="/orders"></Route>
             <Route element={<Profile />} path="/profile"></Route>
+            <Route element={<UserInbox />} path="/user/inbox"></Route>
             <Route element={<AdminPage />} path="/admin"></Route>
             <Route element={<Details />} path="/admin/order/details"></Route>
           </Routes>

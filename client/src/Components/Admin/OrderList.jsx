@@ -16,12 +16,12 @@ const OrderList = () => {
         const { data } = await axios.get('http://localhost:5000/admin/get-orders')
         if (data.success) {
             setOrders(data.order)
-            console.log(data.order)
+            console.log("data.order",data.order)
         }
     }
-    const handleComplete = async (id) => {
+    const handleComplete = async (user,id) => {
         try {
-            let { data } = await axios.put(`http://localhost:5000/admin/edit-order/${id}`)
+            let { data } = await axios.put(`http://localhost:5000/admin/edit-order/${user}/${id}`)
             if (data.success) {
                 console.log("data", data)
                 fetchData()
@@ -69,7 +69,7 @@ const OrderList = () => {
                                         <td className='px-2 xl:px-5 py-3 hidden md:table-cell border-b border-gray-300'>
                                             {
                                                 ele.status === "Pending" ?
-                                                    <div className='flex' onClick={() => handleComplete(ele._id)}>
+                                                    <div className='flex' onClick={() => handleComplete(ele.userID,ele._id)}>
                                                         <input type="checkbox" name={ele._id} id={ele._id} />
                                                         <label htmlFor={ele._id} className='ml-2 font-semibold text-green-500'>Complete</label>
                                                     </div>
@@ -86,7 +86,7 @@ const OrderList = () => {
             <div className='max-w-2xl mx-auto my-12'>
                 {seeDetails &&
                     <>  
-                        <button className='text-3xl mb-6 mx-6 sm:mx-0 text-gray-600' onClick={()=>setSeeDetails(false)}>&larr;<span className='text-lg text-gray-600 ml-2'>Back</span></button>
+                        <button className='text-3xl mb-6 mx-6 sm:mx-4 text-gray-600' onClick={()=>setSeeDetails(false)}>&larr;<span className='text-lg text-gray-600 ml-2'>Back</span></button>
                         <OrderItem status={orderDetail.status} _id={orderDetail.id} date={orderDetail.date} amountPaid={orderDetail.amountPaid} cart={orderDetail.cart} />
                     </>
                 }

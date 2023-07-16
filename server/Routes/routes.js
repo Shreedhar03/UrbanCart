@@ -7,8 +7,8 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const productModel = require('../Database/Models/productSchema')
 const userModel = require('../Database/Models/users')
-const orders = require('../Database/Models/orderSchema')
-
+const orderModel = require('../Database/Models/orderSchema')
+const moment = require('moment')
 // initialData()
 // delete all users
 
@@ -178,6 +178,8 @@ router.put('/update-password/:id', async (req, res) => {
         let newHashedPass = await bcrypt.hash(newPassword, 10)
         user.password = newHashedPass;
         user.confirmPassword = newHashedPass;
+        const currentTime = moment().format("MMM DD, YYYY [at] HH:mm")
+        user.message = [...user.message, { message: "Your password has been updated !", time: currentTime, category: "security" }]
         await user.save();
         res.json({ message: 'Password updated successfully', success: true });
     }
@@ -283,7 +285,7 @@ router.post('/order/:userID', async (req, res) => {
     let { cart, amountPaid, name } = req.body
 
     try {
-        const newOrder = new orders({
+        const newOrder = new orderModel({
             userID,
             name,
             cart,
@@ -321,7 +323,7 @@ router.get('/get-orders/:userID', async (req, res) => {
     const userID = req.params.userID
     // console.log(userID)
     try {
-        let order = await orders.find({ userID: userID })
+        let order = await orderModel.find({ userID: userID }).sort({ createdAt: -1 })
         // console.log(order)
         res.status(200).json({ success: true, order })
 
@@ -335,7 +337,7 @@ router.get('/get-orders/:userID', async (req, res) => {
 
 router.get('/admin/get-orders', async (req, res) => {
     try {
-        let order = await orders.find({}).sort({createdAt:-1})
+        let order = await orderModel.find({}).sort({ createdAt: -1 })
         // console.log(order)
         res.status(200).json({ success: true, order, total: order.length })
     }
@@ -345,18 +347,48 @@ router.get('/admin/get-orders', async (req, res) => {
     }
 })
 
-router.put('/admin/edit-order/:id', async (req, res) => {
-    try{
-        const { id } = req.params
-        let order = await orders.findById(id)
-        if(order){
-            order.status="Delivered"
+router.put('/admin/edit-order/:userID/:id', async (req, res) => {
+    try {
+        const { id, userID } = req.params;
+        let order = await orderModel.findById(id);
+        let user = await userModel.findById(userID);
+
+        if (!order || !user) {
+            return res.status(404).json({ success: false, message: 'Order or user not found' });
         }
-        await order.save()
-        res.json({success:true})
+
+        order.status = "Delivered";
+        const currentTime = moment().format("MMM DD, YYYY [at] HH:mm")
+        user.message = [...user.message, { message: `Your order with ID ${id} has been delivered !`, time: currentTime, category: "delivery" }]
+
+        await Promise.all([order.save(), user.save()]);
+
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
     }
-    catch(err){
-        res.json({success:false})
+});
+
+// mark message as read
+
+router.put('/mark-as-read/:userID', async (req, res) => {
+    const { userID } = req.params;
+    try {
+        let user = await userModel.findById(userID)
+        if (!user) {
+            return res.status(404).json({ success: false })
+        }
+
+        user.message.forEach((message) => {
+            message.isRead = true
+        })
+        await user.save();
+        res.json({success:true})
+        
+    }
+    catch (err) {
+        res.json({ err })
+        console.log(err)
     }
 })
 module.exports = router

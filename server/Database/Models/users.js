@@ -1,22 +1,22 @@
 const mongoose = require('mongoose');
 
 const productSchema = {
-  id:Number,
-  title:String,
-  description:String,
-  rating:Number,
-  price:Number,
-  discountPercentage:Number,
-  stock:Number,
-  category:String,
-  brand:String,
-  images:Array,
+  id: Number,
+  title: String,
+  description: String,
+  rating: Number,
+  price: Number,
+  discountPercentage: Number,
+  stock: Number,
+  category: String,
+  brand: String,
+  images: Array,
 }
 
 // Cart schema
 const cartSchema = new mongoose.Schema({
   product: { type: productSchema, required: false },
-  quantity: { type: Number, required: false, max:5 },
+  quantity: { type: Number, required: false, max: 5 },
 });
 
 // User schema
@@ -27,7 +27,14 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: false },
   address: { type: String, required: false },
   role: { type: String, required: true, default: "customer" },
-  cart: { type:[cartSchema], required: false },
+  cart: { type: [cartSchema], required: false },
+  message: {
+    type:
+      [
+        { message: String, time: String, category: String, isRead: { type: Boolean, default: false } }
+      ]
+
+  }
   // order: { type:[], completed:Boolean },
 });
 
