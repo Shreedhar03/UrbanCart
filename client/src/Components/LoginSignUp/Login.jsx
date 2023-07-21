@@ -56,11 +56,11 @@ export default function Login() {
             {
                 <>
 
-                    <section className="flex flex-row-reverse items-center justify-evenly flex-wrap h-screen bg-[var(--primary)] w-screen">
+                    <section className="flex flex-row-reverse items-center justify-evenly flex-wrap h-[90.7vh] bg-[var(--primary)] w-screen">
 
                         <img src={login} alt="image_login" className='w-[400px] hidden lg:block' />
                         <div className="container-main flex flex-col items-center gap-10 py-16 bg-[var(--primary)] text-white w-[420px] rounded-lg">
-                            <p className="logo text-2xl sora font-semibold cursor-pointer" onClick={() => navigate('/')}>UrbanCart<span className='text-[var(--secondary)] ml-1 font-extrabold'>.</span></p>
+                            {/* <p className="logo text-2xl sora font-semibold cursor-pointer" onClick={() => navigate('/')}>UrbanCart<span className='text-[var(--secondary)] ml-1 font-extrabold'>.</span></p> */}
                             <h1 className="text-2xl text-center text-[var(--secondary)]">Log in To Your Account</h1>
                             <form action="" className='flex flex-col gap-8 w-4/5' onSubmit={handleSubmit}>
                                 <div className="flex flex-col gap-2 w-full">

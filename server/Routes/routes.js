@@ -1,6 +1,7 @@
 const express = require('express')
 const router = new express.Router();
 const mongoose = require('mongoose')
+const { ObjectId } = require('mongoose').Types;
 const bcrypt = require('bcrypt')
 // const initialData = require('../Database/initialData')
 const jwt = require('jsonwebtoken')
@@ -19,6 +20,17 @@ router.get('/deleteusers', (req, res) => {
     })
 })
 
+// get all products
+
+router.get('/allproducts', async (req, res) => {
+    try {
+        let products = await productModel.find({}).sort({ createdAt: -1 })
+        res.status(200).json({ success: true, products })
+    }
+    catch (err) {
+        res.json({ success: false })
+    }
+})
 // Category wise Data
 
 router.get('/category/:id', async (req, res) => {
@@ -57,7 +69,7 @@ router.get('/product/:id', async (req, res) => {
 
 router.post('/register', async (req, res) => {
     try {
-        let { name, username, contact, password, address } = req.body;
+        let { name, username, contact, password } = req.body;
 
         const salt = await bcrypt.genSalt();
         let newPassword = await bcrypt.hash(password, salt);
@@ -73,7 +85,6 @@ router.post('/register', async (req, res) => {
                 username,
                 contact,
                 password: newPassword,
-                address,
             });
 
             const savedUser = await newUser.save();
@@ -84,6 +95,60 @@ router.post('/register', async (req, res) => {
         res.status(404).json({ success: false, error: err });
     }
 });
+
+// add new shipping address
+
+router.put('/add-address/:userID', async (req, res) => {
+    try {
+        const { userID } = req.params
+        console.log(userID)
+        const { title, fName, lName, contact, flatNo, building, landmark, area, city, state, pin } = req.body.address
+        const user = await userModel.findById(userID)
+        if (user) {
+            console.log(user)
+            user.address = [...user.address, { title, fName, lName, contact, flatNo, building, landmark, area, city, state, pin }]
+            // OR //
+            // user.address.push({title, fName, lName, contact, flatNo, building, landmark, area, city, state, pin})
+            await user.save()
+            res.json({ success: true, address: user.address })
+        }
+    }
+    catch (err) {
+        res.json({ success: false, error: err });
+    }
+})
+
+// select-delete the shipping address
+
+router.put('/set-address/:userID', async (req, res) => {
+    try {
+        const { userID } = req.params
+        const { title } = req.body.address
+        const { toBeDeleted } = req.body
+
+        const user = await userModel.findById(userID)
+        if (user) {
+            // console.log(user)
+            let selectedAddr = user.address.findIndex(p => p.title == title)
+            if (toBeDeleted) {
+                user.address.splice(selectedAddr, 1)
+                await user.save()
+                return res.json({ success: true, deleted: true, selectedAddr })
+            }
+            console.log(user.address[selectedAddr])
+            user.address[selectedAddr].selected = true
+            user.address.forEach((addr) => {
+                if (addr.title != title)
+                    addr.selected = false
+            })
+            await user.save()
+            res.json({ success: true, selectedAddr: user.address[selectedAddr] })
+        }
+    }
+    catch (err) {
+        res.json({ success: false, error: err });
+    }
+})
 
 // Login
 
@@ -118,12 +183,12 @@ const verifyToken = (req, res, next) => {
     const token = req.headers['authorization'];
 
     if (!token) {
-        return res.status(401).json({ status: false, error: 'Unauthorized' });
+        return res.status(401).json({ success: false, error: 'Unauthorized' });
     }
 
     jwt.verify(token, process.env.SECRET, (err, decoded) => {
         if (err) {
-            return res.status(401).json({ error: 'Invalid token', status: false });
+            return res.status(401).json({ error: 'Invalid token', success: false });
         }
 
         userModel.findOne({ _id: decoded.userID })
@@ -282,15 +347,24 @@ router.put('/edit-cart/:user_id/:product_id', async (req, res) => {
 
 router.post('/order/:userID', async (req, res) => {
     let { userID } = req.params
-    let { cart, amountPaid, name } = req.body
+    let { cart, amountPaid, name, shippingAddress } = req.body
 
     try {
+        console.log("shippingAddress",shippingAddress)
         const newOrder = new orderModel({
             userID,
             name,
             cart,
             amountPaid,
+            shippingAddress,
             status: "Pending"
+        })
+        console.log("cart=", cart)
+        cart.forEach(async p => {
+            let product = await productModel.findById(p.product._id)
+            if (product.stock > 0)
+                product.stock = product.stock - p.quantity
+            await product.save()
         })
         await newOrder.save()
         res.status(200).json({ success: true })
@@ -301,7 +375,7 @@ router.post('/order/:userID', async (req, res) => {
         res.json({ success: false })
     }
 })
-
+// remove from cart
 router.put('/delete-cart/:userID', async (req, res) => {
     let { userID } = req.params
     try {
@@ -383,11 +457,53 @@ router.put('/mark-as-read/:userID', async (req, res) => {
             message.isRead = true
         })
         await user.save();
-        res.json({success:true})
-        
+        res.json({ success: true })
+
     }
     catch (err) {
         res.json({ err })
+        console.log(err)
+    }
+})
+
+// add-product Admin
+router.post("/admin/add-product", async (req, res) => {
+    try {
+        let { title, description, rating, price, discountPercentage, stock, category, brand } = req.body.productInfo
+        let { existingProduct } = req.body
+        if (existingProduct) {
+            console.log("existingProduct = ", existingProduct)
+            const productId = new ObjectId(existingProduct)
+            console.log("productId=", productId)
+            let updatedProduct = await productModel.findByIdAndUpdate(
+                existingProduct,
+                {
+                    title, description, rating, price, discountPercentage, stock, category, brand, images: req.body.productInfo.images
+                },
+                { new: true }
+            );
+            return res.status(201).json({ success: true, "Updated product ": updatedProduct })
+        }
+        let imageUrls = req.body.productInfo.images.split(" ")
+        let newProduct = new productModel({ title, description, rating, price, discountPercentage, stock, category, brand, images: imageUrls })
+        await newProduct.save();
+        res.status(201).json({ success: true, "newProduct=": newProduct })
+    }
+    catch (err) {
+        res.json({ err })
+        console.log(err)
+    }
+})
+
+// delete product
+router.delete("/delete-product/:id", async (req, res) => {
+    try {
+        let { id } = req.params
+        let deletedproduct = await productModel.findByIdAndDelete(id)
+        res.json({ deletedproduct, success: true })
+    }
+    catch (err) {
+        res.json({ success: false })
         console.log(err)
     }
 })

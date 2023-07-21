@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import Navbar from '../Navbar'
 // import Checkbox from './Checkbox'
 import Footer from '../Footer'
 // import Size from './Size'
@@ -76,7 +75,6 @@ export default function ProductInfo() {
 
     return (
         <>
-            <Navbar />
             <section className="flex flex-col md:flex-row items-center lg:items-start justify-center py-12 md:py-12 md:px-12 gap-12 md:gap-24 lg:gap-32">
                 <div className="left w-9/12 sm:w-7/12 md:w-1/2 h-[320px] md:h-[500px] lg:self-start flex overflow-scroll snap-mandatory snap-x">
                     {/* <img src={productData.images?.slice(-1)} alt="" className='w-full h-full object-cover' /> */}
@@ -93,8 +91,8 @@ export default function ProductInfo() {
                             </p>
                             <div className="price text-3xl">
                                 <p>
-                                    <span className='font-semibold'>${(productData.price - productData.price * productData.discountPercentage / 100).toFixed(2)}</span>
-                                    <span className='text-lg opacity-50 ml-2 line-through'>${productData.price}</span>
+                                    <span className='font-semibold'>&#8377; {(productData.price  - productData.price  * productData.discountPercentage / 100).toFixed(2)}</span>
+                                    <span className='text-sm opacity-50 sora ml-2'><span>M.R.P</span><span className='line-through ml-1'> &#8377;{productData.price }</span></span>
                                 </p>
                                 <span className='text-xl text-pink-500'>-{productData.discountPercentage}%</span>
                             </div>
@@ -142,7 +140,7 @@ export default function ProductInfo() {
             </section>
 
             <section className='similar-products flex flex-col max-w-fit mx-auto gap-8 mt-24 mb-12'>
-                <SimilarProducts category={productData.category} thisID={productData.id} />
+                <SimilarProducts category={productData.category} thisID={productData._id} />
             </section>
             <Footer />
 

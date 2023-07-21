@@ -18,8 +18,13 @@ const SimilarProducts = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      let res = await axios.get(`http://localhost:5000/category/${category}`)
-      setData(res.data)
+      try{
+        let res = await axios.get(`http://localhost:5000/category/${category}`)
+        setData(res.data)
+      }
+      catch(err){
+        console.log(err)
+      }
 
       setTimeout(()=>{
         setLoading(false)
@@ -43,7 +48,7 @@ const SimilarProducts = (props) => {
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 2xl:gap-8'>
             {
               data.filter((ele) => {
-                return ele.id !== props.thisID
+                return ele._id !== props.thisID
               }).map((ele, key) => {
                 return <ProductCard ele={ele} key={key} handleStar={handleStar} />
               })

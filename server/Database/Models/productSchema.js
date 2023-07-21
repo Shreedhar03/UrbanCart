@@ -1,16 +1,16 @@
 const mongoose = require('mongoose')
 
 const productSchema = new mongoose.Schema({
-    id:Number,
     title:String,
     description:String,
-    rating:Number,
+    rating:String,
     price:Number,
     discountPercentage:Number,
     stock:Number,
     category:String,
     brand:String,
     images:Array,
+    gender:{type:String,default:"NA"}
 },{timestamps: true})
 
 

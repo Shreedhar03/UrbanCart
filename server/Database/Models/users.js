@@ -13,6 +13,22 @@ const productSchema = {
   images: Array,
 }
 
+// Shipping address schema
+const addressSchema={
+  title:String,
+  fName:String,
+  lName:String,
+  contact:Number,
+  flatNo:String,
+  building:String,
+  landmark:String,
+  area:String,
+  city:String,
+  state:String,
+  pin:Number,
+  selected:{type:Boolean,default:null}
+}
+
 // Cart schema
 const cartSchema = new mongoose.Schema({
   product: { type: productSchema, required: false },
@@ -25,15 +41,12 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: false },
   contact: { type: Number, required: false },
   password: { type: String, required: false },
-  address: { type: String, required: false },
+  address: {type:[addressSchema],default:[]},
   role: { type: String, required: true, default: "customer" },
   cart: { type: [cartSchema], required: false },
   message: {
-    type:
-      [
-        { message: String, time: String, category: String, isRead: { type: Boolean, default: false } }
-      ]
-
+    type: [{ message: String, time: String, category: String, isRead: { type: Boolean, default: false } }],
+    createdAt: { type: Date, default: new Date() }
   }
   // order: { type:[], completed:Boolean },
 });

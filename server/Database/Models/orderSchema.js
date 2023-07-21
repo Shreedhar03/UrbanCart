@@ -18,11 +18,27 @@ const cartSchema = new mongoose.Schema({
     quantity: { type: Number, required: false, max: 5 },
 });
 
+// Shipping address schema
+const addressSchema={
+    title:String,
+    fName:String,
+    lName:String,
+    contact:Number,
+    flatNo:String,
+    building:String,
+    landmark:String,
+    area:String,
+    city:String,
+    state:String,
+    pin:Number
+  }
+
 let order = new mongoose.Schema({
     userID: String,
     name:String,
     cart: [cartSchema],
     amountPaid:Number,
+    shippingAddress:[addressSchema],
     status: { type: String, default: "Pending" },
 }, { timestamps: true })
 

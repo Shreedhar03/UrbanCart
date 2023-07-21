@@ -37,7 +37,7 @@ const UserInfo = () => {
                             <Data value="name" field="Name" info={data?.userData?.name} data={data?.userData}/>
                             <Data value="username" field="Username" info={data?.userData?.username} data={data?.userData}/>
                             <Data pattern="[0-9]{10}" value="contact" field="Contact" info={data?.userData?.contact} data={data?.userData}/>
-                            <Data value="address" field="Address" info={data?.userData?.address} data={data?.userData}/>
+                            {/* <Data value="address" field="Address" info={data?.userData?.address} data={data?.userData}/> */}
                         </div>
                     </div>
 

@@ -11,9 +11,12 @@ export default function Navbar() {
     const navigate = useNavigate();
     return (
         <nav className='flex items-center justify-between py-4 sm:px-12 sticky top-0 z-10 bg-[var(--primary)] text-white flex-col md:flex-row w-full gap-4'>
-            <p className="logo text-2xl sora font-extrabold cursor-pointer" onClick={() => { navigate('/') }}>UrbanCart<span className='text-[var(--secondary)]'> .</span></p>
+            <div className='flex items-center gap-3'>
+                <p className="logo text-2xl sora font-extrabold cursor-pointer" onClick={() => { navigate('/') }}>UrbanCart<span className='text-[var(--secondary)]'> .</span></p>
+            </div>
 
             <div className='flex gap-2 sm:gap-6'>
+            <i class='bx bx-menu text-3xl cursor-pointer md:hidden'></i>
                 <form name='searchForm' className='flex self-center'>
                     <input type="text" name='search' placeholder='try sport shoes' id='search' className='w-48 sm:w-48 lg:w-72 text-lg py-1 px-4 focus:outline-none bg-[#405669] rounded-l-xl' autoComplete='off' />
                     <button type="submit" name='submit' id='submit' className='text-xl px-4 flex items-center rounded-r-xl bg-[var(--secondary)]'><i className='bx bx-search'></i></button>
@@ -33,9 +36,9 @@ export default function Navbar() {
                                             <div className='flex gap-3'>
                                                 <button className='flex items-center gap-1' onClick={() => { navigate("/cart") }}><i className='bx bx-cart-alt text-2xl' ></i><p className='hidden'>Cart</p></button>
                                                 <button className='flex items-center gap-1 relative' onClick={() => { navigate("/user/inbox") }}><i className='bx bx-bell text-2xl'></i><p className='hidden'>Cart</p>
-                                                    <p className={`absolute -top-1 left-3 ${data?.userData?.message.filter(ele=>ele.isRead!==true).length !== 0 && 'bg-red-500'} text-sm h-4 w-4 flex items-center justify-center rounded-full`}>
+                                                    <p className={`absolute -top-1 left-3 ${data?.userData?.message.filter(ele => ele.isRead !== true).length !== 0 && 'bg-red-500'} text-sm h-4 w-4 flex items-center justify-center rounded-full`}>
                                                         {
-                                                            token && data?.userData?.message.filter(ele=>ele.isRead!==true).length !== 0 && data?.userData?.message.filter(ele=>ele.isRead!==true).length
+                                                            token && data?.userData?.message.filter(ele => ele.isRead !== true).length !== 0 && data?.userData?.message.filter(ele => ele.isRead !== true).length
                                                         }
                                                     </p>
                                                 </button>

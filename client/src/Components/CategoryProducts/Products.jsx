@@ -17,7 +17,7 @@ const Products = () => {
         try {
             let category = window.location.href.split("/").slice(-1)
             let response = await axios.get(`http://localhost:5000/category/${category}`)
-            console.log(response.data)
+            console.log("response.data Category = " ,response.data)
             setCategoryData(response.data)
             setTimeout(() => {
                 setLoading(false);

@@ -23,14 +23,14 @@ export default function Category() {
                 <section className='flex overflow-scroll lg:flex-wrap gap-8'>
                     <ProductCategory src={images[5]} search="watches" category="Watches" />
                     <ProductCategory src={images[0]} search="furniture" category="Furniture" />
-                    <ProductCategory src={images[1]} search="" category="Appliances" />
+                    <ProductCategory src={images[1]} search="appliances" category="Appliances" />
                     <ProductCategory src={images[4]} search="laptops" category="Laptops" />
                     <ProductCategory src={images[2]} search="clothing" category="Clothing" />
-                    <ProductCategory src={images[8]} search="skincare" category="SkinCare" />
+                    {/* <ProductCategory src={images[8]} search="skincare" category="SkinCare" /> */}
                     <ProductCategory src={images[3]} search="footware" category="Footware" />
                     <ProductCategory src={images[6]} search="smartphones" category="Smartphones" />
                     <ProductCategory src={images[9]} search="home-decoration" category="Home" />
-                    <ProductCategory src={images[7]} search="fragrances" category="Fragrances" />
+                    {/* <ProductCategory src={images[7]} search="fragrances" category="Fragrances" /> */}
                 </section>
             </div>
         </>

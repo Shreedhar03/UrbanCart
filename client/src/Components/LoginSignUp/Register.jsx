@@ -65,18 +65,18 @@ export default function Register() {
     return (
         <>
 
-            <section className="flex items-center justify-evenly flex-wrap h-screen w-screen bg-[var(--primary)]">
+            <section className="flex items-center justify-evenly flex-wrap h-[90.7vh] w-screen bg-[var(--primary)]">
 
                 <img src={register} alt="image_login" className='w-[400px] hidden lg:block' />
 
                 <div className="flex flex-col items-center gap-8 bg-[var(--primary)] text-white rounded-lg w-[330px] sm:w-[400px] xl:w-[520px]">
-                    <p className="logo text-2xl sora font-semibold cursor-pointer" onClick={() => navigate('/')}>UrbanCart<span className='text-[var(--secondary)] ml-1 font-extrabold'>.</span></p>
+                    {/* <p className="logo text-2xl sora font-semibold cursor-pointer" onClick={() => navigate('/')}>UrbanCart<span className='text-[var(--secondary)] ml-1 font-extrabold'>.</span></p> */}
                     <h1 className="text-2xl text-center text-[var(--secondary)]">Create Account</h1>
                     <form className='flex flex-col gap-6 w-[90%] xl:w-[65%] sm:w-[75%] items-cener' onSubmit={handleSubmit}>
                         <input type="text" value={credentials.name} required placeholder='Full Name' onChange={(e) => { handleChange(e) }} name='name' className='focus:outline-none bg-[#143d5f] rounded-lg px-3 py-2' autoComplete='off' />
+                        <input type="text" value={credentials.contact} required placeholder='Contact' maxLength={10} autoComplete='off' pattern='[0-9]{10}' onChange={(e) => { handleChange(e) }} name='contact' className='focus:outline-none bg-[#143d5f] rounded-lg px-3 py-2' />
                         <input type="text" value={credentials.username} required placeholder='Username' autoComplete='off' onChange={(e) => { handleChange(e) }} name='username' className='focus:outline-none bg-[#143d5f] rounded-lg px-3 py-2' />
                         {userExists && <span className='text-red-500 text-sm'>Username already exists</span>}
-                        <input type="text" value={credentials.contact} required placeholder='Contact' maxLength={10} autoComplete='off' pattern='[0-9]{10}' onChange={(e) => { handleChange(e) }} name='contact' className='focus:outline-none bg-[#143d5f] rounded-lg px-3 py-2' />
                         <div className='flex relative'>
                             <input type={showPassword ? 'text' : 'password'} value={credentials.password} required placeholder='Password' autoComplete='off' onChange={(e) => { handleChange(e) }} name='password' className='focus:outline-none bg-[#143d5f] rounded-lg w-full px-3 py-2' />
                             <button type='button' className='absolute w-7 top-[6px] right-3' onClick={handlePassword}>
@@ -90,7 +90,7 @@ export default function Register() {
                             </button>
                         </div>
                         {!passwordMatch && <span className='text-red-500 text-sm'>Passwords do not match</span>}
-                        <textarea value={credentials.address} placeholder='Complete address' autoComplete='off' onChange={(e) => { handleChange(e) }} name='address' className='focus:outline-none bg-[#143d5f] rounded-lg px-3 py-2' />
+                        {/* <textarea value={credentials.address} placeholder='Complete address' autoComplete='off' onChange={(e) => { handleChange(e) }} name='address' className='focus:outline-none bg-[#143d5f] rounded-lg px-3 py-2' /> */}
                         <input type="submit" value="Register" className='bg-[var(--secondary)] rounded-lg py-2 text-[var(--primary)] self-stretch' />
                         <p className=' self-center'>Already have an account? <Link to={'/login'} className='text-[var(--secondary)]'>Login</Link></p>
                     </form>

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import UserInfo from './UserInfo'
-import Navbar from '../Navbar'
 import { AppContext } from '../../App'
 import ChangePassword from './ChangePassword'
 
@@ -14,7 +13,6 @@ const Profile = () => {
     return (
 
         <>
-            <Navbar />
 
             {
                 token ?
@@ -25,7 +23,7 @@ const Profile = () => {
                                 <button className='user-icon w-20 h-20 bg-[var(--secondary)] rounded-full text-black text-4xl sora'>{data?.userData?.name.slice(0, 1).toUpperCase()}</button>
                                 <div>
                                     <p className='text-xl'>{data?.userData?.name}</p>
-                                    <p>{data?.userData?.address}</p>
+                                    {/* <p>{data?.userData?.address}</p> */}
                                 </div>
                             </div>
                             <div className='flex gap-12 sm:gap-4 flex-col md:flex-row items-center w-full justify-between'>

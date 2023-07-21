@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import Navbar from '../Navbar'
 import { AppContext } from '../../App'
 import OrderItem from './OrderItem'
 
@@ -8,7 +7,6 @@ const Orders = () => {
 
     return (
         <>
-            <Navbar />
             <p className='text-center text-2xl font-semibold text-gray-700 mt-6'>Purchase History</p>
             <section className='flex flex-col gap-6 my-8 max-w-2xl mx-auto'>
                 <>

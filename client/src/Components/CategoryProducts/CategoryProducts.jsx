@@ -6,13 +6,10 @@ import Products from './Products'
 const CategoryProducts = () => {
   return (
     <>
-      <Navbar />
       <div>
         <Sidebar />
-        {/* Products goes here */}
-          <Products />
+        <Products />
       </div>
-      {/* <Footer />   */}
     </>
   )
 }

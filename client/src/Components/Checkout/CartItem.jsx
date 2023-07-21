@@ -14,7 +14,7 @@ export default function CartItem(props) {
                     <h2 className='sm:mx-0 text-xl font-semibold self-start sm:self-center mx-6'>{props.title}</h2>
                     <div className='sm:mx-0 flex sm:items-center self-start sm:self-center mx-6 gap-8 mt-4 w-full'>
                         <p className='text-xl font-semibold text-gray-800'>Qty: {props.quantity}</p>
-                        <p className='text-xl font-semibold text-gray-800'>${props.price}</p>
+                        <p className='text-xl font-semibold text-gray-800'>&#8377; {props.price}</p>
                     </div>
                     </div>
                 </div>
