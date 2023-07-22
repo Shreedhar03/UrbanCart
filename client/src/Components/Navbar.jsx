@@ -1,12 +1,43 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppContext } from '../App'
 import { toast } from 'react-toastify'
 
 export default function Navbar() {
 
-    const { data, token, setToken } = useContext(AppContext)
+    const { data, products, token, setToken } = useContext(AppContext)
+    const [searchVisible, setSearchVisible] = useState(false)
     const notify = (message) => toast(message)
+    const [search, setSearch] = useState("")
+    const [searchResults, setSearchResults] = useState([])
+    const matchingResults = []
+    const handleBlur = () => {
+        setTimeout(() => {
+            setSearchVisible(false)
+            setSearch("")
+        }, 500);
+    }
+    const handleChange = (e) => {
+        setSearch(e.target.value)
+        for (const key in products) {
+            if (
+                ((products[key].title.toLowerCase()).includes(search.toLowerCase())
+                    || (products[key].brand.toLowerCase()).includes(search.toLowerCase())
+                    || (products[key].category.toLowerCase()).includes(search.toLowerCase()))
+            ) {
+                // console.log("found")
+                matchingResults.push(products[key])
+            }
+            // console.log(products[key].title.includes(search) , "---" , products[key].title)
+        }
+        setSearchResults(matchingResults)
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+    }
+    useEffect(() => {
+        console.log(searchResults)
+    }, [searchResults])
 
     const navigate = useNavigate();
     return (
@@ -16,10 +47,18 @@ export default function Navbar() {
             </div>
 
             <div className='flex gap-2 sm:gap-6'>
-            <i class='bx bx-menu text-3xl cursor-pointer md:hidden'></i>
-                <form name='searchForm' className='flex self-center'>
-                    <input type="text" name='search' placeholder='try sport shoes' id='search' className='w-48 sm:w-48 lg:w-72 text-lg py-1 px-4 focus:outline-none bg-[#405669] rounded-l-xl' autoComplete='off' />
-                    <button type="submit" name='submit' id='submit' className='text-xl px-4 flex items-center rounded-r-xl bg-[var(--secondary)]'><i className='bx bx-search'></i></button>
+                <i class='bx bx-menu text-3xl cursor-pointer md:hidden'></i>
+                <form name='searchForm' className='flex self-center relative' onSubmit={handleSubmit}>
+                    <input type="text" name='search' onFocus={() => setSearchVisible(true)} onBlur={handleBlur} value={search} onChange={handleChange} placeholder='try watches' id='search' className='w-48 sm:w-48 lg:w-64 text-lg py-1 px-4 focus:outline-none bg-[#405669] rounded-l-xl' autoComplete='off' />
+                    <button type="submit" name='submit' id='submit' className='text-xl px-4 flex items-center rounded-r-xl bg-[#405669]'><i className='bx bx-search'></i></button>
+                    <ul className={`bg-[#405669] flex flex-col gap-3 absolute top-10 max-h-96 overflow-y-scroll w-full text-white ${search.length > 2 && searchVisible && searchResults.length !== 0 && 'p-2'}`}>
+                        {search.length > 2 && searchVisible && searchResults.map(ele => {
+                            return <Link to={`/product/${ele._id}`} className='cursor-pointer border-b border-slate-500'>
+                                <p className='text-gray-400 text-sm'>{ele.brand}</p>
+                                <p>{ele.title}</p>
+                            </Link>
+                        })}
+                    </ul>
                 </form>
 
                 <div className="user text-md flex items-center gap-3 sm:gap-4 justify-center">
@@ -78,12 +117,6 @@ export default function Navbar() {
                 </div>
             </div>
 
-
-            {/* <ul className='flex flex-col md:flex-row items-end justify-center lg:gap-12 text-[16px]'>
-                            <li><a href="/" className='flex items-center gap-1'><span>Category</span><i className='bx bx-chevron-down'></i></a></li>
-                            <li><a href="/">Deals</a></li>
-                            <li><a href="/">What's New</a></li>
-                        </ul> */}
         </nav>
     )
 }

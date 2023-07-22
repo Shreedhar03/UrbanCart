@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import { useNavigate, Link } from 'react-router-dom'
 import { AppContext } from '../../App'
 import axios from 'axios'
+import empty_cart from '../../assets/empty_cart.svg'
 // import ConfirmOrder from './ConfirmOrder'
 
 export default function CheckoutPage() {
@@ -49,8 +50,9 @@ export default function CheckoutPage() {
     return (
         <>
             <h2 className='text-2xl font-semibold text-slate-700 text-center mt-8 sora'>
-                {data?.userData?.cart.length !== 0 ? 'Your Shopping cart' : 'Your cart is Empty :('}
+                {data?.userData?.cart.length !== 0 ? 'Your Shopping cart' : 'Your cart is Empty'}
             </h2>
+            {data?.userData?.cart.length === 0 && <img src={empty_cart} className='w-80 max-w-xs mx-auto mt-24' alt='cart'/>}
             <div className='relative'>
                 {/* {confirmMessage && <ConfirmOrder
                     close={() => setConfirmMessage(false)}

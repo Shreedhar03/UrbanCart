@@ -6,12 +6,30 @@ import { AppContext } from '../../App'
 import Navigation from './Navigation'
 import axios from 'axios'
 import AddProduct from './AddProduct'
+import TableRow from './TableRow'
 
 const ProductData = () => {
     const navigate = useNavigate()
-    const { currentTab, setCurrentTab, data, token } = useContext(AppContext)
-    const [products, setProducts] = useState([])
+    const { currentTab, setCurrentTab, data, token, products, fetchProducts } = useContext(AppContext)
+    const matchingResults = []
+    const [search, setSearch] = useState("")
+    const [searchVisible, setSearchVisible] = useState(false)
+    const [searchResults, setSearchResults] = useState([])
     const [sortAscending, setSortAscending] = useState(true)
+    const handleChange = (e) => {
+        setSearch(e.target.value)
+        for (const key in products) {
+            if (
+                ((products[key].title.toLowerCase()).includes(search.toLowerCase())
+                    || (products[key].brand.toLowerCase()).includes(search.toLowerCase())
+                    || (products[key].category.toLowerCase()).includes(search.toLowerCase()))
+            ) {
+                matchingResults.push(products[key])
+            }
+        }
+        setSearchResults(matchingResults)
+        setSearchVisible(true)
+    }
     const [details, setDetails] = useState({
         title: "",
         brand: "",
@@ -25,27 +43,23 @@ const ProductData = () => {
         images: ""
     })
     const [showEdit, setShowEdit] = useState(false)
-    const fetchData = async () => {
-        try {
-            let { data } = await axios.get('http://localhost:5000/allproducts')
-            console.log(data.products)
-            setProducts(data.products)
-        }
-        catch (err) {
-            console.log(err)
-        }
-    }
     const handleDelete = async (id) => {
         try {
             let { data } = await axios.delete(`http://localhost:5000/delete-product/${id}`)
             console.log(data)
             if (data.success) {
-                fetchData()
+                fetchProducts()
             }
         }
         catch (err) {
             console.log(err)
         }
+    }
+    const handleBlur = () => {
+        setTimeout(() => {
+            setSearchVisible(false)
+            setSearch("")
+        }, 500);
     }
     const handleEdit = (id, title, brand, category, gender, description, rating, price, discountPercentage, stock, images) => {
         setShowEdit(true)
@@ -54,7 +68,6 @@ const ProductData = () => {
         })
     }
     useEffect(() => {
-        fetchData();
         !token && navigate('/login')
         data?.userData?.role === "customer" && navigate('/')
     }, [])
@@ -71,8 +84,7 @@ const ProductData = () => {
                     <div className='flex items-center justify-between mb-4 flex-wrap gap-3'>
                         <h1 className='text-lg font-semibold'>Product Data</h1>
                         <div className='flex gap-1 flex-wrap'>
-                            <input type="text" className='px-4 py-[6px] focus:outline-none bg-gray-200 rounded-md' />
-                            <button type='button' className='px-4 py-[6px] rounded-md bg-[var(--secondary)]'>Search</button>
+                            <input type="text" name='search' autoComplete='off' placeholder='search' value={search} onChange={handleChange} onBlur={handleBlur} className='px-4 py-[6px] focus:outline-none bg-gray-200 rounded-md' />
                         </div>
                     </div>
                     <table>
@@ -84,32 +96,40 @@ const ProductData = () => {
                             <td className='px-2 xl:px-5 p-4 font-semibold'>Action</td>
 
                         </tr>
+                        {/* <tr><td className={`py-5 text-xl ${!loading && 'hidden'}`} colSpan={4}><center>Getting data...</center></td></tr> */}
+
                         {
-                            products?.sort((a, b) => { return sortAscending ? (a.stock - b.stock) : (b.stock - a.stock) }).map((ele, key) => {
-                                return (
-                                    <tr key={key} className='borer border-black'>
-                                        <td className='px-2 xl:px-5 py-3 border-b border-gray-300'>{key + 1}</td>
-                                        <td className='px-2 xl:px-5 py-3 border-b border-gray-300'><span className='text-gray-700 text-sm'>{ele.brand}</span><br /><span>{ele.title}</span></td>
-                                        <td className='px-2 xl:px-5 py-3 hidden md:table-cell border-b border-gray-300'>{ele.stock}</td>
-                                        <td className='px-2 xl:px-5 py-3  border-b border-gray-300'>
-                                            <div className='flex gap-4 items-center'>
-                                                <img className='w-6 h-6 cursor-pointer' onClick={() =>
-                                                    handleEdit(ele._id, ele.title, ele.brand, ele.category, ele.gender, ele.description, ele.rating, ele.price, ele.discountPercentage, ele.stock, ele.images)
-                                                } src={edit} alt="" />
-                                                <img className='w-5 h-5 cursor-pointer' onClick={() => handleDelete(ele._id)} src={bin} alt="" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                )
-                            })
+                            searchVisible ?
+
+                                searchResults.length === 0 ? <p className={`py-5`}>No data found...</p>
+                                    :
+                                    <>
+                                        {
+                                            searchResults?.sort((a, b) => { return sortAscending ? (a.stock - b.stock) : (b.stock - a.stock) }).map((ele, key) => {
+                                                return (
+                                                    <TableRow ele={ele} index={key + 1} edit={edit} bin={bin} handleEdit={handleEdit} handleDelete={handleDelete} />
+                                                )
+                                            })
+                                        }
+                                    </>
+                                :
+
+                                products?.sort((a, b) => { return sortAscending ? (a.stock - b.stock) : (b.stock - a.stock) }).map((ele, key) => {
+                                    return (
+                                        <TableRow ele={ele} index={key + 1} edit={edit} bin={bin} handleEdit={handleEdit} handleDelete={handleDelete} />
+                                    )
+                                })
+
+
+
                         }
                     </table>
                 </div>}
-            <div className='max-w-5xl mx-auto my-12'>
+            <div className='max-w-5xl mx-auto mt-4'>
                 {showEdit &&
                     <>
-                        <button className='text-3xl mb-6 mx-6 sm:mx-4 text-gray-600' onClick={() => setShowEdit(false)}>&larr;<span className='text-lg text-gray-600 ml-2'>Back</span></button>
-                        <AddProduct setShowEdit={setShowEdit} fetchData={fetchData} hide={true} id={details.id} title={details.title} brand={details.brand} category={details.category} gender={details.gender} description={details.description} rating={details.rating} price={details.price} discountPercentage={details.discountPercentage} stock={details.stock} images={details.images} />
+                        <button className='text-3xl mx-6 sm:mx-4 text-gray-600' onClick={() => setShowEdit(false)}>&larr;<span className='text-lg text-gray-600 ml-2'>Back</span></button>
+                        <AddProduct setShowEdit={setShowEdit} fetchData={fetchProducts} hide={true} id={details.id} title={details.title} brand={details.brand} category={details.category} gender={details.gender} description={details.description} rating={details.rating} price={details.price} discountPercentage={details.discountPercentage} stock={details.stock} images={details.images} />
                     </>
                 }
             </div>

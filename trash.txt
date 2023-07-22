@@ -150,3 +150,11 @@
 // const userModel = mongoose.model("users", userSchema);
 
 // module.exports = userModel;
+
+
+
+            {/* <ul className='flex flex-col md:flex-row items-end justify-center lg:gap-12 text-[16px]'>
+                            <li><a href="/" className='flex items-center gap-1'><span>Category</span><i className='bx bx-chevron-down'></i></a></li>
+                            <li><a href="/">Deals</a></li>
+                            <li><a href="/">What's New</a></li>
+                        </ul> */}

@@ -9,6 +9,7 @@ const OrderList = () => {
     const navigate = useNavigate()
     const { currentTab, setCurrentTab, data, token } = useContext(AppContext)
     const [orders, setOrders] = useState([])
+    const [loading,setLoading]=useState(true)
     const [orderTab, setOrderTab] = useState(1)
     const [orderDetail, setOrderDetail] = useState({
         id: "",
@@ -17,7 +18,7 @@ const OrderList = () => {
         cart: [],
         amountPaid: "",
         shippingAddress: {
-            title:"",
+            title: "",
             fName: "",
             lName: "",
             contact: "",
@@ -27,16 +28,17 @@ const OrderList = () => {
             area: "",
             city: "",
             state: "",
-            pin:""
+            pin: ""
         }
     })
-    const { title, fName, lName, contact, flatNo, building, landmark, area, city, state, pin } = orderDetail?.shippingAddress
+    const { title, fName, lName, contact, flatNo, building, landmark, area, city, state, pin } = orderDetail.shippingAddress
 
     const [seeDetails, setSeeDetails] = useState(false)
     const fetchData = async () => {
         const { data } = await axios.get('http://localhost:5000/admin/get-orders')
         if (data.success) {
             setOrders(data.order)
+            setLoading(false)
             console.log("data.order", data.order)
         }
     }
@@ -53,7 +55,7 @@ const OrderList = () => {
         }
     }
     const handleDetails = (id, date, status, cart, amountPaid, shippingAddress) => {
-        setOrderDetail({ id, date, status, cart, amountPaid, shippingAddress:shippingAddress[0] })
+        setOrderDetail({ id, date, status, cart, amountPaid, shippingAddress: shippingAddress[0] })
         setSeeDetails(true)
         console.log(id, "---", date, "---", status, "---", cart, "---", amountPaid, "----", shippingAddress[0])
     }
@@ -88,6 +90,8 @@ const OrderList = () => {
                             <td className='px-2 xl:px-5 p-4 hidden md:table-cell font-semibold'>Action</td>
 
                         </tr>
+                        <tr><td className={`py-5 text-xl ${!loading && 'hidden'}`} colSpan={6}><center>Getting data...</center></td></tr>
+
                         {
                             orders?.filter((ele) => {
                                 if (orderTab !== 1)
@@ -132,11 +136,11 @@ const OrderList = () => {
                             <span className='font-semibold'> {lName}</span>
                             <span>, {flatNo}</span>
                             <span>, {building}</span>
-                            <span>, near {landmark}</span><br/>
+                            <span>, near {landmark}</span><br />
                             <span>{area}</span>
                             <span>, {city}</span>
                             <span>, {state}</span>
-                            <span>, {pin}</span><br/>
+                            <span>, {pin}</span><br />
                             <span>Contact: {contact}</span>
 
                         </div>

@@ -2,7 +2,7 @@
 
                                     <div className="images flex overflow-scroll w-full h-[290px] rounded-t-2xl snap-x snap-mandatory">
                                         {ele.images.map((img, i) => {
-                                            return <img src={img} key={i} className='shrink-0 w-full h-full object-cover snap-center' alt='product'></img>
+                                            return <img src={img} key={i} className='shrink-0 w-full h-full  object-contain snap-center' alt='product'></img>
                                         })}
                                     </div>
 

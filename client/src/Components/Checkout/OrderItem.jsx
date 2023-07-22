@@ -12,7 +12,7 @@ const OrderItem = (props) => {
             <>
               <div key={key} className='flex justify-between sm:px-12'>
                 <div className='flex gap-3'>
-                  <img src={ele.product.images[0]} className='h-20 w-20 object-cover rounded-xl' alt="" />
+                  <img src={ele.product.images[0]} className='h-20 w-20  object-contain rounded-xl' alt="" />
                   <div>
                     <h2 className='text-xl text-black'>{ele.product.title}</h2>
                     <p className='text-sm text-gray-600'>Qty: {ele.quantity}</p>

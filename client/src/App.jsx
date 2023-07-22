@@ -11,13 +11,15 @@ import { createContext, useEffect, useState } from "react";
 import Profile from "./Components/Profile/Profile";
 import Orders from './Components/Checkout/Orders'
 import axios from "axios";
-import AdminPage from "./Components/Admin/AdminPage";
+import AdminPage from "./Components/Admin/Home";
 import UserInbox from "./Components/UserInbox";
 import AddProduct from "./Components/Admin/AddProduct";
 import OrderList from "./Components/Admin/OrderList";
 import ProductData from "./Components/Admin/ProductData";
 import Navbar from "./Components/Navbar";
 import PlaceOrder from "./Components/Checkout/PlaceOrder";
+import AllProducts from "./Components/AllProducts";
+import NotFound from "./Components/NotFound";
 
 export const AppContext = createContext();
 
@@ -27,7 +29,7 @@ function App() {
   const [order, setOrder] = useState([]);
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState(true)
-  const [currentTab, setCurrentTab] = useState(2)
+  const [currentTab, setCurrentTab] = useState(1)
   const [token, setToken] = useState(localStorage.getItem("authToken"))
 
   const fetchOrders = async (id) => {
@@ -43,36 +45,42 @@ function App() {
     }
   }
   const fetchData = async () => {
-    let res = await fetch('http://localhost:5000/user', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: localStorage.getItem("authToken") || null,
-      }
-    })
+    try {
 
-    const json = await res.json();
-    if (json.success) {
-      console.log(json)
-      fetchOrders(json.userData._id)
-      setData(json)
+      let res = await fetch('http://localhost:5000/user', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: localStorage.getItem("authToken") || null,
+        }
+      })
+
+      const json = await res.json();
+      if (json.success) {
+        console.log(json)
+        fetchOrders(json.userData._id)
+        setData(json)
+      }
+      else {
+        return (
+          <h1>Login</h1>
+        )
+      }
     }
-    else{
-      return(
-        <h1>Login</h1>
-      )
+    catch(err){
+      console.log(err)
     }
   }
   const fetchProducts = async () => {
     try {
-        let { data } = await axios.get('http://localhost:5000/allproducts')
-        console.log(data.products)
-        setProducts(data.products)
+      let { data } = await axios.get('http://localhost:5000/allproducts')
+      console.log(data.products)
+      setProducts(data.products)
     }
     catch (err) {
-        console.log(err)
+      console.log(err)
     }
-}
+  }
   useEffect(() => {
     fetchData()
     fetchProducts()
@@ -83,12 +91,13 @@ function App() {
   return (
     <>
 
-      <AppContext.Provider value={{products, currentTab, setCurrentTab, data, token, setToken, cart, setCart, order }}>
+      <AppContext.Provider value={{ products,fetchProducts, currentTab, setCurrentTab, data, token, setToken, cart, setCart, order }}>
         <BrowserRouter>
-        <Navbar />
+          <Navbar />
           <Routes>
 
             <Route element={<Home />} path="/"></Route>
+            <Route element={<AllProducts />} path="/latest"></Route>
             <Route element={<Login />} path="/login"></Route>
             <Route element={<Register />} path="/register"></Route>
             <Route element={<ProductInfo />} path="product/:product_id"></Route>
@@ -102,6 +111,7 @@ function App() {
             <Route element={<AddProduct />} path="/admin/add-product"></Route>
             <Route element={<ProductData />} path="/admin/product-data"></Route>
             <Route element={<PlaceOrder />} path="/place-order"></Route>
+            <Route element={<NotFound />} path="*"></Route>
           </Routes>
 
           <ToastContainer theme='dark' position='top-center' autoClose={1500} hideProgressBar={true} style={{ marginTop: '20px' }} />

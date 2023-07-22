@@ -7,11 +7,11 @@ const ProductCard = (props) => {
 
     return (
 
-        <div key={props.key} className='w-[300px] h-[320px] border border-slate-200 pb-4 rounded-2xl flex flex-col justify-between snap-center'>
+        <div key={props.key} className='w-[300px] h-[320px] border border-slate-100 shadow-inner shadow-slate-300 pb-4 rounded-2xl flex flex-col justify-between snap-center'>
 
-            <div className="images flex overflow-scroll w-[300px] h-[200px] rounded-t-2xl snap-x snap-mandatory">
+            <div className="images flex overflow-scroll w-[300px] h-[200px] mt-3 rounded-t-2xl snap-x snap-mandatory">
                 {props.ele.images.map((img, i) => {
-                    return <img src={img} key={i} className='shrink-0 w-full h-full object-cover snap-center' alt='product'></img>
+                    return <img src={img} key={i} className='shrink-0 w-full h-full  object-contain snap-center' alt='product'></img>
                 })}
             </div>
 

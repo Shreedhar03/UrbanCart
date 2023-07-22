@@ -142,7 +142,7 @@ router.put('/set-address/:userID', async (req, res) => {
                     addr.selected = false
             })
             await user.save()
-            res.json({ success: true, selectedAddr: user.address[selectedAddr] })
+            res.json({ success: true,isSet:true, selectedAddr: user.address[selectedAddr] })
         }
     }
     catch (err) {
@@ -293,16 +293,24 @@ router.put('/add/:user_id/:product_id', async (req, res) => {
         let user = await userModel.findById(user_id);
         let initialProduct = await productModel.findById(product_id)
         let product = user.cart.find((p) => p.product._id == product_id);
-        console.log("product=", product)
+
         if (product) {
-            product.quantity += 1;
+            console.log(product.quantity , "-----" , initialProduct.stock)
+            if (product.quantity >= initialProduct.stock) {
+                return res.status(201).json({ success: true, outOfStock: true, stock: initialProduct.stock, message: "Maximum quantity" });
+            }
+            else{
+                product.quantity += 1;
+                // initialProduct.stock-=1
+            }
             // console.log("Product quantity: ", product.quantity);
         } else {
             user.cart.push({ product: initialProduct, quantity: 1 });
         }
+        // console.log("product=", product)
 
         await user.save();
-        return res.status(201).json({ success: true, message: "Added" });
+        return res.status(201).json({ success: true, outOfStock: false, stock: initialProduct.stock, message: "Added" });
     } catch (err) {
         return res.json({ err: err.message });
     }
@@ -316,11 +324,12 @@ router.put('/remove/:user_id/:product_id', async (req, res) => {
     let user = await userModel.findById(user_id)
     let productIndex = user.cart.findIndex(product => product.product._id == product_id)
     console.log(productIndex)
-    if (user.cart[productIndex].quantity === 1) {
+    if (user?.cart[productIndex]?.quantity === 1) {
         user.cart.splice(productIndex, 1);
     }
     else {
         user.cart[productIndex].quantity -= 1
+
     }
     await user.save();
     return res.status(201).json({ success: true, message: "Removed" });
@@ -350,7 +359,7 @@ router.post('/order/:userID', async (req, res) => {
     let { cart, amountPaid, name, shippingAddress } = req.body
 
     try {
-        console.log("shippingAddress",shippingAddress)
+        console.log("shippingAddress", shippingAddress)
         const newOrder = new orderModel({
             userID,
             name,

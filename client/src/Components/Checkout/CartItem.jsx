@@ -9,7 +9,7 @@ export default function CartItem(props) {
             <section className="max-w-3xl flex bg-gray-100 p-4 flex-col sm:flex-row items-center justify-between sm:gap-12 sm:pr-6 rounded-xl">
 
                 <div className="flex flex-col sm:flex-row sm:items-center gap-6 w-full">
-                    <img src={props.image} className='w-full h-32 sm:w-24 sm:h-24 object-cover rounded-lg' alt="" />
+                    <img src={props.image} className='w-full h-32 sm:w-24 sm:h-24  object-contain rounded-lg' alt="" />
                     <div>
                     <h2 className='sm:mx-0 text-xl font-semibold self-start sm:self-center mx-6'>{props.title}</h2>
                     <div className='sm:mx-0 flex sm:items-center self-start sm:self-center mx-6 gap-8 mt-4 w-full'>

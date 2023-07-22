@@ -10,7 +10,7 @@ export default function Quantity(props) {
                     <p type="text" id={props.quantity} className='bg-slate-200 text-2xl focus:outline-none'>{props.quantity}</p>
                     <button className='text-2xl px-4' onClick={props.increaseQty}>+</button>
                 </div>
-                    <p className='message text-md text-red-400'>{props.quantity === 5 && 'Maximum quantity'}</p>
+                    <p className='message text-md text-red-400'>{(props.message || props.quantity===5) && 'Maximum quantity'}</p>
             </div>
 
         </>

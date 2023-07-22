@@ -1,13 +1,16 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../../App'
 import { useNavigate } from 'react-router-dom'
 import delivered from '../../assets/delivered.svg'
 import checked from '../../assets/checked.svg'
 import AddressForm from './AddressForm'
 import axios from 'axios'
+import moment from 'moment'
 
 const PlaceOrder = () => {
     const [addAddress, setAddAddress] = useState(false)
+    const [deliveryDate, setDeliveryDate] = useState()
+    const [addressSelected, setAddressSelected] = useState(false)
     const nav = useNavigate()
     const { token, data, cart, setCart } = useContext(AppContext)
     const [address, setAddress] = useState({
@@ -26,24 +29,12 @@ const PlaceOrder = () => {
     const handleChange = (e) => {
         setAddress({ ...address, [e.target.name]: e.target.value })
     }
-    const addNewAddress = async (e) => {
-        e.preventDefault()
+    const addNewAddress = async () => {
         try {
             let res = await axios.put(`http://localhost:5000/add-address/${data.userData._id}`, { address })
             if (res.data.success) {
                 console.log(res.data)
                 setAddAddress(false)
-            }
-        }
-        catch (err) {
-            console.log(err)
-        }
-    }
-    const handleAddressess = async (address, toBeDeleted) => {
-        try {
-            let res = await axios.put(`http://localhost:5000/set-address/${data.userData._id}`, { address, toBeDeleted })
-            if (res.data.success) {
-                console.log(res.data)
                 setCart(!cart)
             }
         }
@@ -51,8 +42,24 @@ const PlaceOrder = () => {
             console.log(err)
         }
     }
-    if (!token || data?.userData?.cart.length === 0) {
-        return (nav('/login'))
+    const setAndDeleteAddress = async (address, toBeDeleted) => {
+        try {
+            if(toBeDeleted){
+                setAddressSelected(false)
+            }
+            let res = await axios.put(`http://localhost:5000/set-address/${data.userData._id}`, { address, toBeDeleted })
+            if (res.data.success) {
+                console.log(res.data)
+                setCart(!cart)
+                if (res.data.isSet) {
+                    setAddressSelected(true)
+                }
+                
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
     const totalPrice = () => {
         let total = 0
@@ -77,6 +84,10 @@ const PlaceOrder = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault()
+        if (!addressSelected){
+            // alert("select address")
+            return
+        }
         try {
             let res = await axios.post(`http://localhost:5000/order/${data?.userData?._id}`,
                 {
@@ -97,25 +108,32 @@ const PlaceOrder = () => {
             console.log("error", err.message)
         }
     }
+    useEffect(() => {
+        const today = moment()
+        setDeliveryDate(today.add(2, "days").format("ddd, MMMM D, YYYY"))
+    })
+    if (!token || data?.userData?.cart.length === 0) {
+        return (nav('/login'))
+    }
     return (
         <>
-            <form className='bg-gray-50 max-w-6xl p-12 mx-4 sm:mx-auto flex justify-between gap-8 mt-6'>
+            <div className='bg-gray-50 flex-col md:flex-row max-w-6xl p-4 sm:p-12 mx-4 sm:mx-auto flex justify-between gap-14 md:gap-0 lg:gap-8 mt-6'>
                 {
                     addAddress ?
                         <AddressForm address={address} handleSubmit={addNewAddress} handleChange={handleChange} setAddAddress={setAddAddress} />
                         :
                         // List of Shipping addresses //
 
-                        <section className=' w-7/12'>
+                        <div className=' md:w-7/12' onSubmit={handleSubmit}>
                             <h1 className='text-lg font-semibold'>Select Delivery Address</h1>
                             <div className='flex flex-wrap gap-6 mt-4'>
                                 {
                                     data?.userData?.address?.map((addr, key) => {
                                         return (
                                             <>
-                                                <input type="radio" name="check" id={key} className='hidden' required/>
+                                                <input type="radio" name="check" id={key} className='hidden' required />
                                                 <label htmlFor={key} key={key} className='bg-gray-100 p-6 rounded-lg relative'>
-                                                    <button type='button' className='font-semibold' onClick={() => handleAddressess(addr, null)}>{addr.title}</button>
+                                                    <button type='button' className='font-semibold' onClick={() => setAndDeleteAddress(addr, null)}>{addr.title}</button>
                                                     <p className='mt-3'>{addr.fName} {addr.lName}</p>
                                                     <div className='text-sm text-gray-500'>
                                                         <p>{addr.user}</p>
@@ -125,13 +143,13 @@ const PlaceOrder = () => {
                                                         <p>{addr.state}</p>
                                                         <p className='mt-3 font-semibold text-black'>Contact - {addr.contact}</p>
                                                         <div className='mt-4 flex gap-3'>
-                                                            {/* <button className='text-gray-800' onClick={()=>handleAddressess(addr,false)}>Edit</button> */}
-                                                            <button className='text-gray-800' onClick={() => handleAddressess(addr, true)}>Remove</button>
+                                                            {/* <button className='text-gray-800' onClick={()=>setAndDeleteAddress(addr,false)}>Edit</button> */}
+                                                            <button className='text-gray-800' onClick={() => setAndDeleteAddress(addr, true)}>Remove</button>
                                                         </div>
                                                     </div>
                                                     {/* <p className='absolute top-2 right-2 h-3 w-3 bg-green-500 rounded-full'></p> */}
 
-                                                    {addr.selected && <img src={checked} alt="" className='absolute top-2 right-2 h-6 w-6' />}
+                                                    {(addr.selected&&addressSelected) && <img src={checked} alt="" className='absolute top-2 right-2 h-6 w-6' />}
 
                                                 </label>
                                             </>
@@ -144,10 +162,10 @@ const PlaceOrder = () => {
                                     <h2 className='text-sm text-gray-500'>Add new address</h2>
                                 </div>
                             </div>
-                        </section>
+                        </div>
 
                 }
-                <section className='border-l-2 border-gray-200 w-5/12 pl-12'>
+                <section className='md:border-l-2 border-gray-200 md:w-5/12 lg:pl-12'>
                     <div className='flex flex-col max-w-[85%] mx-auto'>
                         <h1 className='text-lg font-semibold text-gray-800'>Order Summary</h1>
                         <div className='bg-geen-300 mt-4'>
@@ -165,17 +183,18 @@ const PlaceOrder = () => {
                             <img src={delivered} className='w-10' alt="delivery" />
                             <div className='flex flex-col'>
                                 <p className=' underline underline-offset-2'>Standard Delivery</p>
-                                <p className=' text-sm text-gray-500'>Expected on Jul 26, 2023</p>
+                                <p className=' text-sm text-gray-500'>{deliveryDate}</p>
                             </div>
                         </div>
                         <div className='mt-6'>
                             <p className='float-left'>Total Payable</p>
                             <p className='float-right'>&#8377;{totalPrice()}</p>
                         </div>
-                        <button className='text-sm bg-[var(--secondary)] py-2 rounded-md' type='submit' onClick={handleSubmit}>Place Order</button>
+                        <button className='text-sm bg-[var(--secondary)] py-2 rounded-md' onClick={handleSubmit}>Place Order</button>
+                        {!addressSelected && <p className='self-center text-red-500'>Please select the delivery address</p>}
                     </div>
                 </section>
-            </form>
+            </div>
         </>
     )
 }
