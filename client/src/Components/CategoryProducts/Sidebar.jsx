@@ -28,20 +28,7 @@ const Sidebar = (props) => {
             <button onClick={(e) => props.setFilters(e.target.value, null, null)} value='50' className={`px-2 py-1 cursor-pointer ${props.filters.discount.percent == 50 && 'bg-slate-300 rounded-lg text-black'}`}>50% Off or more</button>
             <button onClick={(e) => props.setFilters(e.target.value, null, null)} value='60' className={`px-2 py-1 cursor-pointer ${props.filters.discount.percent == 60 && 'bg-slate-300 rounded-lg text-black'}`}>60% Off or more</button>
           </div>
-          <div className='flex flex-col gap-2 items-start'>
-            <button onClick={(e) => props.setFilters(e.target.value, null, null)} value='0' className={`px-2 py-1 cursor-pointer  ${props.filters.discount.percent == 0 && 'bg-slate-300 rounded-lg text-black'}`}>All</button>
-            <button onClick={(e) => props.setFilters(e.target.value, null, null)} value='10' className={`px-2 py-1 cursor-pointer ${props.filters.discount.percent == 10 && 'bg-slate-300 rounded-lg text-black'}`}>10% Off or more</button>
-            <button onClick={(e) => props.setFilters(e.target.value, null, null)} value='25' className={`px-2 py-1 cursor-pointer ${props.filters.discount.percent == 25 && 'bg-slate-300 rounded-lg text-black'}`}>25% Off or more</button>
-            <button onClick={(e) => props.setFilters(e.target.value, null, null)} value='50' className={`px-2 py-1 cursor-pointer ${props.filters.discount.percent == 50 && 'bg-slate-300 rounded-lg text-black'}`}>50% Off or more</button>
-            <button onClick={(e) => props.setFilters(e.target.value, null, null)} value='60' className={`px-2 py-1 cursor-pointer ${props.filters.discount.percent == 60 && 'bg-slate-300 rounded-lg text-black'}`}>60% Off or more</button>
-          </div>
-          <div className='flex flex-col gap-2 items-start'>
-            <button onClick={(e) => props.setFilters(e.target.value, null, null)} value='0' className={`px-2 py-1 cursor-pointer  ${props.filters.discount.percent == 0 && 'bg-slate-300 rounded-lg text-black'}`}>All</button>
-            <button onClick={(e) => props.setFilters(e.target.value, null, null)} value='10' className={`px-2 py-1 cursor-pointer ${props.filters.discount.percent == 10 && 'bg-slate-300 rounded-lg text-black'}`}>10% Off or more</button>
-            <button onClick={(e) => props.setFilters(e.target.value, null, null)} value='25' className={`px-2 py-1 cursor-pointer ${props.filters.discount.percent == 25 && 'bg-slate-300 rounded-lg text-black'}`}>25% Off or more</button>
-            <button onClick={(e) => props.setFilters(e.target.value, null, null)} value='50' className={`px-2 py-1 cursor-pointer ${props.filters.discount.percent == 50 && 'bg-slate-300 rounded-lg text-black'}`}>50% Off or more</button>
-            <button onClick={(e) => props.setFilters(e.target.value, null, null)} value='60' className={`px-2 py-1 cursor-pointer ${props.filters.discount.percent == 60 && 'bg-slate-300 rounded-lg text-black'}`}>60% Off or more</button>
-          </div>
+          
         </div>
       </div>
     </div>
