@@ -20,7 +20,7 @@ const UpdateInfo = () => {
     const updateData = async (e,id) => {
         e.preventDefault();
         try {
-            let res = await axios.put(`http://localhost:5000/update-password/${id}`, credentials)
+            let res = await axios.put(`/update-password/${id}`, credentials)
             console.log(res.data)
             if(res.data.success){
                 setMessage(null)

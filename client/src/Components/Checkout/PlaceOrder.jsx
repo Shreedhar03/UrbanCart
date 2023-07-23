@@ -31,7 +31,7 @@ const PlaceOrder = () => {
     }
     const addNewAddress = async () => {
         try {
-            let res = await axios.put(`http://localhost:5000/add-address/${data.userData._id}`, { address })
+            let res = await axios.put(`/add-address/${data.userData._id}`, { address })
             if (res.data.success) {
                 console.log(res.data)
                 setAddAddress(false)
@@ -47,7 +47,7 @@ const PlaceOrder = () => {
             if(toBeDeleted){
                 setAddressSelected(false)
             }
-            let res = await axios.put(`http://localhost:5000/set-address/${data.userData._id}`, { address, toBeDeleted })
+            let res = await axios.put(`/set-address/${data.userData._id}`, { address, toBeDeleted })
             if (res.data.success) {
                 console.log(res.data)
                 setCart(!cart)
@@ -70,7 +70,7 @@ const PlaceOrder = () => {
     }
     const clearCart = async () => {
         try {
-            let res = await axios.put(`http://localhost:5000/delete-cart/${data.userData._id}`)
+            let res = await axios.put(`/delete-cart/${data.userData._id}`)
             if (res.data.success) {
                 console.log("cart cleared")
                 console.log(res.data)
@@ -89,7 +89,7 @@ const PlaceOrder = () => {
             return
         }
         try {
-            let res = await axios.post(`http://localhost:5000/order/${data?.userData?._id}`,
+            let res = await axios.post(`/order/${data?.userData?._id}`,
                 {
                     cart: data.userData.cart,
                     name: data.userData.name,

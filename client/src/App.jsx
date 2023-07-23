@@ -34,7 +34,7 @@ function App() {
 
   const fetchOrders = async (id) => {
     try {
-      let res = await axios.get(`http://localhost:5000/get-orders/${id}`)
+      let res = await axios.get(`/get-orders/${id}`)
       if (res.data.success) {
         setOrder(res.data.order)
       }
@@ -47,7 +47,7 @@ function App() {
   const fetchData = async () => {
     try {
 
-      let res = await fetch('http://localhost:5000/user', {
+      let res = await fetch('/user', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ function App() {
   }
   const fetchProducts = async () => {
     try {
-      let { data } = await axios.get('http://localhost:5000/allproducts')
+      let { data } = await axios.get('/allproducts')
       console.log(data.products)
       setProducts(data.products)
     }

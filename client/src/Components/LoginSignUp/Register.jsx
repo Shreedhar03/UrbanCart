@@ -38,7 +38,7 @@ export default function Register() {
         try {
             if (credentials.password === credentials.confirmPassword) {
                 setPasswordMatch(true)
-                let res = await axios.post('http://localhost:5000/register', credentials)
+                let res = await axios.post('/register', credentials)
                 console.log(res.data)
                 setUserExists(res.data.userIsPresent)
                 if (res.data.success) {

@@ -15,7 +15,7 @@ const UserInfo = () => {
 
         try {
             console.log(id)
-            let res = await axios.delete(`http://localhost:5000/delete/${id}`)
+            let res = await axios.delete(`/delete/${id}`)
             navigate('/')
             setToken(null)
             console.log(res.data.message)

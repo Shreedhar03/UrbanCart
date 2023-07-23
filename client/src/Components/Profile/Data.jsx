@@ -17,7 +17,7 @@ const Data = (props) => {
     const updateData = async (e, field, id) => {
         e.preventDefault();
         try {
-            let res = await axios.put(`http://localhost:5000/update-${field}/${id}`, { field: update })
+            let res = await axios.put(`/update-${field}/${id}`, { field: update })
             console.log(res.data.message)
             notify(res.data.message)
             if (res.data.success) {

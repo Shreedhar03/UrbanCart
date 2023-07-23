@@ -22,7 +22,7 @@ const AddProduct = (props) => {
         e.preventDefault()
         try {
             console.log(productInfo)
-            let { data } = await axios.post("http://localhost:5000/admin/add-product", { productInfo, existingProduct: id })
+            let { data } = await axios.post("/admin/add-product", { productInfo, existingProduct: id })
             if (data.success) {
                 console.log(data)
                 if (props.title) {

@@ -38,7 +38,7 @@ const Products = (props) => {
     const fetchData = async () => {
         try {
             let category = window.location.href.split("/").slice(-1)
-            let response = await axios.get(`http://localhost:5000/category/${category}`)
+            let response = await axios.get(`/category/${category}`)
             console.log("response.data Category = ", response.data)
             setCategoryData(response.data)
             setTimeout(() => {

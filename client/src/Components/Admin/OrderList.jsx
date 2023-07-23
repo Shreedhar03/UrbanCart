@@ -35,7 +35,7 @@ const OrderList = () => {
 
     const [seeDetails, setSeeDetails] = useState(false)
     const fetchData = async () => {
-        const { data } = await axios.get('http://localhost:5000/admin/get-orders')
+        const { data } = await axios.get('/admin/get-orders')
         if (data.success) {
             setOrders(data.order)
             setLoading(false)
@@ -44,7 +44,7 @@ const OrderList = () => {
     }
     const handleComplete = async (user, id) => {
         try {
-            let { data } = await axios.put(`http://localhost:5000/admin/edit-order/${user}/${id}`)
+            let { data } = await axios.put(`/admin/edit-order/${user}/${id}`)
             if (data.success) {
                 console.log("data", data)
                 fetchData()

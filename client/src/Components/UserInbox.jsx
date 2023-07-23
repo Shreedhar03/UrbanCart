@@ -10,7 +10,7 @@ const UserInbox = () => {
     const navigate = useNavigate()
     const markAsRead = async () => {
         try {
-            await axios.put(`http://localhost:5000/mark-as-read/${data?.userData?._id}`)
+            await axios.put(`/mark-as-read/${data?.userData?._id}`)
             setCart(!cart)
         }
         catch (err) {

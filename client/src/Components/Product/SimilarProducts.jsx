@@ -19,7 +19,7 @@ const SimilarProducts = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try{
-        let res = await axios.get(`http://localhost:5000/category/${category}`)
+        let res = await axios.get(`/category/${category}`)
         setData(res.data)
       }
       catch(err){

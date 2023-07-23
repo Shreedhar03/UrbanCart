@@ -19,7 +19,7 @@ export default function ProductInfo() {
     let id = window.location.href.split("/").slice(-1)
     const fetchData = async () => {
         try {
-            let response = await axios.get(`http://localhost:5000/product/${id}`)
+            let response = await axios.get(`/product/${id}`)
             window.scrollTo(0, 0)
             console.log("stock", stock)
             setProductData(response.data)
@@ -33,7 +33,7 @@ export default function ProductInfo() {
 
         try {
             if (token) {
-                let res = await axios.put(`http://localhost:5000/add/${data.userData._id}/${id}`)
+                let res = await axios.put(`/add/${data.userData._id}/${id}`)
                 if (res.data.success) {
                     setStock(res.data.stock)
                     console.log(res.data)
@@ -57,7 +57,7 @@ export default function ProductInfo() {
 
         try {
             if (token) {
-                let res = await axios.put(`http://localhost:5000/remove/${data.userData._id}/${id}`)
+                let res = await axios.put(`/remove/${data.userData._id}/${id}`)
                 if (res.data.success) {
                     // setButton("Added")
                     console.log(res.data)
