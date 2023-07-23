@@ -20,6 +20,28 @@ router.get('/deleteusers', (req, res) => {
     })
 })
 
+// dollar to rupees
+
+router.put('/dollar-rupees', async (req, res) => {
+    let products = await productModel.find({})
+    products.forEach(async p => {
+        p.price = p.price * 82
+        await p.save()
+    })
+    res.send(products)
+})
+// rupees/82
+
+router.put('/rupees', async (req, res) => {
+    let products = await productModel.find({}).sort({price:-1})
+    products.slice(0,19).forEach(async p => {
+        p.price = p.price/82
+        await p.save()
+    })
+    res.send((products.slice(0,19)))
+})
+
+
 // get all products
 
 router.get('/allproducts', async (req, res) => {
@@ -39,7 +61,7 @@ router.get('/category/:id', async (req, res) => {
     try {
         const data = await productModel.find({
             category: { $regex: new RegExp(id, 'i') },
-        }).exec();
+        }).sort({ createdAt: -1 }).exec();
 
         res.status(200).json(data)
 
@@ -142,7 +164,7 @@ router.put('/set-address/:userID', async (req, res) => {
                     addr.selected = false
             })
             await user.save()
-            res.json({ success: true,isSet:true, selectedAddr: user.address[selectedAddr] })
+            res.json({ success: true, isSet: true, selectedAddr: user.address[selectedAddr] })
         }
     }
     catch (err) {
@@ -183,18 +205,19 @@ const verifyToken = (req, res, next) => {
     const token = req.headers['authorization'];
 
     if (!token) {
-        return res.status(401).json({ success: false, error: 'Unauthorized' });
+        return res.status(400).json({ success: false, error: 'Unauthorized' });
     }
 
     jwt.verify(token, process.env.SECRET, (err, decoded) => {
         if (err) {
-            return res.status(401).json({ error: 'Invalid token', success: false });
+            return res.json({ success: false })
         }
 
         userModel.findOne({ _id: decoded.userID })
             .then(userData => {
                 if (userData) {
                     req.user = userData
+                    req.success = true
                     // console.log("userData = ", userData)
                     next();
                 }
@@ -208,7 +231,7 @@ const verifyToken = (req, res, next) => {
 
 // Get user data
 router.get('/user', verifyToken, (req, res) => {
-    res.json({ userData: req.user, success: true })
+    res.json({ userData: req.user, success: req.success })
 })
 
 // Delete User
@@ -295,11 +318,11 @@ router.put('/add/:user_id/:product_id', async (req, res) => {
         let product = user.cart.find((p) => p.product._id == product_id);
 
         if (product) {
-            console.log(product.quantity , "-----" , initialProduct.stock)
+            console.log(product.quantity, "-----", initialProduct.stock)
             if (product.quantity >= initialProduct.stock) {
                 return res.status(201).json({ success: true, outOfStock: true, stock: initialProduct.stock, message: "Maximum quantity" });
             }
-            else{
+            else {
                 product.quantity += 1;
                 // initialProduct.stock-=1
             }

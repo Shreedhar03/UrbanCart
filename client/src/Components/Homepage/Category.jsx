@@ -20,7 +20,7 @@ export default function Category() {
         <>
             <div className="flex flex-col max-w-[90%]  mx-auto gap-8 py-12">
                 <h3 className='text-2xl font-semibold'>Shop Our Top Categories</h3>
-                <section className='flex overflow-scroll lg:flex-wrap gap-8'>
+                <section className='flex overflow-scroll lg:flex-wrap gap-8 snap-mandatory snap-x'>
                     <ProductCategory src={images[5]} search="watches" category="Watches" />
                     <ProductCategory src={images[0]} search="furniture" category="Furniture" />
                     <ProductCategory src={images[1]} search="appliances" category="Appliances" />

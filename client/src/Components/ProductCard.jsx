@@ -11,7 +11,7 @@ const ProductCard = (props) => {
 
             <div className="images flex overflow-scroll w-[300px] h-[200px] mt-3 rounded-t-2xl snap-x snap-mandatory">
                 {props.ele.images.map((img, i) => {
-                    return <img src={img} key={i} className='shrink-0 w-full h-full  object-contain snap-center' alt='product'></img>
+                    return <img src={img} key={i} className='shrink-0 w-full h-full object-contain snap-center' alt='product'></img>
                 })}
             </div>
 
@@ -22,7 +22,7 @@ const ProductCard = (props) => {
                         <p className='text-lg font-semibold'>{props.ele.title}</p>
                         <div className='flex gap-2 items-center mt-2'>
                             <p className='text-lg font-semibold'>&#8377;{(props.ele.price  - props.ele.price  * props.ele.discountPercentage / 100).toFixed(2)}</p>
-                            <p className='text-sm text-gray-600'>|⭐ {props.ele.rating}</p>
+                            <p className='text-sm text-gray-600 border-l-2 pl-1'>⭐ {props.ele.rating}</p>
                         </div>
                     </div>
                 </div>

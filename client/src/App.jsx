@@ -56,19 +56,20 @@ function App() {
       })
 
       const json = await res.json();
+      console.log("success ============== " , json.success)
       if (json.success) {
         console.log(json)
         fetchOrders(json.userData._id)
         setData(json)
       }
-      else {
-        return (
-          <h1>Login</h1>
-        )
+      else{
+        setToken(null)
+        localStorage.removeItem("authToken")
       }
     }
     catch(err){
-      console.log(err)
+      console.log("err=",err)
+      setToken(null)
     }
   }
   const fetchProducts = async () => {
@@ -111,7 +112,7 @@ function App() {
             <Route element={<AddProduct />} path="/admin/add-product"></Route>
             <Route element={<ProductData />} path="/admin/product-data"></Route>
             <Route element={<PlaceOrder />} path="/place-order"></Route>
-            <Route element={<NotFound />} path="*"></Route>
+            <Route element={<NotFound message="Page Not Found !"/>} path="*"></Route>
           </Routes>
 
           <ToastContainer theme='dark' position='top-center' autoClose={1500} hideProgressBar={true} style={{ marginTop: '20px' }} />

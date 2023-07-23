@@ -65,11 +65,11 @@ export default function Register() {
     return (
         <>
 
-            <section className="flex items-center justify-evenly flex-wrap h-[90.7vh] w-screen bg-[var(--primary)]">
+            <section className="flex items-center justify-evenly flex-wrap h-[calc(100vh-116px)] lg:h-[calc(100vh-68px)] w-screen bg-[var(--primary)]">
 
                 <img src={register} alt="image_login" className='w-[400px] hidden lg:block' />
 
-                <div className="flex flex-col items-center gap-8 bg-[var(--primary)] text-white rounded-lg w-[330px] sm:w-[400px] xl:w-[520px]">
+                <div className="flex flex-col items-center mb-12 lg:mb-0 gap-8 bg-[var(--primary)] text-white rounded-lg w-[330px] sm:w-[400px] xl:w-[520px]">
                     {/* <p className="logo text-2xl sora font-semibold cursor-pointer" onClick={() => navigate('/')}>UrbanCart<span className='text-[var(--secondary)] ml-1 font-extrabold'>.</span></p> */}
                     <h1 className="text-2xl text-center text-[var(--secondary)]">Create Account</h1>
                     <form className='flex flex-col gap-6 w-[90%] xl:w-[65%] sm:w-[75%] items-cener' onSubmit={handleSubmit}>
