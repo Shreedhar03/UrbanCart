@@ -47,7 +47,7 @@ export default function Navbar() {
             </div>
 
             <div className='flex gap-2 sm:gap-6'>
-                <i class='bx bx-menu text-3xl cursor-pointer md:hidden'></i>
+                {/* <i class='bx bx-menu text-3xl cursor-pointer md:hidden'></i> */}
                 <form name='searchForm' className='flex self-center relative' onSubmit={handleSubmit}>
                     <input type="text" name='search' onFocus={() => setSearchVisible(true)} onBlur={handleBlur} value={search} onChange={handleChange} placeholder='try watches' id='search' className='w-48 sm:w-48 lg:w-64 text-lg py-1 px-4 focus:outline-none bg-[#405669] rounded-l-xl' autoComplete='off' />
                     <button type="submit" name='submit' id='submit' className='text-xl px-4 flex items-center rounded-r-xl bg-[#405669]'><i className='bx bx-search'></i></button>
