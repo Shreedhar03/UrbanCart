@@ -16,7 +16,7 @@ export default function ProductInfo() {
     const navigate = useNavigate()
     const location = useLocation()
 
-    let id = window.location.href.split("/").slice(-1)
+    let id = window.location.href.split("/").slice(-1)[0]
     const fetchData = async () => {
         try {
             let response = await axios.get(`/product/${id}`)
