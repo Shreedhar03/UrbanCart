@@ -22,7 +22,7 @@ export default function CheckoutPage() {
     }
     
     const handleDelete = async (_id) => {
-        let res = await axios.put(`/edit-cart/${data.userData._id}/${_id}`)
+        let res = await axios.put(`${process.env.REACT_APP_ORIGIN}edit-cart/${data.userData._id}/${_id}`)
         console.log(res.data)
         setCart(!cart)
     }

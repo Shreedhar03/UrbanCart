@@ -47,7 +47,7 @@ const ProductData = () => {
     const [showEdit, setShowEdit] = useState(false)
     const handleDelete = async (id) => {
         try {
-            let { data } = await axios.delete(`/delete-product/${id}`)
+            let { data } = await axios.delete(`${process.env.REACT_APP_ORIGIN}delete-product/${id}`)
             console.log(data)
             if (data.success) {
                 fetchProducts()

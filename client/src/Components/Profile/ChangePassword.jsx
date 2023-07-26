@@ -20,7 +20,7 @@ const UpdateInfo = () => {
     const updateData = async (e,id) => {
         e.preventDefault();
         try {
-            let res = await axios.put(`/update-password/${id}`, credentials)
+            let res = await axios.put(`${process.env.REACT_APP_ORIGIN}update-password/${id}`, credentials)
             console.log(res.data)
             if(res.data.success){
                 setMessage(null)

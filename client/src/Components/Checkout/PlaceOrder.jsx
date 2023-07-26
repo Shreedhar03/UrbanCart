@@ -31,7 +31,7 @@ const PlaceOrder = () => {
     }
     const addNewAddress = async () => {
         try {
-            let res = await axios.put(`/add-address/${data.userData._id}`, { address })
+            let res = await axios.put(`${process.env.REACT_APP_ORIGIN}add-address/${data.userData._id}`, { address })
             if (res.data.success) {
                 console.log(res.data)
                 setAddAddress(false)
@@ -44,17 +44,17 @@ const PlaceOrder = () => {
     }
     const setAndDeleteAddress = async (address, toBeDeleted) => {
         try {
-            if(toBeDeleted){
+            if (toBeDeleted) {
                 setAddressSelected(false)
             }
-            let res = await axios.put(`/set-address/${data.userData._id}`, { address, toBeDeleted })
+            let res = await axios.put(`${process.env.REACT_APP_ORIGIN}set-address/${data.userData._id}`, { address, toBeDeleted })
             if (res.data.success) {
                 console.log(res.data)
                 setCart(!cart)
                 if (res.data.isSet) {
                     setAddressSelected(true)
                 }
-                
+
             }
         }
         catch (err) {
@@ -70,7 +70,7 @@ const PlaceOrder = () => {
     }
     const clearCart = async () => {
         try {
-            let res = await axios.put(`/delete-cart/${data.userData._id}`)
+            let res = await axios.put(`${process.env.REACT_APP_ORIGIN}delete-cart/${data.userData._id}`)
             if (res.data.success) {
                 console.log("cart cleared")
                 console.log(res.data)
@@ -84,12 +84,12 @@ const PlaceOrder = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault()
-        if (!addressSelected){
+        if (!addressSelected) {
             // alert("select address")
             return
         }
         try {
-            let res = await axios.post(`/order/${data?.userData?._id}`,
+            let res = await axios.post(`${process.env.REACT_APP_ORIGIN}order/${data?.userData?._id}`,
                 {
                     cart: data.userData.cart,
                     name: data.userData.name,
@@ -133,7 +133,7 @@ const PlaceOrder = () => {
                                             <>
                                                 <input type="radio" name="check" id={key} className='hidden' required />
                                                 <label htmlFor={key} key={key} className='bg-gray-100 p-6 rounded-lg relative'>
-                                                    <button type='button' className='font-semibold' onClick={() => setAndDeleteAddress(addr, null)}>{addr.title}</button>
+                                                    <button type='button' className='font-semibold'>{addr.title}</button>
                                                     <p className='mt-3'>{addr.fName} {addr.lName}</p>
                                                     <div className='text-sm text-gray-500'>
                                                         <p>{addr.user}</p>
@@ -149,7 +149,9 @@ const PlaceOrder = () => {
                                                     </div>
                                                     {/* <p className='absolute top-2 right-2 h-3 w-3 bg-green-500 rounded-full'></p> */}
 
-                                                    {(addr.selected&&addressSelected) && <img src={checked} alt="" className='absolute top-2 right-2 h-6 w-6' />}
+                                                    <button onClick={() => setAndDeleteAddress(addr, null)}>
+                                                        {(addr.selected && addressSelected) ? <img src={checked} alt="" className='absolute top-2 right-2 h-6 w-6' /> : <p className='absolute top-2 right-2 h-6 w-6 border border-slate-200 shadow-inner rounded-full shadow-slate-300'></p>}
+                                                    </button>
 
                                                 </label>
                                             </>

@@ -16,10 +16,10 @@ export default function ProductInfo() {
     const navigate = useNavigate()
     const location = useLocation()
 
-    let id = window.location.href.split("/").slice(-1)
+    let id = window.location.href.split("/").slice(-1)[0]
     const fetchData = async () => {
         try {
-            let response = await axios.get(`/product/${id}`)
+            let response = await axios.get(`${process.env.REACT_APP_ORIGIN}product/${id}`)
             window.scrollTo(0, 0)
             console.log("stock", stock)
             setProductData(response.data)
@@ -33,7 +33,7 @@ export default function ProductInfo() {
 
         try {
             if (token) {
-                let res = await axios.put(`/add/${data.userData._id}/${id}`)
+                let res = await axios.put(`${process.env.REACT_APP_ORIGIN}add/${data.userData._id}/${id}`)
                 if (res.data.success) {
                     setStock(res.data.stock)
                     console.log(res.data)
@@ -57,7 +57,7 @@ export default function ProductInfo() {
 
         try {
             if (token) {
-                let res = await axios.put(`/remove/${data.userData._id}/${id}`)
+                let res = await axios.put(`${process.env.REACT_APP_ORIGIN}remove/${data.userData._id}/${id}`)
                 if (res.data.success) {
                     // setButton("Added")
                     console.log(res.data)

@@ -10,7 +10,7 @@ const UserInbox = () => {
     const navigate = useNavigate()
     const markAsRead = async () => {
         try {
-            await axios.put(`/mark-as-read/${data?.userData?._id}`)
+            await axios.put(`${process.env.REACT_APP_ORIGIN}mark-as-read/${data?.userData?._id}`)
             setCart(!cart)
         }
         catch (err) {

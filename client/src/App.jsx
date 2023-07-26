@@ -34,11 +34,11 @@ function App() {
 
   const fetchOrders = async (id) => {
     try {
-      let res = await axios.get(`/get-orders/${id}`)
+      let res = await axios.get(`${process.env.REACT_APP_ORIGIN}get-orders/${id}`)
       if (res.data.success) {
         setOrder(res.data.order)
       }
-      console.log("res.data=", res.data)
+      // console.log("res.data=", res.data)
     }
     catch (err) {
       console.log("err", err)
@@ -47,7 +47,7 @@ function App() {
   const fetchData = async () => {
     try {
 
-      let res = await fetch('/user', {
+      let res = await fetch(`${process.env.REACT_APP_ORIGIN}user`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ function App() {
       const json = await res.json();
       console.log("success ============== " , json.success)
       if (json.success) {
-        console.log(json)
+        // console.log(json)
         fetchOrders(json.userData._id)
         setData(json)
       }
@@ -74,8 +74,8 @@ function App() {
   }
   const fetchProducts = async () => {
     try {
-      let { data } = await axios.get('/allproducts')
-      console.log(data.products)
+      let { data } = await axios.get(`${process.env.REACT_APP_ORIGIN}allproducts`)
+      // console.log(data.products)
       setProducts(data.products)
     }
     catch (err) {
@@ -86,6 +86,7 @@ function App() {
     fetchData()
     fetchProducts()
     setToken(token)
+    // console.log(process.env.REACT_APP_ORIGIN)
   }, [token, cart])
 
 
