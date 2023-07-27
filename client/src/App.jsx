@@ -56,7 +56,7 @@ function App() {
       })
 
       const json = await res.json();
-      console.log("success ============== " , json.success)
+      // console.log("success ============== " , json.success)
       if (json.success) {
         // console.log(json)
         fetchOrders(json.userData._id)
@@ -86,14 +86,16 @@ function App() {
     fetchData()
     fetchProducts()
     setToken(token)
-    // console.log(process.env.REACT_APP_ORIGIN)
   }, [token, cart])
 
+  useEffect(()=>{
+    // console.log("products=",products)
+  },[products])
 
   return (
     <>
 
-      <AppContext.Provider value={{ products,fetchProducts, currentTab, setCurrentTab, data, token, setToken, cart, setCart, order }}>
+      <AppContext.Provider value={{products,fetchProducts, currentTab, setCurrentTab, data, token, setToken, cart, setCart, order }}>
         <BrowserRouter>
           <Navbar />
           <Routes>

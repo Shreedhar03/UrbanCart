@@ -9,7 +9,7 @@ import NotFound from '../NotFound'
 
 
 export default function ProductInfo() {
-    const { token, data, cart, setCart } = useContext(AppContext)
+    const { token, data, cart, setCart, products } = useContext(AppContext)
     const [productData, setProductData] = useState({})
     const [message, setMessage] = useState("")
     const [stock, setStock] = useState()
@@ -17,20 +17,19 @@ export default function ProductInfo() {
     const location = useLocation()
 
     let id = window.location.href.split("/").slice(-1)[0]
-    const fetchData = async () => {
-        try {
-            let response = await axios.get(`${process.env.REACT_APP_ORIGIN}product/${id}`)
-            window.scrollTo(0, 0)
-            console.log("stock", stock)
-            setProductData(response.data)
-            setStock(response.data.stock)
-        }
-        catch(err){
-            console.log(err)
-        }
-    }
+    // const fetchData = async () => {
+    //     try {
+    //         let response = await axios.get(`${process.env.REACT_APP_ORIGIN}product/${id}`)
+    //         window.scrollTo(0, 0)
+    //         console.log("stock", stock)
+    //         setProductData(response.data)
+    //         setStock(response.data.stock)
+    //     }
+    //     catch (err) {
+    //         console.log(err)
+    //     }
+    // }
     const addToCart = async () => {
-
         try {
             if (token) {
                 let res = await axios.put(`${process.env.REACT_APP_ORIGIN}add/${data.userData._id}/${id}`)
@@ -72,17 +71,21 @@ export default function ProductInfo() {
             console.log(err.message)
         }
     }
-
     const getQuantity = () => {
         const index = data?.userData?.cart.findIndex((p) => p.product._id == productData._id)
-        console.log("index=", index)
+        // console.log("index=", index)
         return index === -1 ? null : data?.userData?.cart[index]?.quantity
     }
     useEffect(() => {
-        fetchData();
-        console.log(data)
+        // fetchData();
         getQuantity();
     }, [location, cart])
+    useEffect(() => {
+        // console.log("products from pro.info", products)
+        let singleProduct = products.filter(p=>p._id===id)
+        // console.log(singleProduct)
+        setProductData(singleProduct[0])
+    },[products])
 
     return (
         <>
@@ -103,7 +106,11 @@ export default function ProductInfo() {
                                 </p>
                                 <div className="price text-3xl">
                                     <p>
-                                        <span className='font-semibold'>&#8377; {(productData.price - productData.price * productData.discountPercentage / 100).toFixed(2)}</span>
+                                        <span className='font-semibold'>&#8377;
+                                            {
+                                              Object.keys(productData).length!==0 &&  (productData.price - productData.price * productData.discountPercentage / 100).toFixed(2)
+                                            }
+                                        </span>
                                         <span className='text-sm opacity-50 sora ml-2'><span>M.R.P</span><span className='line-through ml-1'> &#8377;{productData.price}</span></span>
                                     </p>
                                     <span className='text-xl text-pink-500'>-{productData.discountPercentage}%</span>
@@ -125,7 +132,7 @@ export default function ProductInfo() {
                                                 getQuantity() !== null ?
                                                     <Quantity stock={stock} quantity={getQuantity()} increaseQty={() => { addToCart(); getQuantity() }} decreaseQty={() => { removeFromCart(); getQuantity(); }} message={message} />
                                                     :
-                                                    <button className={`text-md px-5 py-2 rounded-lg bg-[var(--secondary)] ${data?.userData?.role==="admin" && 'hidden'}`} disabled={(stock === 0 ) && true} onClick={() => {
+                                                    <button className={`text-md px-5 py-2 rounded-lg bg-[var(--secondary)] ${data?.userData?.role === "admin" && 'hidden'}`} disabled={(stock === 0) && true} onClick={() => {
                                                         addToCart();
                                                         getQuantity();
                                                     }}>
@@ -147,7 +154,7 @@ export default function ProductInfo() {
                     </div>
                 </section>
                 :
-                <NotFound />
+                <NotFound message="Loading..."/>
             }
             {productData &&
                 <section className='similar-products flex flex-col max-w-fit mx-auto gap-8 mt-24 mb-12'>

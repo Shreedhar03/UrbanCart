@@ -36,7 +36,7 @@ export default function Navbar() {
         e.preventDefault()
     }
     useEffect(() => {
-        console.log(searchResults)
+        // console.log(searchResults)
     }, [searchResults])
 
     const navigate = useNavigate();
