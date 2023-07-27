@@ -74,18 +74,18 @@ router.get('/category/:id', async (req, res) => {
 
 // Single Product Data
 
-router.get('/product/:id', async (req, res) => {
-    let id = req.params.id;
+// router.get('/product/:id', async (req, res) => {
+//     let id = req.params.id;
 
-    try {
-        const response = await productModel.findById(id)
-        res.json(response);
-    }
-    catch (err) {
-        res.json({ message: "Not fonud" })
-        console.log(err.message);
-    }
-})
+//     try {
+//         const response = await productModel.findById(id)
+//         res.json(response);
+//     }
+//     catch (err) {
+//         res.json({ message: "Not fonud" })
+//         console.log(err.message);
+//     }
+// })
 
 // register
 
