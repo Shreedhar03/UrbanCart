@@ -22,11 +22,6 @@ mongoose.connect(process.env.MONGO_URL)
         console.log(err)
     })
 
-// app.get('/', async (req,res)=>{
-//     console.log("home");
-//     // await userData.deleteMany({});
-//     res.send("hello")
-// })
 
 app.use(express.static(path.join(__dirname,'./client/build')))
 app.get('*',(req,res)=>{

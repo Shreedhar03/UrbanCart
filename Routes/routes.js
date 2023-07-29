@@ -10,19 +10,18 @@ const productModel = require('../Database/Models/productSchema')
 const userModel = require('../Database/Models/users')
 const orderModel = require('../Database/Models/orderSchema')
 const moment = require('moment')
+
 // initialData()
 // delete all users
 
-router.get('/deleteusers', (req, res) => {
+router.get('/api/deleteusers', (req, res) => {
     userModel.deleteMany({}).then(() => {
         console.log("deleted")
         res.json({ deleted: true })
     })
 })
-
 // dollar to rupees
-
-router.put('/dollar-rupees', async (req, res) => {
+router.put('/api/dollar-rupees', async (req, res) => {
     let products = await productModel.find({})
     products.forEach(async p => {
         p.price = p.price * 82
@@ -31,8 +30,7 @@ router.put('/dollar-rupees', async (req, res) => {
     res.send(products)
 })
 // rupees/82
-
-router.put('/rupees', async (req, res) => {
+router.put('/api/rupees', async (req, res) => {
     let products = await productModel.find({}).sort({price:-1})
     products.slice(0,19).forEach(async p => {
         p.price = p.price/82
@@ -40,11 +38,8 @@ router.put('/rupees', async (req, res) => {
     })
     res.send((products.slice(0,19)))
 })
-
-
 // get all products
-
-router.get('/allproducts', async (req, res) => {
+router.get('/api/allproducts', async (req, res) => {
     try {
         let products = await productModel.find({}).sort({ createdAt: -1 })
         res.status(200).json({ success: true, products })
@@ -54,8 +49,7 @@ router.get('/allproducts', async (req, res) => {
     }
 })
 // Category wise Data
-
-router.get('/category/:id', async (req, res) => {
+router.get('/api/category/:id', async (req, res) => {
     let id = req.params.id;
     // res.json({"hello":true})
     try {
@@ -71,10 +65,9 @@ router.get('/category/:id', async (req, res) => {
         res.status(400).json({ message: "Not found" })
     }
 })
-
 // Single Product Data
 
-// router.get('/product/:id', async (req, res) => {
+// router.get('/api/product/:id', async (req, res) => {
 //     let id = req.params.id;
 
 //     try {
@@ -88,8 +81,7 @@ router.get('/category/:id', async (req, res) => {
 // })
 
 // register
-
-router.post('/register', async (req, res) => {
+router.post('/api/register', async (req, res) => {
     try {
         let { name, username, contact, password } = req.body;
 
@@ -117,10 +109,8 @@ router.post('/register', async (req, res) => {
         res.status(404).json({ success: false, error: err });
     }
 });
-
 // add new shipping address
-
-router.put('/add-address/:userID', async (req, res) => {
+router.put('/api/add-address/:userID', async (req, res) => {
     try {
         const { userID } = req.params
         console.log(userID)
@@ -139,10 +129,8 @@ router.put('/add-address/:userID', async (req, res) => {
         res.json({ success: false, error: err });
     }
 })
-
 // select-delete the shipping address
-
-router.put('/set-address/:userID', async (req, res) => {
+router.put('/api/set-address/:userID', async (req, res) => {
     try {
         const { userID } = req.params
         const { title } = req.body.address
@@ -171,10 +159,8 @@ router.put('/set-address/:userID', async (req, res) => {
         res.json({ success: false, error: err });
     }
 })
-
 // Login
-
-router.post('/login', (req, res) => {
+router.post('/api/login', (req, res) => {
     let { username, password } = req.body;
 
     userModel.findOne({ username })
@@ -198,9 +184,7 @@ router.post('/login', (req, res) => {
             res.status(400).json({ error: err })
         })
 })
-
 // middleware to verify user
-
 const verifyToken = (req, res, next) => {
     const token = req.headers['authorization'];
 
@@ -228,15 +212,12 @@ const verifyToken = (req, res, next) => {
 
     })
 }
-
 // Get user data
-router.get('/user', verifyToken, (req, res) => {
+router.get('/api/user', verifyToken, (req, res) => {
     res.json({ userData: req.user, success: req.success })
 })
-
 // Delete User
-
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/api/delete/:id', async (req, res) => {
     let { id } = req.params;
 
     const deletedUser = await userModel.findByIdAndDelete(id);
@@ -246,10 +227,8 @@ router.delete('/delete/:id', async (req, res) => {
     res.json({ message: "User Deleted" })
 
 })
-
 // Update Password
-
-router.put('/update-password/:id', async (req, res) => {
+router.put('/api/update-password/:id', async (req, res) => {
     let { id } = req.params;
 
     const { oldPassword, newPassword } = req.body
@@ -273,10 +252,8 @@ router.put('/update-password/:id', async (req, res) => {
     }
 
 })
-
 // update details 
-
-router.put("/update-:field/:id", async (req, res) => {
+router.put("/api/update-:field/:id", async (req, res) => {
     let { field, id } = req.params;
     let updateInfo = req.body.field
     console.log(updateInfo)
@@ -306,12 +283,9 @@ router.put("/update-:field/:id", async (req, res) => {
     }
 
 })
-
 // add / increase Qty
-
-router.put('/add/:user_id/:product_id', async (req, res) => {
+router.put('/api/add/:user_id/:product_id', async (req, res) => {
     const { user_id, product_id } = req.params;
-
     try {
         let user = await userModel.findById(user_id);
         let initialProduct = await productModel.findById(product_id)
@@ -338,9 +312,8 @@ router.put('/add/:user_id/:product_id', async (req, res) => {
         return res.json({ err: err.message });
     }
 });
-
 // remove / decrease Qty
-router.put('/remove/:user_id/:product_id', async (req, res) => {
+router.put('/api/remove/:user_id/:product_id', async (req, res) => {
 
     const { user_id, product_id } = req.params
 
@@ -357,10 +330,8 @@ router.put('/remove/:user_id/:product_id', async (req, res) => {
     await user.save();
     return res.status(201).json({ success: true, message: "Removed" });
 })
-
 // delete from cart
-
-router.put('/edit-cart/:user_id/:product_id', async (req, res) => {
+router.put('/api/edit-cart/:user_id/:product_id', async (req, res) => {
     let { user_id, product_id } = req.params
 
     try {
@@ -374,10 +345,8 @@ router.put('/edit-cart/:user_id/:product_id', async (req, res) => {
         res.json({ success: false, message: err.message })
     }
 })
-
 // place order
-
-router.post('/order/:userID', async (req, res) => {
+router.post('/api/order/:userID', async (req, res) => {
     let { userID } = req.params
     let { cart, amountPaid, name, shippingAddress } = req.body
 
@@ -408,7 +377,7 @@ router.post('/order/:userID', async (req, res) => {
     }
 })
 // remove from cart
-router.put('/delete-cart/:userID', async (req, res) => {
+router.put('/api/delete-cart/:userID', async (req, res) => {
     let { userID } = req.params
     try {
         let user = await userModel.findById(userID)
@@ -422,10 +391,8 @@ router.put('/delete-cart/:userID', async (req, res) => {
         res.json({ success: false })
     }
 })
-
 // retrieve user order history
-
-router.get('/get-orders/:userID', async (req, res) => {
+router.get('/api/get-orders/:userID', async (req, res) => {
     const userID = req.params.userID
     // console.log(userID)
     try {
@@ -440,8 +407,7 @@ router.get('/get-orders/:userID', async (req, res) => {
     }
 })
 // retrieve admin orders
-
-router.get('/admin/get-orders', async (req, res) => {
+router.get('/api/admin/get-orders', async (req, res) => {
     try {
         let order = await orderModel.find({}).sort({ createdAt: -1 })
         // console.log(order)
@@ -452,8 +418,7 @@ router.get('/admin/get-orders', async (req, res) => {
         res.json({ success: false })
     }
 })
-
-router.put('/admin/edit-order/:userID/:id', async (req, res) => {
+router.put('/api/admin/edit-order/:userID/:id', async (req, res) => {
     try {
         const { id, userID } = req.params;
         let order = await orderModel.findById(id);
@@ -474,10 +439,8 @@ router.put('/admin/edit-order/:userID/:id', async (req, res) => {
         res.status(500).json({ success: false, error: err.message });
     }
 });
-
 // mark message as read
-
-router.put('/mark-as-read/:userID', async (req, res) => {
+router.put('/api/mark-as-read/:userID', async (req, res) => {
     const { userID } = req.params;
     try {
         let user = await userModel.findById(userID)
@@ -497,9 +460,8 @@ router.put('/mark-as-read/:userID', async (req, res) => {
         console.log(err)
     }
 })
-
 // add-product Admin
-router.post("/admin/add-product", async (req, res) => {
+router.post('/api/admin/add-product', async (req, res) => {
     try {
         let { title, description, rating, price, discountPercentage, stock, category, brand } = req.body.productInfo
         let { existingProduct } = req.body
@@ -526,9 +488,8 @@ router.post("/admin/add-product", async (req, res) => {
         console.log(err)
     }
 })
-
 // delete product
-router.delete("/delete-product/:id", async (req, res) => {
+router.delete('/api/delete-product/:id', async (req, res) => {
     try {
         let { id } = req.params
         let deletedproduct = await productModel.findByIdAndDelete(id)

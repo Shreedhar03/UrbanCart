@@ -75,7 +75,6 @@ function App() {
   const fetchProducts = async () => {
     try {
       let { data } = await axios.get(`${process.env.REACT_APP_ORIGIN}allproducts`)
-      // console.log(data.products)
       setProducts(data.products)
     }
     catch (err) {
@@ -86,6 +85,7 @@ function App() {
     fetchData()
     fetchProducts()
     setToken(token)
+    console.log(process.env.REACT_APP_ORIGIN)
   }, [token, cart])
 
   useEffect(()=>{
