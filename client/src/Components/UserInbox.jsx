@@ -4,6 +4,7 @@ import lock from '../assets/lock.svg'
 import { AppContext } from '../App'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import BottomNav from './BottomNav'
 
 const UserInbox = () => {
     const { token, data, cart, setCart } = useContext(AppContext)
@@ -22,7 +23,7 @@ const UserInbox = () => {
     })
     return (
         <>
-            <div className="bg-gray-100 rounded-xl max-w-xl mx-auto flex flex-col my-8 p-6">
+            <div className="bg-gray-100 rounded-xl max-w-xl mx-2 sm:mx-auto flex flex-col my-8 p-4 sm:p-6">
                 <div className='flex justify-between items-center'>
                     {
                         data?.userData?.message?.length === 0 ?
@@ -61,6 +62,7 @@ const UserInbox = () => {
 
                 </ul>
             </div>
+            <BottomNav />
         </>
     )
 }

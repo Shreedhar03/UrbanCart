@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppContext } from '../App'
 import { toast } from 'react-toastify'
+import logout from '../assets/logout.svg'
 
 export default function Navbar() {
 
@@ -25,19 +26,14 @@ export default function Navbar() {
                     || (products[key].brand.toLowerCase()).includes(search.toLowerCase())
                     || (products[key].category.toLowerCase()).includes(search.toLowerCase()))
             ) {
-                // console.log("found")
                 matchingResults.push(products[key])
             }
-            // console.log(products[key].title.includes(search) , "---" , products[key].title)
         }
         setSearchResults(matchingResults)
     }
     const handleSubmit = (e) => {
         e.preventDefault()
     }
-    useEffect(() => {
-        // console.log(searchResults)
-    }, [searchResults])
 
     const navigate = useNavigate();
     return (
@@ -73,7 +69,7 @@ export default function Navbar() {
                                             </div>
                                             :
                                             <div className='flex gap-3'>
-                                                <button className='flex items-center gap-1' onClick={() => { navigate("/cart") }}><i className='bx bx-cart-alt text-2xl' ></i><p className='hidden'>Cart</p></button>
+                                                <button className='items-center gap-1 hidden sm:flex' onClick={() => { navigate("/cart") }}><i className='bx bx-cart-alt text-2xl'></i></button>
                                                 <button className='hidden sm:flex items-center gap-1 relative' onClick={() => { navigate("/user/inbox") }}><i className='bx bx-bell text-2xl'></i><p className='hidden'>Cart</p>
                                                     <p className={`absolute -top-1 left-3 ${data?.userData?.message.filter(ele => ele.isRead !== true).length !== 0 && 'bg-red-500'} text-sm h-4 w-4 flex items-center justify-center rounded-full`}>
                                                         {
@@ -90,11 +86,8 @@ export default function Navbar() {
                                     }
                                 </div>
                                 <div className='flex items-center relative'>
-                                    {/* <i className='bx bx-user text-2xl'></i> */}
-                                    {/* <button className='hidden md:block'>Logout</button> */}
-                                    
-                                    <button className='user-icon w-10 h-10 bg-[var(--secondary)] rounded-full text-black text-xl sora'>{data?.userData?.name.slice(0, 1).toUpperCase()}</button>
-                                    <ul className='settings absolute right-0 top-14 bg-[var(--secondary)] text-black flex flex-col gap-4'>
+                                    <button className='user-icon hidden sm:block w-10 h-10 bg-[var(--secondary)] rounded-full text-black text-xl sora'>{data?.userData?.name.slice(0, 1).toUpperCase()}</button>
+                                    <ul className='settings absolute right-0 top-14 bg-[var(--secondary)]  text-black flex flex-col gap-4'>
                                         <li className='cursor-pointer'><Link to={'/profile'} className='flex items-center gap-1'>
                                             <i className='bx bx-user text-xl'></i>Profile</Link>
                                         </li>
@@ -109,6 +102,13 @@ export default function Navbar() {
                                         }}><i className='bx bx-power-off text-xl'></i>Logout</li>
                                     </ul>
                                 </div>
+
+                                <img src={logout} className='bx bx-power-off text-xl block sm:hidden cursor-pointer' onClick={() => {
+                                    localStorage.removeItem("authToken");
+                                    setToken(null);
+                                    notify("Logged Out !")
+                                    navigate('/login');
+                                }} />
                             </>
                             :
                             <button className='flex items-center gap-1' onClick={() => { navigate("/login") }}>

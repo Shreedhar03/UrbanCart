@@ -87,7 +87,6 @@ input[type="radio"]:checked + .radio-div{
 .settings{
     max-height: 0px;
     padding: 0px 16px;
-    /* display: none; */
     overflow: hidden;
     transition: all 0.4s ease;
 }

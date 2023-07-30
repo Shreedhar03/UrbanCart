@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import LatestProducts from '../LatestProducts'
 import TopDeals from '../TopDeals'
 import Divider from '../Divider'
+import BottomNav from '../BottomNav'
 
 export default function Home() {
     const navigate=useNavigate()
@@ -34,8 +35,9 @@ export default function Home() {
             {/* </div> */}
             <Category />
             <LatestProducts />
+            <BottomNav />
             <ToastContainer theme='dark' position='top-center' autoClose={2000} hideProgressBar={true} />
-            <Footer />
+            {/* <Footer /> */}
         </>
     )
 

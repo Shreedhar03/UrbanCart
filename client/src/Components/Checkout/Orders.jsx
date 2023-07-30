@@ -3,6 +3,7 @@ import { AppContext } from '../../App'
 import OrderItem from './OrderItem'
 import image from '../../assets/404.svg'
 import NotFound from '../NotFound'
+import BottomNav from '../BottomNav'
 
 const Orders = () => {
     const { order } = useContext(AppContext)
@@ -23,6 +24,8 @@ const Orders = () => {
                     </> :
                     <NotFound message="Place your first order" />
             }
+
+            <BottomNav />
         </>
     )
 }

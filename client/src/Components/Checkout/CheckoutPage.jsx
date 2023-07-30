@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { AppContext } from '../../App'
 import axios from 'axios'
 import empty_cart from '../../assets/empty_cart.svg'
+import BottomNav from '../BottomNav'
 // import ConfirmOrder from './ConfirmOrder'
 
 export default function CheckoutPage() {
@@ -94,6 +95,8 @@ export default function CheckoutPage() {
                     }
                 </div>
             </div>
+
+            <BottomNav />
         </>
     )
 }

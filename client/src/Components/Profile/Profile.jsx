@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import UserInfo from './UserInfo'
 import { AppContext } from '../../App'
 import ChangePassword from './ChangePassword'
+import BottomNav from '../BottomNav'
 
 const Profile = () => {
     const { token, data } = useContext(AppContext);
@@ -36,6 +37,7 @@ const Profile = () => {
                     :
                     <p className='text-center text-2xl my-24' onClick={() => { navigate('/login') }}><button>Login to Continue</button></p>
             }
+            <BottomNav />
         </>
     )
 }

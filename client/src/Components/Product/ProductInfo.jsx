@@ -5,7 +5,7 @@ import Quantity from './Quantity'
 import axios from 'axios'
 import SimilarProducts from './SimilarProducts'
 import { AppContext } from '../../App'
-import NotFound from '../NotFound'
+import Loading from '../Loading'
 
 
 export default function ProductInfo() {
@@ -17,18 +17,7 @@ export default function ProductInfo() {
     const location = useLocation()
 
     let id = window.location.href.split("/").slice(-1)[0]
-    // const fetchData = async () => {
-    //     try {
-    //         let response = await axios.get(`${process.env.REACT_APP_ORIGIN}product/${id}`)
-    //         window.scrollTo(0, 0)
-    //         console.log("stock", stock)
-    //         setProductData(response.data)
-    //         setStock(response.data.stock)
-    //     }
-    //     catch (err) {
-    //         console.log(err)
-    //     }
-    // }
+
     const addToCart = async () => {
         try {
             if (token) {
@@ -81,11 +70,10 @@ export default function ProductInfo() {
         getQuantity();
     }, [location, cart])
     useEffect(() => {
-        // console.log("products from pro.info", products)
         let singleProduct = products.filter(p=>p._id===id)
-        // console.log(singleProduct)
         setProductData(singleProduct[0])
-    },[products])
+        window.scrollTo(0,0)
+    },[products,location])
 
     return (
         <>
@@ -154,7 +142,7 @@ export default function ProductInfo() {
                     </div>
                 </section>
                 :
-                <NotFound message="Loading..."/>
+                <Loading message="Loading..."/>
             }
             {productData &&
                 <section className='similar-products flex flex-col max-w-fit mx-auto gap-8 mt-24 mb-12'>
