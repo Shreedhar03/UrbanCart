@@ -62,7 +62,7 @@ const UserInbox = () => {
 
                 </ul>
             </div>
-            <BottomNav />
+             
         </>
     )
 }

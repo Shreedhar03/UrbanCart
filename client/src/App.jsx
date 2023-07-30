@@ -20,6 +20,7 @@ import Navbar from "./Components/Navbar";
 import PlaceOrder from "./Components/Checkout/PlaceOrder";
 import AllProducts from "./Components/AllProducts";
 import NotFound from "./Components/NotFound";
+import BottomNav from "./Components/BottomNav";
 
 export const AppContext = createContext();
 
@@ -119,7 +120,7 @@ function App() {
           </Routes>
 
           <ToastContainer theme='dark' position='top-center' autoClose={1500} hideProgressBar={true} style={{ marginTop: '20px' }} />
-
+          {token && <BottomNav />}
 
         </BrowserRouter>
       </AppContext.Provider>

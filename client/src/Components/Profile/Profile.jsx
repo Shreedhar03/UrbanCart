@@ -37,7 +37,7 @@ const Profile = () => {
                     :
                     <p className='text-center text-2xl my-24' onClick={() => { navigate('/login') }}><button>Login to Continue</button></p>
             }
-            <BottomNav />
+             
         </>
     )
 }

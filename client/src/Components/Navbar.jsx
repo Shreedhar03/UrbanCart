@@ -71,13 +71,13 @@ export default function Navbar() {
                                             <div className='flex gap-3'>
                                                 <button className='items-center gap-1 hidden sm:flex' onClick={() => { navigate("/cart") }}><i className='bx bx-cart-alt text-2xl'></i></button>
                                                 <button className='hidden sm:flex items-center gap-1 relative' onClick={() => { navigate("/user/inbox") }}><i className='bx bx-bell text-2xl'></i><p className='hidden'>Cart</p>
-                                                    <p className={`absolute -top-1 left-3 ${data?.userData?.message.filter(ele => ele.isRead !== true).length !== 0 && 'bg-red-500'} text-sm h-4 w-4 flex items-center justify-center rounded-full`}>
+                                                    <p className={`absolute hidden -top-1 left-3 ${data?.userData?.message.filter(ele => ele.isRead !== true).length !== 0 && 'bg-red-500'} text-sm h-4 w-4 sm:flex items-center justify-center rounded-full`}>
                                                         {
                                                             token && data?.userData?.message.filter(ele => ele.isRead !== true).length !== 0 && data?.userData?.message.filter(ele => ele.isRead !== true).length
                                                         }
                                                     </p>
                                                 </button>
-                                                <p className={`absolute -top-1 left-4 ${data?.userData?.cart.length !== 0 && 'bg-red-500'} text-sm h-4 w-4 flex items-center justify-center rounded-full`}>
+                                                <p className={`absolute hidden -top-1 left-4 ${data?.userData?.cart.length !== 0 && 'bg-red-500'} text-sm h-4 w-4 sm:flex items-center justify-center rounded-full`}>
                                                     {
                                                         token && data?.userData?.cart.length !== 0 && data?.userData?.cart.length
                                                     }

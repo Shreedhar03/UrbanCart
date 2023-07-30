@@ -35,7 +35,7 @@ export default function Home() {
             {/* </div> */}
             <Category />
             <LatestProducts />
-            <BottomNav />
+             
             <ToastContainer theme='dark' position='top-center' autoClose={2000} hideProgressBar={true} />
             {/* <Footer /> */}
         </>

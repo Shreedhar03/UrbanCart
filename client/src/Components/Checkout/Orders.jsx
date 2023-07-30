@@ -25,7 +25,7 @@ const Orders = () => {
                     <NotFound message="Place your first order" />
             }
 
-            <BottomNav />
+             
         </>
     )
 }
