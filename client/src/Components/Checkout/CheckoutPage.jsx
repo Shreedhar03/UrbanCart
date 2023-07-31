@@ -21,7 +21,7 @@ export default function CheckoutPage() {
         })
         return total
     }
-    
+
     const handleDelete = async (_id) => {
         let res = await axios.put(`${process.env.REACT_APP_ORIGIN}edit-cart/${data.userData._id}/${_id}`)
         console.log(res.data)
@@ -49,22 +49,15 @@ export default function CheckoutPage() {
     }
 
     return (
-        <>
+        <div className='pb-[100px]'>
             <h2 className='text-2xl font-semibold text-slate-700 text-center mt-8 sora'>
                 {data?.userData?.cart.length !== 0 ? 'Your Shopping cart' : 'Your cart is Empty'}
             </h2>
-            {data?.userData?.cart.length === 0 && <img src={empty_cart} className='w-80 max-w-xs mx-auto mt-24' alt='cart'/>}
-            <div className='relative'>
-                {/* {confirmMessage && <ConfirmOrder
-                    close={() => setConfirmMessage(false)}
-                    handleSubmit={handleSubmit} />} */}
-
-                <div className={`${confirmMessage && 'opacity-20'} flex-col lg:flex-row gap-12 lg:gap-0 flex my-12 justify-evenly items-center lg:items-start`}>
-
-                    {
-                        data?.userData?.cart.length !== 0 &&
-
-
+            {
+                data?.userData?.cart.length === 0 ?
+                    <img src={empty_cart} className='w-80 max-w-xs mx-auto mt-24' alt='cart' />
+                    :
+                    <div className={`flex-col lg:flex-row gap-12 lg:gap-0 flex my-12 justify-evenly items-center lg:items-start`}>
                         <>
                             <section className='flex flex-col gap-3 sm:gap-1'>
                                 {
@@ -91,12 +84,8 @@ export default function CheckoutPage() {
 
 
                         </>
-
-                    }
-                </div>
-            </div>
-
-             
-        </>
+                    </div>
+            }
+        </div>
     )
 }

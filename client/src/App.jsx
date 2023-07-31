@@ -63,13 +63,13 @@ function App() {
         fetchOrders(json.userData._id)
         setData(json)
       }
-      else{
+      else {
         setToken(null)
         localStorage.removeItem("authToken")
       }
     }
-    catch(err){
-      console.log("err=",err)
+    catch (err) {
+      console.log("err=", err)
       setToken(null)
     }
   }
@@ -89,14 +89,14 @@ function App() {
     console.log(process.env.REACT_APP_ORIGIN)
   }, [token, cart])
 
-  useEffect(()=>{
+  useEffect(() => {
     // console.log("products=",products)
-  },[products])
+  }, [products])
 
   return (
     <>
 
-      <AppContext.Provider value={{products,fetchProducts, currentTab, setCurrentTab, data, token, setToken, cart, setCart, order }}>
+      <AppContext.Provider value={{ products, fetchProducts, currentTab, setCurrentTab, data, token, setToken, cart, setCart, order }}>
         <BrowserRouter>
           <Navbar />
           <Routes>
@@ -116,12 +116,12 @@ function App() {
             <Route element={<AddProduct />} path="/admin/add-product"></Route>
             <Route element={<ProductData />} path="/admin/product-data"></Route>
             <Route element={<PlaceOrder />} path="/place-order"></Route>
-            <Route element={<NotFound message="Page Not Found !"/>} path="*"></Route>
+            <Route element={<NotFound message="Page Not Found !" />} path="*"></Route>
           </Routes>
 
           <ToastContainer theme='dark' position='top-center' autoClose={1500} hideProgressBar={true} style={{ marginTop: '20px' }} />
-          {token && <BottomNav />}
 
+        {token && <BottomNav />}
         </BrowserRouter>
       </AppContext.Provider>
     </>
