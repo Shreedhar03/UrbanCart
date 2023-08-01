@@ -10,6 +10,11 @@ const productModel = require('../Database/Models/productSchema')
 const userModel = require('../Database/Models/users')
 const orderModel = require('../Database/Models/orderSchema')
 const moment = require('moment')
+require('moment-timezone')
+
+moment.tz.setDefault("Asia/Kolkata")
+
+console.log(moment().format('YYYY MMM DD, HH:mm:ss'))
 
 // initialData()
 // delete all users

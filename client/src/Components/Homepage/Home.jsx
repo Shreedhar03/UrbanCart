@@ -16,11 +16,11 @@ export default function Home() {
     const navigate=useNavigate()
     const { data } = useContext(AppContext)
 
-    if (data?.userData?.role === "admin") {
-        return (
-            navigate('/admin/product-data')
-        )
-    }
+    // if (data?.userData?.role === "admin") {
+    //     return (
+    //         navigate('/admin/product-data')
+    //     )
+    // }
 
     return (
         <>
