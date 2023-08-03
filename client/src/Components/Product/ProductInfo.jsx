@@ -72,9 +72,10 @@ export default function ProductInfo() {
     useEffect(() => {
         let singleProduct = products.filter(p=>p._id===id)
         setProductData(singleProduct[0])
+    },[products])
+    useEffect(()=>{
         window.scrollTo(0,0)
-    },[products,location])
-
+    },[location])
     return (
         <>
             {productData ?
