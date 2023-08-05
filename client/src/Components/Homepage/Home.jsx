@@ -11,6 +11,7 @@ import LatestProducts from '../LatestProducts'
 import TopDeals from '../TopDeals'
 import Divider from '../Divider'
 import BottomNav from '../BottomNav'
+import Icons from './Icons'
 
 export default function Home() {
     const navigate=useNavigate()
@@ -24,6 +25,7 @@ export default function Home() {
 
     return (
         <>
+            <Icons />
             <TopDeals />
             {/* <Divider/> */}
             {/* <div className='flex w-full overflow-scroll h-[400px] bg-red-400 snap-x snap-mandatory'> */}

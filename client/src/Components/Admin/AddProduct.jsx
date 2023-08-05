@@ -3,13 +3,17 @@ import { AppContext } from '../../App'
 import Navigation from './Navigation'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import correct from '../../assets/correct.svg'
+import cross from '../../assets/cross.svg'
 
 const AddProduct = (props) => {
     const navigate = useNavigate()
+    const [option, setOption] = useState("")
+    const [showCustomOption, setShowCustomOption] = useState(false)
     const [productInfo, setProductInfo] = useState({
         title: "",
         brand: "",
-        category: "",
+        category: "Watches",
         gender: "",
         description: "",
         rating: "",
@@ -71,6 +75,12 @@ const AddProduct = (props) => {
             })
         }
     }, [])
+    useEffect(() => {
+        console.log(productInfo.category)
+        if (productInfo.category === "") {
+            setShowCustomOption(true)
+        }
+    }, [productInfo.category])
     return (
         <>
             {!props.hide && <Navigation currentTab={currentTab} setCurrentTab={setCurrentTab} />}
@@ -90,18 +100,30 @@ const AddProduct = (props) => {
                             <div className='flex flex-wrap gap-3'>
                                 <div className='flex items-center gap-3'>
                                     <label className='text-cyan-600 font-semibold' htmlFor="category">Category</label>
-                                    <select name="category" id="category" required onChange={handleChange} value={productInfo.category} className='bg-slate-200 px-2 py-2 border border-gray-200 rounded-md'>
-                                        <option className='bg-slate-200 p-2 rounded-lg' value="Watches">Watches</option>
-                                        <option className='bg-slate-200 p-2 rounded-lg' value="Furniture">Furniture</option>
-                                        <option className='bg-slate-200 p-2 rounded-lg' value="Appliances">Appliances</option>
-                                        <option className='bg-slate-200 p-2 rounded-lg' value="Laptops">Laptops</option>
-                                        <option className='bg-slate-200 p-2 rounded-lg' value="Clothing">Clothing</option>
-                                        <option className='bg-slate-200 p-2 rounded-lg' value="SkinCare">SkinCare</option>
-                                        <option className='bg-slate-200 p-2 rounded-lg' value="Footware">Footware</option>
-                                        <option className='bg-slate-200 p-2 rounded-lg' value="Smartphones">Smartphones</option>
-                                        <option className='bg-slate-200 p-2 rounded-lg' value="Fragrances">Fragrances</option>
-                                        <option className='bg-slate-200 p-2 rounded-lg' value="home-decoration">home-decoration</option>
-                                    </select>
+                                    {
+                                        showCustomOption ?
+                                            <div className='relative'>
+                                                <input type="text" className='bg-slate-200 p-2 rounded-lg' value={productInfo.category} onChange={(e)=>setProductInfo({...productInfo,category:e.target.value})}/>
+                                                <img src={cross} alt="" className='w-7 absolute right-2 top-[6px] cursor-pointer' onClick={()=>setShowCustomOption(false)}/>
+                                            </div>
+                                            :
+                                            <>
+                                                <select name="category" id="category" required onChange={handleChange} value={productInfo.category} className='bg-slate-200 px-2 py-2 border border-gray-200 rounded-md'>
+                                                    <option className='bg-slate-200 p-2 rounded-lg' selected={true} value="Watches">Watches</option>
+                                                    <option className='bg-slate-200 p-2 rounded-lg' value="Furniture">Furniture</option>
+                                                    <option className='bg-slate-200 p-2 rounded-lg' value="Appliances">Appliances</option>
+                                                    <option className='bg-slate-200 p-2 rounded-lg' value="Laptops">Laptops</option>
+                                                    <option className='bg-slate-200 p-2 rounded-lg' value="Clothing">Clothing</option>
+                                                    <option className='bg-slate-200 p-2 rounded-lg' value="SkinCare">SkinCare</option>
+                                                    <option className='bg-slate-200 p-2 rounded-lg' value="Footware">Footware</option>
+                                                    <option className='bg-slate-200 p-2 rounded-lg' value="Smartphones">Smartphones</option>
+                                                    <option className='bg-slate-200 p-2 rounded-lg' value="Fragrances">Fragrances</option>
+                                                    <option className='bg-slate-200 p-2 rounded-lg' value="home-decoration">home-decoration</option>
+                                                    <option className='bg-slate-200 p-2 rounded-lg' value={option}>other</option>
+                                                </select>
+                                            </>
+
+                                    }
                                 </div>
                                 <div className='flex items-center gap-3'>
                                     <label className='text-cyan-600 font-semibold' htmlFor="gender">Gender</label>

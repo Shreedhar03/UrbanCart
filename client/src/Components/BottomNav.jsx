@@ -14,7 +14,7 @@ const BottomNav = () => {
     const url = window.location.href.split("/").splice(-1)[0]
     const [active, setActive] = useState(urls[url])
 
-    console.log(url)
+    // console.log(url)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const BottomNav = () => {
                 <li className={`${active === 1 && 'bg-slate-200 rounded-lg'} transition-all w-1/5 flex py-1 px-2 flex-col items-center relative ${data?.userData?.role === "admin" && 'hidden'}`} onClick={() => { navigate('/cart'); }}>
                     <i className='bx bx-cart-alt text-xl'></i>
                     <p className='text-xs'>CART</p>
-                    <p className={`absolute top-1 left-9 ${data?.userData?.cart.length !== 0 && 'bg-red-500'} text-sm h-4 w-4 text-white flex items-center justify-center rounded-full`}>
+                    <p className={`absolute top-1 right-5 ${data?.userData?.cart.length !== 0 && 'bg-red-500'} text-xs h-1 w-1 p-2 text-white flex items-center justify-center rounded-full`}>
                         {
                             token && data?.userData?.cart.length !== 0 && data?.userData?.cart.length
                         }
@@ -36,7 +36,7 @@ const BottomNav = () => {
                 <li className={`${active === 2 && 'bg-slate-200 rounded-lg'} transition-all w-1/5 flex py-1 px-2 flex-col items-center relative`} onClick={() => { navigate('/user/inbox'); }}>
                     <i className='bx bx-bell text-xl'></i>
                     <p className='text-xs'>INBOX</p>
-                    <p className={`absolute top-1 left-9 ${data?.userData?.message.filter(ele => ele.isRead !== true).length !== 0 && 'bg-red-500'} text-sm h-4 w-4 flex items-center text-white justify-center rounded-full`}>
+                    <p className={`absolute top-1 right-5 ${data?.userData?.message.filter(ele => ele.isRead !== true).length !== 0 && 'bg-red-500'} text-xs h-1 w-1 p-2 flex items-center text-white justify-center rounded-full`}>
                         {
                             token && data?.userData?.message.filter(ele => ele.isRead !== true).length !== 0 && data?.userData?.message.filter(ele => ele.isRead !== true).length
                         }

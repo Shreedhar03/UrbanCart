@@ -12,7 +12,7 @@ const LatestProducts = () => {
                 <h1 className='text-2xl font-semibold'>Recently Added <Link to={'/latest'} className='text-sm font-normal underline underline-offset-2 ml-2'>View all</Link></h1>
                 <section className='flex overflow-scroll lg:flex-wrap gap-8 snap-x snap-mandatory'>
                 {
-                    products?.slice(0,8)?.map((p,key)=>{
+                    products?.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt))?.slice(0,8)?.map((p,key)=>{
                         return(
                             <ProductCard key={key} ele={p}/>
                         )

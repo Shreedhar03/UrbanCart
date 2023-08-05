@@ -18,7 +18,7 @@ import OrderList from "./Components/Admin/OrderList";
 import ProductData from "./Components/Admin/ProductData";
 import Navbar from "./Components/Navbar";
 import PlaceOrder from "./Components/Checkout/PlaceOrder";
-import AllProducts from "./Components/AllProducts";
+import AllProducts from "./Components/AllLatestProducts";
 import NotFound from "./Components/NotFound";
 import BottomNav from "./Components/BottomNav";
 
@@ -77,6 +77,7 @@ function App() {
     try {
       let { data } = await axios.get(`${process.env.REACT_APP_ORIGIN}allproducts`)
       setProducts(data.products)
+      // console.log(data.products[0])
     }
     catch (err) {
       console.log(err)

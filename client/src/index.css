@@ -14,6 +14,7 @@ section::-webkit-scrollbar{
 * {
     font-family: 'sora' , sans-serif;
     scroll-behavior:smooth;
+    scrollbar-width: none;
 }
 body{
     height: 100vh!important;

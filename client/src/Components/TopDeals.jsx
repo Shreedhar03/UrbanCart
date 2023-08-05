@@ -6,10 +6,10 @@ const TopDeals = () => {
     const [loading, setLoading] = useState(true)
     const { products } = useContext(AppContext)
     const maxDisc = products?.sort((a, b) => b.discountPercentage - a.discountPercentage).slice(0, 1)[0]?.discountPercentage
-    console.log("maxDisc=", maxDisc)
+    // console.log("maxDisc=", maxDisc)
     useEffect(() => {
         setLoading(false)
-    })
+    },[])
     return (
         <>
             <div className="flex flex-col max-w-[90%] mx-auto gap-8 py-12">

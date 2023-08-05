@@ -59,7 +59,7 @@ export default function Login() {
                     <section className="flex flex-row-reverse items-center justify-evenly flex-wrap h-[calc(100vh-116px)] lg:h-[calc(100vh-68px)] bg-[var(--primary)] w-screen">
 
                         <img src={login} alt="image_login" className='w-[400px] hidden lg:block' />
-                        <div className="container-main flex flex-col items-center gap-10 p bg-[var(--primary)] mb-12 lg:mb-0 text-white w-[420px] rounded-lg">
+                        <div className="container-main flex flex-col items-center gap-10 bg-[var(--primary)] mb-12 lg:mb-0 text-white w-[420px] rounded-lg">
                             {/* <p className="logo text-2xl sora font-semibold cursor-pointer" onClick={() => navigate('/')}>UrbanCart<span className='text-[var(--secondary)] ml-1 font-extrabold'>.</span></p> */}
                             <h1 className="text-2xl text-center text-[var(--secondary)]">Log in To Your Account</h1>
                             <form action="" className='flex flex-col gap-8 w-4/5' onSubmit={handleSubmit}>
