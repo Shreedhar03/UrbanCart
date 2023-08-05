@@ -9,6 +9,7 @@ require('dotenv').config()
 const productModel = require('../Database/Models/productSchema')
 const userModel = require('../Database/Models/users')
 const orderModel = require('../Database/Models/orderSchema')
+const razorpay=require('./utils/razorpay')
 const moment = require('moment')
 require('moment-timezone')
 
@@ -16,33 +17,6 @@ moment.tz.setDefault("Asia/Kolkata")
 
 console.log(moment().format('YYYY MMM DD, HH:mm:ss'))
 
-// initialData()
-// delete all users
-
-router.get('/api/deleteusers', (req, res) => {
-    userModel.deleteMany({}).then(() => {
-        console.log("deleted")
-        res.json({ deleted: true })
-    })
-})
-// dollar to rupees
-router.put('/api/dollar-rupees', async (req, res) => {
-    let products = await productModel.find({})
-    products.forEach(async p => {
-        p.price = p.price * 82
-        await p.save()
-    })
-    res.send(products)
-})
-// rupees/82
-router.put('/api/rupees', async (req, res) => {
-    let products = await productModel.find({}).sort({price:-1})
-    products.slice(0,19).forEach(async p => {
-        p.price = p.price/82
-        await p.save()
-    })
-    res.send((products.slice(0,19)))
-})
 // get all products
 router.get('/api/allproducts', async (req, res) => {
     try {
@@ -70,20 +44,6 @@ router.get('/api/category/:id', async (req, res) => {
         res.status(400).json({ message: "Not found" })
     }
 })
-// Single Product Data
-
-// router.get('/api/product/:id', async (req, res) => {
-//     let id = req.params.id;
-
-//     try {
-//         const response = await productModel.findById(id)
-//         res.json(response);
-//     }
-//     catch (err) {
-//         res.json({ message: "Not fonud" })
-//         console.log(err.message);
-//     }
-// })
 
 // register
 router.post('/api/register', async (req, res) => {
@@ -504,5 +464,24 @@ router.delete('/api/delete-product/:id', async (req, res) => {
         res.json({ success: false })
         console.log(err)
     }
+})
+
+// payment gateway
+router.post('/api/payment/order',async(req,res)=>{
+    let amount = 2;
+    let currency = "INR";
+    let receipt = "red mouse with no legs..."
+    console.log("object")
+res.send("bhel")
+    // res.status(500).json({ error: "Failed to create order" });
+    // try{
+    //     const order = await razorpay.orders.create({
+    //         amount,currency,receipt
+    //     })
+    //     res.json(order)
+    // }catch(err){
+    //     console.log(err)
+    //     res.status(500).json({ error: "Failed to create order" });
+    // }
 })
 module.exports = router
