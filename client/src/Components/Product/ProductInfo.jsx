@@ -9,7 +9,7 @@ import Loading from '../Loading'
 
 
 export default function ProductInfo() {
-    const { token, data, cart, setCart, products } = useContext(AppContext)
+    const { token, data, cart, setCart, products, fetchProducts } = useContext(AppContext)
     const [productData, setProductData] = useState({})
     const [message, setMessage] = useState("")
     const [stock, setStock] = useState()
@@ -65,17 +65,30 @@ export default function ProductInfo() {
         // console.log("index=", index)
         return index === -1 ? null : data?.userData?.cart[index]?.quantity
     }
+    const handleShare = async () => {
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: 'Checkout this at UrbanCart',
+                    url: window.location.href
+                })
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
     useEffect(() => {
         // fetchData();
         getQuantity();
     }, [location, cart])
     useEffect(() => {
-        let singleProduct = products.filter(p=>p._id===id)
+        let singleProduct = products.filter(p => p._id === id)
         setProductData(singleProduct[0])
-    },[products])
-    useEffect(()=>{
-        window.scrollTo(0,0)
-    },[location])
+    }, [products])
+    useEffect(() => {
+        window.scrollTo(0, 0)
+        fetchProducts()
+    }, [location])
     return (
         <>
             {productData ?
@@ -85,9 +98,10 @@ export default function ProductInfo() {
                         {productData.images?.map((img, i) => {
                             return <img src={img} key={i} className='shrink-0 w-full h-full  object-contain snap-center' alt='product'></img>
                         })}
+
                     </div>
                     <div className="right w-10/12 md:w-1/2 h-full lg:px-12">
-                        <section className='flex flex-col gap-4 items-start'>
+                        <section className='flex flex-col gap-4 items-start relative'>
                             <div className='flex flex-col gap-3'>
                                 <h1 className="title text-2xl md:text-4xl font-extrabold">{productData.title}</h1>
                                 <p className="flex gap-2"><span className='rating'>⭐ {productData.rating}</span>
@@ -97,7 +111,7 @@ export default function ProductInfo() {
                                     <p>
                                         <span className='font-semibold'>&#8377;
                                             {
-                                              Object.keys(productData).length!==0 &&  (productData.price - productData.price * productData.discountPercentage / 100).toFixed(2)
+                                                Object.keys(productData).length !== 0 && (productData.price - productData.price * productData.discountPercentage / 100).toFixed(2)
                                             }
                                         </span>
                                         <span className='text-sm opacity-50 sora ml-2'><span>M.R.P</span><span className='line-through ml-1'> &#8377;{productData.price}</span></span>
@@ -139,11 +153,12 @@ export default function ProductInfo() {
                                 }
                             </div>
                             <p className='text-red-500'>{(stock < 10 && stock !== 0) && `Only ${stock} items left`}</p>
+                            <button className="absolute right-4 -top-6 bg-slate-300 w-8 h-8 rounded-full flex items-center justify-center" onClick={handleShare}><i className='bx bx-share-alt text-xl'></i></button>
                         </section>
                     </div>
                 </section>
                 :
-                <Loading message="Loading..."/>
+                <Loading message="Loading..." />
             }
             {productData &&
                 <section className='similar-products flex flex-col max-w-fit mx-auto gap-8 mt-24 mb-12'>
