@@ -9,7 +9,7 @@ require('dotenv').config()
 const productModel = require('../Database/Models/productSchema')
 const userModel = require('../Database/Models/users')
 const orderModel = require('../Database/Models/orderSchema')
-const razorpay=require('./utils/razorpay')
+const razorpay = require('./utils/razorpay')
 const moment = require('moment')
 require('moment-timezone')
 
@@ -466,22 +466,37 @@ router.delete('/api/delete-product/:id', async (req, res) => {
     }
 })
 
-// payment gateway
-router.post('/api/payment/order',async(req,res)=>{
-    let amount = 2;
+// create payment order
+router.post('/api/payment/create-order', async (req, res) => {
+    let amount = req.body.amount*100;
     let currency = "INR";
-    let receipt = "red mouse with no legs..."
-    console.log("object")
-res.send("bhel")
-    // res.status(500).json({ error: "Failed to create order" });
-    // try{
-    //     const order = await razorpay.orders.create({
-    //         amount,currency,receipt
-    //     })
-    //     res.json(order)
-    // }catch(err){
-    //     console.log(err)
-    //     res.status(500).json({ error: "Failed to create order" });
-    // }
+    let receipt = "UrbanCart order"
+    try{
+        const order = await razorpay.orders.create({
+            amount,currency,receipt
+        })
+        res.status(201).json(order)
+    }catch(err){
+        console.log(err)
+        res.status(500).json({ error: "Failed to create order" });
+    }
 })
+
+// verify payment
+router.post("/api/payment/verify-payment", async (req, res) => {
+    const { payment_id, order_id } = req.body;
+
+    try {
+      const payment = await razorpay.payments.fetch(payment_id);
+  
+      if (payment.order_id === order_id && payment.status === "captured") {
+        res.json({ message: "Payment successful",success:true });
+      } else {
+        res.status(400).json({ error: "Payment verification failed",success:false });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Payment verification failed" });
+    }
+  });
+  
 module.exports = router

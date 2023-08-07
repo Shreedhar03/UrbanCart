@@ -12,7 +12,7 @@ const PlaceOrder = () => {
     const [deliveryDate, setDeliveryDate] = useState()
     const [addressSelected, setAddressSelected] = useState(false)
     const nav = useNavigate()
-    const { token, data, cart, setCart } = useContext(AppContext)
+    const { token, data, cart, setCart,setOrderId } = useContext(AppContext)
     const [address, setAddress] = useState({
         title: "",
         fName: "",
@@ -66,51 +66,31 @@ const PlaceOrder = () => {
         data?.userData?.cart?.forEach(ele => {
             total += ((ele.product.price - ele.product.price * ele.product.discountPercentage / 100) * ele.quantity)
         })
-        return total.toFixed(2)
+        return total.toFixed(0)
     }
-    const clearCart = async () => {
+    const createOrder = async () => {
         try {
-            let res = await axios.put(`${process.env.REACT_APP_ORIGIN}delete-cart/${data.userData._id}`)
-            if (res.data.success) {
-                console.log("cart cleared")
-                console.log(res.data)
-                setCart(!cart)
-                nav('/orders')
-            }
+            const response = await axios.post(`${process.env.REACT_APP_ORIGIN}payment/create-order`,{
+                amount:totalPrice()
+            });
+            console.log("order created")
+            setOrderId(response.data.id);
+            nav('/payment')
+        } catch (error) {
+            console.error("Error creating order:", error);
         }
-        catch (err) {
-            console.log("error", err)
-        }
-    }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         if (!addressSelected) {
-            // alert("select address")
             return
         }
-        try {
-            let res = await axios.post(`${process.env.REACT_APP_ORIGIN}order/${data?.userData?._id}`,
-                {
-                    cart: data.userData.cart,
-                    name: data.userData.name,
-                    amountPaid: totalPrice(),
-                    shippingAddress: data.userData.address.filter(add => add.selected === true)
-                }
-            )
-            if (res.data.success) {
-                console.log("-------Order Placed-------")
-                // console.log(res.data)
-                // notify("Order Placed")
-                clearCart();
-            }
-        }
-        catch (err) {
-            console.log("error", err.message)
-        }
+        createOrder()  
     }
     useEffect(() => {
         const today = moment()
-        setDeliveryDate(today.add(2, "days").format("ddd, MMMM D, YYYY"))
+        setDeliveryDate(today.add(3, "days").format("ddd, MMMM D, YYYY"))
     })
     if (!token || data?.userData?.cart.length === 0) {
         return (nav('/login'))
@@ -192,7 +172,7 @@ const PlaceOrder = () => {
                             <p className='float-left'>Total Payable</p>
                             <p className='float-right'>&#8377;{totalPrice()}</p>
                         </div>
-                        <button className='text-sm bg-[var(--secondary)] py-2 rounded-md' onClick={handleSubmit}>Place Order</button>
+                        <button className='text-sm bg-[var(--secondary)] py-2 rounded-md' onClick={handleSubmit}>Proceed for Payment</button>
                         {!addressSelected && <p className='self-center text-red-500'>Please select the delivery address</p>}
                     </div>
                 </section>

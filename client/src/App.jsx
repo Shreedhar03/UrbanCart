@@ -21,6 +21,7 @@ import PlaceOrder from "./Components/Checkout/PlaceOrder";
 import AllProducts from "./Components/AllLatestProducts";
 import NotFound from "./Components/NotFound";
 import BottomNav from "./Components/BottomNav";
+import Payment from "./Components/Checkout/Payment";
 
 export const AppContext = createContext();
 
@@ -28,6 +29,7 @@ function App() {
   // const navigate=useNavigate()
   const [data, setData] = useState({});
   const [order, setOrder] = useState([]);
+  const [orderId, setOrderId] = useState(null);
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState(true)
   const [currentTab, setCurrentTab] = useState(1)
@@ -97,7 +99,7 @@ function App() {
   return (
     <>
 
-      <AppContext.Provider value={{ products, fetchProducts, currentTab, setCurrentTab, data, token, setToken, cart, setCart, order }}>
+      <AppContext.Provider value={{orderId,setOrderId, products, fetchProducts, currentTab, setCurrentTab, data, token, setToken, cart, setCart, order }}>
         <BrowserRouter>
           <Navbar />
           <Routes>
@@ -117,6 +119,7 @@ function App() {
             <Route element={<AddProduct />} path="/admin/add-product"></Route>
             <Route element={<ProductData />} path="/admin/product-data"></Route>
             <Route element={<PlaceOrder />} path="/place-order"></Route>
+            <Route element={<Payment />} path="/payment"></Route>
             <Route element={<NotFound message="Page Not Found !" />} path="*"></Route>
           </Routes>
 
