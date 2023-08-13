@@ -104,7 +104,7 @@ const OrderList = () => {
                                     <tr key={key} className='borer border-black'>
                                         <td className='px-2 xl:px-5 py-3 border-b border-gray-300'>{ele.name}</td>
                                         <td className='px-2 xl:px-5 py-3 border-b border-gray-300 text-blue-600 cursor-pointer underline underline-offset-3' onClick={() => handleDetails(ele._id, (ele.createdAt).slice(0, 10), ele.status, ele.cart, ele.amountPaid, ele.shippingAddress)}>Details</td>
-                                        <td className='px-2 xl:px-5 py-3 hidden md:table-cell border-b border-gray-300'>${ele.amountPaid}</td>
+                                        <td className='px-2 xl:px-5 py-3 hidden md:table-cell border-b border-gray-300'>&#8377;{ele.amountPaid}</td>
                                         <td className='px-2 xl:px-5 py-3 hidden md:table-cell border-b border-gray-300'>{ele.status}</td>
                                         <td className='px-2 xl:px-5 py-3 hidden md:table-cell border-b border-gray-300'>{(ele.createdAt).slice(0, 10)}</td>
                                         <td className='px-2 xl:px-5 py-3 hidden md:table-cell border-b border-gray-300'>
