@@ -6,6 +6,7 @@ const TableRow = (props) => {
             <tr className='borer border-black'>
                 <td className='px-2 xl:px-5 py-3 border-b border-gray-300'>{props.index}</td>
                 <td className='px-2 xl:px-5 py-3 border-b border-gray-300'><span className='text-gray-700 text-sm'>{props.ele.brand}</span><br /><span>{props.ele.title}</span></td>
+                <td className='px-2 xl:px-5 py-3 hidden md:table-cell border-b border-gray-300'>{props.ele.sold}</td>
                 <td className='px-2 xl:px-5 py-3 hidden md:table-cell border-b border-gray-300'>{props.ele.price}</td>
                 <td className='px-2 xl:px-5 py-3 hidden md:table-cell border-b border-gray-300'>{props.ele.stock}</td>
                 <td className='px-2 xl:px-5 py-3  border-b border-gray-300'>

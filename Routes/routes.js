@@ -44,7 +44,6 @@ router.get('/api/category/:id', async (req, res) => {
         res.status(400).json({ message: "Not found" })
     }
 })
-
 // register
 router.post('/api/register', async (req, res) => {
     try {
@@ -328,6 +327,7 @@ router.post('/api/order/:userID', async (req, res) => {
         console.log("cart=", cart)
         cart.forEach(async p => {
             let product = await productModel.findById(p.product._id)
+            product.sold += 1
             if (product.stock > 0)
                 product.stock = product.stock - p.quantity
             await product.save()
@@ -425,6 +425,15 @@ router.put('/api/mark-as-read/:userID', async (req, res) => {
         console.log(err)
     }
 })
+// get admin data
+router.get('/api/admin-data', async (req, res) => {
+    let users = await userModel.find({})
+    let products = await productModel.find({})
+    let sale = await orderModel.find({})
+    let totalSale = 0
+    const sum = sale.forEach(s => totalSale += s.amountPaid)
+    res.json({ 'users': users.length - 1, totalSale, orders: sale.length, products: products.length })
+})
 // add-product Admin
 router.post('/api/admin/add-product', async (req, res) => {
     try {
@@ -468,15 +477,15 @@ router.delete('/api/delete-product/:id', async (req, res) => {
 
 // create payment order
 router.post('/api/payment/create-order', async (req, res) => {
-    let amount = req.body.amount*100;
+    let amount = req.body.amount * 100;
     let currency = "INR";
     let receipt = "UrbanCart order"
-    try{
+    try {
         const order = await razorpay.orders.create({
-            amount,currency,receipt
+            amount, currency, receipt
         })
         res.status(201).json(order)
-    }catch(err){
+    } catch (err) {
         console.log(err)
         res.status(500).json({ error: "Failed to create order" });
     }
@@ -487,16 +496,25 @@ router.post("/api/payment/verify-payment", async (req, res) => {
     const { payment_id, order_id } = req.body;
 
     try {
-      const payment = await razorpay.payments.fetch(payment_id);
-  
-      if (payment.order_id === order_id && payment.status === "captured") {
-        res.json({ message: "Payment successful",success:true });
-      } else {
-        res.status(400).json({ error: "Payment verification failed",success:false });
-      }
+        const payment = await razorpay.payments.fetch(payment_id);
+
+        if (payment.order_id === order_id && payment.status === "captured") {
+            res.json({ message: "Payment successful", success: true });
+        } else {
+            res.status(400).json({ error: "Payment verification failed", success: false });
+        }
     } catch (error) {
-      res.status(500).json({ error: "Payment verification failed" });
+        res.status(500).json({ error: "Payment verification failed" });
     }
-  });
-  
+});
+
+// add sold field to all products
+router.post('/api/update-product-collection', async (req, res) => {
+    let updated = await productModel.updateMany(
+        {},
+        {$set:{sold:0}}
+    )
+    res.json({updated})
+})
+
 module.exports = router

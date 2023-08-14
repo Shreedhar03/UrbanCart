@@ -5,7 +5,7 @@ const Navigation = (props) => {
     const navigate=useNavigate()
     return (
         <>
-            <div className='max-w-5xl px-4 sm:px-12 sm:mx-auto'>
+            <div className='max-w-5xl px-4 sm:px-2 sm:mx-auto sticky top-7 bg-white z-10'>
             <h1 className="mt-6 text-2xl font-semibold text-gray-800">Admin Dashboard</h1>
             <div className='flex gap-6'>
                 <button className={`py-1 mt-6 font-semibold text-gray-800 border-b-[3px] ${props.currentTab === 1 ? 'border-[var(--secondary)]' : 'border-white'}`} onClick={() => { props.setCurrentTab(1); navigate('/admin') }}>Home</button>

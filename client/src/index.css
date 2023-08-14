@@ -12,7 +12,7 @@ section::-webkit-scrollbar{
     display: none;
 }
 * {
-    font-family: 'sora' , sans-serif;
+    font-family: 'dm sans' , sans-serif;
     scroll-behavior:smooth;
     scrollbar-width: none;
 }

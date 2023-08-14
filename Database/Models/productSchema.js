@@ -10,7 +10,8 @@ const productSchema = new mongoose.Schema({
     category:String,
     brand:String,
     images:Array,
-    gender:{type:String,default:"NA"}
+    gender:{type:String,default:"NA"},
+    sold:{type:Number,default:0}
 },{timestamps: true})
 
 

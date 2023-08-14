@@ -94,8 +94,9 @@ const ProductData = () => {
                         <tr className='bg-slate-200 border- border-gray-400'>
                             <td className='px-2 xl:px-5 p-4 font-semibold'>Sr</td>
                             <td className='px-2 xl:px-5 p-4 font-semibold'>Name</td>
-                            <td className='px-2 xl:px-5 p-4 hidden md:table-cell font-semibold'><div className='flex items-center cursor-pointer' onClick={() => { setSortByPrice(true);setSortByStock(false);setAscending(!ascending);console.log("sortByPrice", sortByPrice, sortByStock) }}><span>Price</span><i class='bx bx-sort text-lg'></i></div></td>
-                            <td className='px-2 xl:px-5 p-4 hidden md:table-cell font-semibold'><div className='flex items-center cursor-pointer' onClick={() => { setSortByStock(true);setSortByPrice(false);setAscending(!ascending);console.log("sortByStock", sortByStock, sortByPrice) }}><span>Stock</span><i class='bx bx-sort text-lg'></i></div></td>
+                            <td className='px-2 xl:px-5 p-4 hidden md:table-cell font-semibold'><div className='flex items-center cursor-pointer'><span>Sold</span></div></td>
+                            <td className='px-2 xl:px-5 p-4 hidden md:table-cell font-semibold'><div className='flex items-center cursor-pointer' onClick={() => { setSortByPrice(true); setSortByStock(false); setAscending(!ascending); }}><span>Price</span><i class='bx bx-sort text-lg'></i></div></td>
+                            <td className='px-2 xl:px-5 p-4 hidden md:table-cell font-semibold'><div className='flex items-center cursor-pointer' onClick={() => { setSortByStock(true); setSortByPrice(false); setAscending(!ascending); }}><span>Stock</span><i class='bx bx-sort text-lg'></i></div></td>
                             <td className='px-2 xl:px-5 p-4 font-semibold'>Action</td>
 
                         </tr>
@@ -118,13 +119,13 @@ const ProductData = () => {
                                     </>
                                 :
                                 sortByStock ?
-                                    products?.sort((a,b)=>{ return ascending ? (a.stock-b.stock) : (b.stock-a.stock)}).
+                                    products?.sort((a, b) => { return ascending ? (a.stock - b.stock) : (b.stock - a.stock) }).
                                         map((ele, key) => {
                                             return (
                                                 <TableRow ele={ele} index={key + 1} edit={edit} bin={bin} handleEdit={handleEdit} handleDelete={handleDelete} />
                                             )
                                         }) :
-                                    products?.sort((a,b)=>{ return ascending ? (a.price-b.price) : (b.price-a.price)}).
+                                    products?.sort((a, b) => { return ascending ? (a.price - b.price) : (b.price - a.price) }).
                                         map((ele, key) => {
                                             return (
                                                 <TableRow ele={ele} index={key + 1} edit={edit} bin={bin} handleEdit={handleEdit} handleDelete={handleDelete} />
