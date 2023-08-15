@@ -95,8 +95,8 @@ const ProductData = () => {
                             <td className='px-2 xl:px-5 p-4 font-semibold'>Sr</td>
                             <td className='px-2 xl:px-5 p-4 font-semibold'>Name</td>
                             <td className='px-2 xl:px-5 p-4 hidden md:table-cell font-semibold'><div className='flex items-center cursor-pointer'><span>Sold</span></div></td>
-                            <td className='px-2 xl:px-5 p-4 hidden md:table-cell font-semibold'><div className='flex items-center cursor-pointer' onClick={() => { setSortByPrice(true); setSortByStock(false); setAscending(!ascending); }}><span>Price</span><i class='bx bx-sort text-lg'></i></div></td>
-                            <td className='px-2 xl:px-5 p-4 hidden md:table-cell font-semibold'><div className='flex items-center cursor-pointer' onClick={() => { setSortByStock(true); setSortByPrice(false); setAscending(!ascending); }}><span>Stock</span><i class='bx bx-sort text-lg'></i></div></td>
+                            <td className='px-2 xl:px-5 p-4 hidden md:table-cell font-semibold'><div className='flex items-center cursor-pointer' onClick={() => { setSortByPrice(true); setSortByStock(false); setAscending(!ascending); }}><span>Price</span><i className='bx bx-sort text-lg'></i></div></td>
+                            <td className='px-2 xl:px-5 p-4 hidden md:table-cell font-semibold'><div className='flex items-center cursor-pointer' onClick={() => { setSortByStock(true); setSortByPrice(false); setAscending(!ascending); }}><span>Stock</span><i className='bx bx-sort text-lg'></i></div></td>
                             <td className='px-2 xl:px-5 p-4 font-semibold'>Action</td>
 
                         </tr>

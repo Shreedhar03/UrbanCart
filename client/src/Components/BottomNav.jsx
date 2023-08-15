@@ -43,7 +43,7 @@ const BottomNav = () => {
                     </p>
                 </li>
                 <li className={`${active === 3 && 'bg-slate-200 rounded-lg'} transition-all w-1/5 flex py-1 px-2 flex-col items-center`} onClick={() => { navigate('/'); }}>
-                    <i class='bx bx-home-alt text-xl'></i>
+                    <i className='bx bx-home-alt text-xl'></i>
                     <p className='text-xs'>HOME</p>
                 </li>
                 {
