@@ -1,6 +1,6 @@
 {
   "name": "UrbanCart",
-  "short_name": "UrbanCart",
+  "short_name": "Start exploring...!",
   "icons": [
       {
           "src": "/android-chrome-192x192.png",
@@ -13,8 +13,26 @@
           "type": "image/png"
       }
   ],
+  "shortcuts":[
+    {
+        "name":"Login",
+        "short_name":"Login",
+        "url":"/login"
+    },
+    {
+        "name":"Register",
+        "short_name":"Register",
+        "url":"/register"
+    },
+    {
+        "name":"Cart",
+        "short_name":"My Cart",
+        "url":"/cart"
+    }
+  ],
   "start_url":".",
   "theme_color": "#12283a",
   "background_color": "#12283a",
   "display": "standalone"
+  
 }
