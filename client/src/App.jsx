@@ -159,7 +159,7 @@ function App() {
           />
 
           {token && <BottomNav />}
-          <Footer />
+          {/* <Footer /> */}
         </BrowserRouter>
       </AppContext.Provider>
     </>

@@ -25,7 +25,7 @@ export default function Footer() {
           <ul className="!underline">
             <li>
               <li>
-                <Link to={"/Home"}>Home</Link>
+                <Link to={"/"}>Home</Link>
               </li>
             </li>
             <li>

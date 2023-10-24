@@ -17,6 +17,7 @@ import TopDeals from "../TopDeals";
 import Divider from "../Divider";
 import BottomNav from "../BottomNav";
 import Icons from "./Icons";
+import Footer from "../Footer";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -49,6 +50,8 @@ export default function Home() {
         autoClose={2000}
         hideProgressBar={true}
       />
+
+      <Footer />
     </>
   );
 }
