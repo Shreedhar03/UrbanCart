@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import ProductCard from '../ProductCard';
+import SkeletonLoader from '../SkeletonLoader';
 
 const handleStar = (n) => {
     let arr = [];
@@ -61,9 +62,15 @@ const Products = (props) => {
             <section className='lg:ml-[250px] my-12 flex flex-col items-center gap-6'>
                 {
 
-                    loading ? <h1 className='text-2xl text-center'>Loading...</h1> :
+            loading ? (
+              // <h1 className='text-2xl text-center'>Loading...</h1>
+              <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12'>
+                <SkeletonLoader />
+                <SkeletonLoader />
+                <SkeletonLoader />
+              </div>
+            ) :
                         <>
-
                             {/* <p className='text-lg font-semibold'>{categoryData.length} Results Found</p> */}
 
                             <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12'>
