@@ -10,6 +10,11 @@ client/node_modules
 /coverage
 .env
 
+*.env
+*.env.example
+*.env.local
+*.env.staging
+
 # production
 
 # misc
