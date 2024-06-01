@@ -2,7 +2,7 @@ const express = require('express')
 const router = new express.Router();
 const mongoose = require('mongoose')
 const { ObjectId } = require('mongoose').Types;
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 // const initialData = require('../Database/initialData')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
@@ -512,9 +512,9 @@ router.post("/api/payment/verify-payment", async (req, res) => {
 router.post('/api/update-product-collection', async (req, res) => {
     let updated = await productModel.updateMany(
         {},
-        {$set:{sold:0}}
+        { $set: { sold: 0 } }
     )
-    res.json({updated})
+    res.json({ updated })
 })
 
 module.exports = router
